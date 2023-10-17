@@ -19,25 +19,22 @@ class QueryHistory {
   }
 
   // set history to playerNameHistory and playerPlatformHistory
-  Future<void> setHistory(
-      String playerName, String playerPlatform, String playerUid) async {
+  Future<void> setHistory(String playerName, String playerPlatform, String playerUid) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!playerUidHistory.contains(playerUid)) {
       playerNameHistory.add(playerName);
       playerPlatformHistory.add(playerPlatform);
       playerUidHistory.add(playerUid);
-      if (playerNameHistory.length > maxHistoryLength) {
+      if (playerUidHistory.length > maxHistoryLength) {
         playerNameHistory.removeAt(0);
         playerPlatformHistory.removeAt(0);
         playerUidHistory.removeAt(0);
-      } else {
-        await prefs.setStringList(
-            playerNameHistoryKey, playerNameHistory.toList());
-        await prefs.setStringList(
-            playerPlatformHistoryKey, playerPlatformHistory.toList());
-        await prefs.setStringList(
-            playerUidHistoryKey, playerUidHistory.toList());
       }
+      await prefs.setStringList(
+          playerNameHistoryKey, playerNameHistory.toList());
+      await prefs.setStringList(
+          playerPlatformHistoryKey, playerPlatformHistory.toList());
+      await prefs.setStringList(playerUidHistoryKey, playerUidHistory.toList());
     }
   }
 }

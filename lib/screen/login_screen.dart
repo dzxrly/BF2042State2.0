@@ -1,10 +1,13 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/api/api.dart';
+import 'package:battlefield_2042_state/components/error_snackbar.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
+import 'package:battlefield_2042_state/screen/player_info_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 enum Platform {
   pc('PC', 'pc'),
@@ -59,8 +62,8 @@ class LoginContainer extends StatelessWidget {
         ),
         width: formWidth,
       ),
-          Container(
-              margin: const EdgeInsets.only(top: 4),
+      Container(
+          margin: const EdgeInsets.only(top: 4),
           padding: const EdgeInsets.only(top: 2, bottom: 2),
           color: Theme.of(context).colorScheme.primary,
           width: formWidth,
@@ -69,13 +72,14 @@ class LoginContainer extends StatelessWidget {
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
               fontSize: 14,
+              letterSpacing: 10,
             ),
             textAlign: TextAlign.center,
           )),
       const Padding(padding: EdgeInsets.only(top: 10)),
       LoginForm(
         widthScale: widthScale,
-      )
+      ),
     ]));
   }
 }
@@ -102,14 +106,13 @@ class LoginFormState extends State<LoginForm>
   bool queryBtnLoading = false;
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
-  PlayerInfoAPIByName playerInfoAPIByName = PlayerInfoAPIByName();
+  PlayerInfoAPI playerInfoAPI = PlayerInfoAPI();
 
   // load history when initState
   @override
   initState() {
     super.initState();
     queryHistory.loadHistory();
-    log(queryHistory.playerUidHistory.toString());
   }
 
   @override
@@ -179,15 +182,15 @@ class LoginFormState extends State<LoginForm>
                 // if playerName is not null, show clear button
                 suffixIcon: playerName != null
                     ? IconButton(
-                  icon: Icon(Icons.clear,
-                      color: Theme.of(context).colorScheme.primary),
-                  onPressed: () {
-                    setState(() {
-                      playerName = null;
-                      playerNameController.clear();
-                    });
-                  },
-                )
+                        icon: Icon(Icons.clear,
+                            color: Theme.of(context).colorScheme.primary),
+                        onPressed: () {
+                          setState(() {
+                            playerName = null;
+                            playerNameController.clear();
+                          });
+                        },
+                      )
                     : null,
               ),
               controller: playerNameController,
@@ -200,120 +203,90 @@ class LoginFormState extends State<LoginForm>
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           // submit button
-          SizedBox(
-            width: formWidth,
-            height: 48,
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(19),
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            child: SizedBox(
+              width: formWidth,
+              height: 48,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(19),
+                    ),
+                    foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    disabledBackgroundColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
                   ),
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  disabledBackgroundColor:
-                      Theme.of(context).colorScheme.secondaryContainer,
-                ),
-                onPressed: queryBtnLoading
-                    ? null
-                    : () async {
-                        if (platformName == null ||
-                            playerName == null ||
-                            platformName!.isEmpty ||
-                            playerName!.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.error,
-                                    color:
-                                        Theme.of(context).colorScheme.onError,
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 8)),
-                                  const Text('游戏平台或玩家昵称不能为空',
-                                      style: TextStyle(fontSize: 14)),
-                                ],
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(19)),
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.error,
-                              width: formWidth,
-                            ),
-                          );
-                        } else {
-                          setState(() {
-                            queryBtnLoading = true;
-                          });
-                          playerInfoAPIByName
-                              .fetchPlayerInfoByName(
-                                  platformName!.trim(), playerName!.trim())
-                              .then((response) {
-                            log(response.userId.toString());
-                            if (response.userName != null &&
-                                response.userId != null) {
-                              queryHistory.setHistory(
-                                response.userName!,
-                                platformName!,
-                                response.userId.toString(),
+                  onPressed: queryBtnLoading
+                      ? null
+                      : () async {
+                          if (platformName == null ||
+                              playerName == null ||
+                              platformName!.isEmpty ||
+                              playerName!.isEmpty) {
+                            ErrorSnackBar.showErrorSnackBar(
+                                context, '游戏平台或玩家昵称不能为空!', widget.widthScale);
+                          } else {
+                            setState(() {
+                              queryBtnLoading = true;
+                            });
+                            playerInfoAPI
+                                .fetchPlayerInfo(
+                                    platformName!.trim(),
+                                    enablePlayerUidQuery
+                                        ? ''
+                                        : playerName!.trim(),
+                                    enablePlayerUidQuery
+                                        ? playerUid!.trim()
+                                        : '',
+                                    enablePlayerUidQuery)
+                                .then((response) {
+                              if (response.userName != null &&
+                                  response.userId != null) {
+                                queryHistory.setHistory(
+                                  response.userName!,
+                                  platformName!,
+                                  response.userId.toString(),
+                                );
+                              }
+                              Provider.of<PlayerInfoModel>(context,
+                                      listen: false)
+                                  .updatePlayerInfo(response);
+                              Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) =>
+                                      const PlayerInfoScreen(),
+                                ),
                               );
-                              // TODO
-                            }
-                            setState(() {
-                              queryBtnLoading = false;
+                              setState(() {
+                                queryBtnLoading = false;
+                              });
+                            }).catchError((error) {
+                              setState(() {
+                                queryBtnLoading = false;
+                              });
+                              ErrorSnackBar.showErrorSnackBar(
+                                  context, error.toString(), widget.widthScale);
                             });
-                          }).catchError((error) {
-                            setState(() {
-                              queryBtnLoading = false;
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.error,
-                                    color:
-                                        Theme.of(context).colorScheme.onError,
-                                  ),
-                                  const Padding(
-                                      padding: EdgeInsets.only(left: 8)),
-                                  Text(error.toString(),
-                                      style: const TextStyle(fontSize: 14))
-                                ],
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(19)),
-                              ),
-                              backgroundColor:
-                                  Theme.of(context).colorScheme.error,
-                              width: formWidth,
-                            ));
-                          });
-                        }
-                      },
-                child: queryBtnLoading
-                    ? SpinKitCubeGrid(
-                        color: Theme.of(context).colorScheme.surface,
-                        size: 24,
-                      )
-                    : const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(Icons.search),
-                          Padding(padding: EdgeInsets.only(left: 8)),
-                          Text('查询', style: TextStyle(fontSize: 16)),
-                        ],
-                      )),
+                          }
+                        },
+                  child: queryBtnLoading
+                      ? SpinKitCubeGrid(
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 24,
+                        )
+                      : const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.search),
+                            Padding(padding: EdgeInsets.only(left: 8)),
+                            Text('查询', style: TextStyle(fontSize: 16)),
+                          ],
+                        )),
+            ),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           SizedBox(
@@ -336,7 +309,7 @@ class LoginFormState extends State<LoginForm>
                       }),
                   const Text('启用增强查询',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 14,
                       )),
                 ]),
           )
