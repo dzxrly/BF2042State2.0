@@ -1,6 +1,9 @@
 import 'dart:developer';
 
+import 'package:battlefield_2042_state/api/api.dart';
+import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum Platform {
@@ -17,25 +20,35 @@ enum Platform {
 }
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final double widthScale;
+
+  const LoginScreen({required this.widthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
         body: Column(
       mainAxisSize: MainAxisSize.max,
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [LoginContainer()],
+      children: [
+        LoginContainer(
+          widthScale: widthScale,
+        )
+      ],
     ));
   }
 }
 
 class LoginContainer extends StatelessWidget {
-  const LoginContainer({super.key});
+  final double widthScale;
+
+  const LoginContainer({required this.widthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final formWidth = MediaQuery.of(context).size.width * widthScale;
+
     return Center(
         child: Column(children: [
       SvgPicture.asset(
@@ -44,47 +57,64 @@ class LoginContainer extends StatelessWidget {
           Theme.of(context).colorScheme.primary,
           BlendMode.modulate,
         ),
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: formWidth,
       ),
-      Container(
-          margin: const EdgeInsets.only(top: 4),
+          Container(
+              margin: const EdgeInsets.only(top: 4),
           padding: const EdgeInsets.only(top: 2, bottom: 2),
           color: Theme.of(context).colorScheme.primary,
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: formWidth,
           child: Text(
             '战绩查询助手',
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 16,
+              fontSize: 14,
             ),
             textAlign: TextAlign.center,
           )),
-      const Padding(padding: EdgeInsets.only(top: 16)),
-      const LoginForm()
+      const Padding(padding: EdgeInsets.only(top: 10)),
+      LoginForm(
+        widthScale: widthScale,
+      )
     ]));
   }
 }
 
 class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+  final double widthScale;
+
+  const LoginForm({required this.widthScale, super.key});
 
   @override
   LoginFormState createState() => LoginFormState();
 }
 
-class LoginFormState extends State<LoginForm> {
+class LoginFormState extends State<LoginForm>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController platformController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
+  final QueryHistory queryHistory = QueryHistory();
   String? platformName;
   String? playerName;
   String? playerUid;
   bool enablePlayerUidQuery = false;
+  bool queryBtnLoading = false;
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
+  PlayerInfoAPIByName playerInfoAPIByName = PlayerInfoAPIByName();
+
+  // load history when initState
+  @override
+  initState() {
+    super.initState();
+    queryHistory.loadHistory();
+    log(queryHistory.playerUidHistory.toString());
+  }
 
   @override
   Widget build(BuildContext context) {
+    final formWidth = MediaQuery.of(context).size.width * widget.widthScale;
     final List<DropdownMenuEntry<Platform>> platformItems = Platform.values
         .map((Platform platform) => DropdownMenuEntry<Platform>(
               value: platform,
@@ -99,7 +129,7 @@ class LoginFormState extends State<LoginForm> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           DropdownMenu<Platform>(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: formWidth,
             controller: platformController,
             label: const Text('游戏平台'),
             dropdownMenuEntries: platformItems,
@@ -125,9 +155,9 @@ class LoginFormState extends State<LoginForm> {
               });
             },
           ),
-          const Padding(padding: EdgeInsets.only(top: 16)),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: formWidth,
             height: 60,
             child: TextField(
               decoration: InputDecoration(
@@ -149,15 +179,15 @@ class LoginFormState extends State<LoginForm> {
                 // if playerName is not null, show clear button
                 suffixIcon: playerName != null
                     ? IconButton(
-                        icon: Icon(Icons.clear,
-                            color: Theme.of(context).colorScheme.primary),
-                        onPressed: () {
-                          setState(() {
-                            playerName = null;
-                            playerNameController.clear();
-                          });
-                        },
-                      )
+                  icon: Icon(Icons.clear,
+                      color: Theme.of(context).colorScheme.primary),
+                  onPressed: () {
+                    setState(() {
+                      playerName = null;
+                      playerNameController.clear();
+                    });
+                  },
+                )
                     : null,
               ),
               controller: playerNameController,
@@ -168,10 +198,10 @@ class LoginFormState extends State<LoginForm> {
               },
             ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 16)),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           // submit button
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: formWidth,
             height: 48,
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -180,75 +210,134 @@ class LoginFormState extends State<LoginForm> {
                   ),
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   backgroundColor: Theme.of(context).colorScheme.primary,
+                  disabledBackgroundColor:
+                      Theme.of(context).colorScheme.secondaryContainer,
                 ),
-                onPressed: () {
-                  if (platformName == null ||
-                      playerName == null ||
-                      platformName!.isEmpty ||
-                      playerName!.isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.error,
-                              color: Theme.of(context).colorScheme.onError,
+                onPressed: queryBtnLoading
+                    ? null
+                    : () async {
+                        if (platformName == null ||
+                            playerName == null ||
+                            platformName!.isEmpty ||
+                            playerName!.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error,
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 8)),
+                                  const Text('游戏平台或玩家昵称不能为空',
+                                      style: TextStyle(fontSize: 14)),
+                                ],
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(19)),
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.error,
+                              width: formWidth,
                             ),
-                            const Padding(padding: EdgeInsets.only(left: 8)),
-                            const Text('游戏平台或玩家昵称不能为空',
-                                style: TextStyle(fontSize: 14)),
-                          ],
-                        ),
-                        behavior: SnackBarBehavior.floating,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(19)),
-                        ),
-                        backgroundColor: Theme.of(context).colorScheme.error,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                      ),
-                    );
-                  } else {
-                    // TODO: submit
-                    // print platformName and playerName to console
-                    log('platformName: $platformName, playerName: $playerName');
-                  }
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(Icons.search),
-                    Padding(padding: EdgeInsets.only(left: 8)),
-                    Text('查询', style: TextStyle(fontSize: 16)),
-                  ],
-                )),
+                          );
+                        } else {
+                          setState(() {
+                            queryBtnLoading = true;
+                          });
+                          playerInfoAPIByName
+                              .fetchPlayerInfoByName(
+                                  platformName!.trim(), playerName!.trim())
+                              .then((response) {
+                            log(response.userId.toString());
+                            if (response.userName != null &&
+                                response.userId != null) {
+                              queryHistory.setHistory(
+                                response.userName!,
+                                platformName!,
+                                response.userId.toString(),
+                              );
+                              // TODO
+                            }
+                            setState(() {
+                              queryBtnLoading = false;
+                            });
+                          }).catchError((error) {
+                            setState(() {
+                              queryBtnLoading = false;
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error,
+                                    color:
+                                        Theme.of(context).colorScheme.onError,
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.only(left: 8)),
+                                  Text(error.toString(),
+                                      style: const TextStyle(fontSize: 14))
+                                ],
+                              ),
+                              behavior: SnackBarBehavior.floating,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(19)),
+                              ),
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.error,
+                              width: formWidth,
+                            ));
+                          });
+                        }
+                      },
+                child: queryBtnLoading
+                    ? SpinKitCubeGrid(
+                        color: Theme.of(context).colorScheme.surface,
+                        size: 24,
+                      )
+                    : const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(Icons.search),
+                          Padding(padding: EdgeInsets.only(left: 8)),
+                          Text('查询', style: TextStyle(fontSize: 16)),
+                        ],
+                      )),
           ),
-          const Padding(padding: EdgeInsets.only(top: 8)),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
+            height: 24,
+            width: formWidth,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Switch(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  Checkbox(
                       value: enablePlayerUidQuery,
-                      onChanged: (bool value) {
+                      onChanged: (value) {
                         setState(() {
-                          enablePlayerUidQuery = value;
+                          enablePlayerUidQuery = value!;
                           platformName = null;
                           platformController.clear();
                           playerName = null;
                           playerNameController.clear();
                         });
                       }),
-                  const Padding(padding: EdgeInsets.only(left: 8)),
                   const Text('启用增强查询',
                       style: TextStyle(
-                        fontSize: 14,
-                      ))
+                        fontSize: 16,
+                      )),
                 ]),
           )
         ],

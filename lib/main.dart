@@ -1,9 +1,14 @@
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/screen/login_screen.dart';
 import 'package:battlefield_2042_state/theme/color_schemes.g.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => PlayerInfoModel(),
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -39,7 +44,58 @@ class MyApp extends StatelessWidget {
         fontFamily: 'HarmonyOS_Sans_SC',
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      themeMode: ThemeMode.system,
+      home: const MainScreen(),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  final double widthScale = 0.85;
+
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              showModalBottomSheet(
+                  useSafeArea: true,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const BottomSheetInfo();
+                  });
+            },
+            icon: const Icon(Icons.menu),
+          )
+        ],
+      ),
+      body: LoginScreen(
+        widthScale: widthScale,
+      ),
+    );
+  }
+}
+
+class BottomSheetInfo extends StatelessWidget {
+  const BottomSheetInfo({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      padding: const EdgeInsets.all(16),
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('战地2042战绩查询助手',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 }
