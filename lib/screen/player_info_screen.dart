@@ -4,6 +4,22 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
+import '../components/key_info_view.dart';
+
+enum TabList {
+  overview('总览', FaIcon(FontAwesomeIcons.personRifle)),
+  weapon('武器', FaIcon(FontAwesomeIcons.gun)),
+  vehicle('载具', FaIcon(FontAwesomeIcons.jetFighter)),
+  equipment('装备', FaIcon(FontAwesomeIcons.toolbox)),
+  mode('模式', FaIcon(FontAwesomeIcons.bars)),
+  map('地图', FaIcon(FontAwesomeIcons.map));
+
+  const TabList(this.name, this.icon);
+
+  final String name;
+  final FaIcon icon;
+}
+
 class PlayerInfoScreen extends StatelessWidget {
   final double playerInfoCardWidthScale;
 
@@ -141,133 +157,56 @@ class PlayerDetailsInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      return Expanded(
-          child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(19),
-              ),
-              child: Container(
-                  width: MediaQuery.of(context).size.width *
-                      playerInfoCardWidthScale,
-                  padding: const EdgeInsets.only(top: 8),
-                  child: const DefaultTabController(
-                      length: 7,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TabBar(
-                            isScrollable: true,
-                            tabs: [
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.chartSimple,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('总览')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.personRifle,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('步兵')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.gun,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('武器')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.jetFighter,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('载具')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.toolbox,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('装备')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.bars,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('模式')
-                                ],
-                              )),
-                              Tab(
-                                  child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  FaIcon(
-                                    FontAwesomeIcons.map,
-                                    size: 16,
-                                  ),
-                                  Padding(padding: EdgeInsets.only(left: 8)),
-                                  Text('地图')
-                                ],
-                              )),
+    return Expanded(
+        child: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(19),
+            ),
+            child: Container(
+                width: MediaQuery.of(context).size.width *
+                    playerInfoCardWidthScale,
+                padding: const EdgeInsets.only(top: 8),
+                child: DefaultTabController(
+                    length: TabList.values.length,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TabBar(
+                          isScrollable: true,
+                          tabs: TabList.values
+                              .map((e) => Tab(
+                                      child: Container(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        e.icon,
+                                        const Padding(
+                                            padding: EdgeInsets.only(left: 16)),
+                                        Text(e.name)
+                                      ],
+                                    ),
+                                  )))
+                              .toList(),
+                        ),
+                        const Expanded(
+                          child: TabBarView(
+                            children: [
+                              KeyInfoView(),
+                              Center(child: Text('武器')),
+                              Center(child: Text('载具')),
+                              Center(child: Text('装备')),
+                              Center(child: Text('模式')),
+                              Center(child: Text('地图')),
                             ],
                           ),
-                          Expanded(
-                            child: TabBarView(
-                              children: [
-                                Center(child: Text('总览')),
-                                Center(child: Text('步兵')),
-                                Center(child: Text('武器')),
-                                Center(child: Text('载具')),
-                                Center(child: Text('装备')),
-                                Center(child: Text('模式')),
-                                Center(child: Text('地图')),
-                              ],
-                            ),
-                          )
-                        ],
-                      )))));
-    });
+                        )
+                      ],
+                    )))));
   }
 }

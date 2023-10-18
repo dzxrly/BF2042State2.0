@@ -9,21 +9,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../model/player_info_model.dart';
 
 enum Platform {
-  pc('PC', 'pc'),
-  psn('PlayStation (PSN)', 'psn'),
-  xboxone('XBOX ONE', 'xboxone'),
-  xboxseries('XBOX SERIES X/S', 'xboxseries');
+  pc('PC', 'pc', FaIcon(FontAwesomeIcons.windows)),
+  psn('PlayStation (PSN)', 'psn', FaIcon(FontAwesomeIcons.playstation)),
+  xboxseries('XBOX SERIES X/S', 'xboxseries', FaIcon(FontAwesomeIcons.xbox));
 
   const Platform(this.label, this.value, [this.icon]);
 
   final String label;
   final String value;
-  final Icon? icon;
+  final FaIcon? icon;
 }
 
 class LoginScreen extends StatelessWidget {
@@ -136,6 +136,7 @@ class LoginFormState extends State<LoginForm>
         itemCount: Platform.values.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
+            leading: Platform.values[index].icon,
             title: Text(
               Platform.values[index].label,
               style: Theme.of(context).textTheme.titleMedium,
