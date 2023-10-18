@@ -10,6 +10,9 @@ class PlayerInfoScreen extends StatelessWidget {
     return Consumer<PlayerInfoModel>(
       builder: (context, playerInfo, child) {
         return Scaffold(
+          appBar: AppBar(
+            title: Text(playerInfo.playerInfo?.userName ?? 'None'),
+          ),
           body: Text(playerInfo.playerInfo?.userName ?? 'None'),
         );
       },
