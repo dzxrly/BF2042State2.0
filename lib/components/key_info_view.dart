@@ -12,7 +12,7 @@ class KeyInfoView extends StatelessWidget {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       return SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 24),
+          padding: const EdgeInsets.only(top: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,7 +188,7 @@ class KeyInfoWidget extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Container(
-        padding: const EdgeInsets.only(left: 4, right: 4, top: 16, bottom: 16),
+        padding: const EdgeInsets.only(top: 16, bottom: 16),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -2,17 +2,18 @@ import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../components/key_info_view.dart';
 
 enum TabList {
-  overview('总览', FaIcon(FontAwesomeIcons.personRifle)),
-  weapon('武器', FaIcon(FontAwesomeIcons.gun)),
-  vehicle('载具', FaIcon(FontAwesomeIcons.jetFighter)),
-  equipment('装备', FaIcon(FontAwesomeIcons.toolbox)),
-  mode('模式', FaIcon(FontAwesomeIcons.bars)),
-  map('地图', FaIcon(FontAwesomeIcons.map));
+  overview('总览', FaIcon(FontAwesomeIcons.personRifle, size: 16)),
+  weapon('武器', FaIcon(FontAwesomeIcons.gun, size: 16)),
+  vehicle('载具', FaIcon(FontAwesomeIcons.jetFighter, size: 16)),
+  equipment('装备', FaIcon(FontAwesomeIcons.toolbox, size: 16)),
+  mode('模式', FaIcon(FontAwesomeIcons.bars, size: 16)),
+  map('地图', FaIcon(FontAwesomeIcons.map, size: 16));
 
   const TabList(this.name, this.icon);
 
@@ -53,8 +54,9 @@ class PlayerInfoScreen extends StatelessWidget {
 
 class PlayerBaseInfoCard extends StatelessWidget {
   final double playerInfoCardWidthScale;
+  NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  const PlayerBaseInfoCard({required this.playerInfoCardWidthScale, super.key});
+  PlayerBaseInfoCard({required this.playerInfoCardWidthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +130,7 @@ class PlayerBaseInfoCard extends StatelessWidget {
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(
-                                  '${((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600).toStringAsFixed(2)} 小时',
+                                  '${numberFormat.format(double.parse(((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600).toStringAsFixed(2)))} 小时',
                                   style: Theme.of(context).textTheme.titleSmall,
                                 ),
                               ],
@@ -187,7 +189,7 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                                       children: [
                                         e.icon,
                                         const Padding(
-                                            padding: EdgeInsets.only(left: 16)),
+                                            padding: EdgeInsets.only(left: 8)),
                                         Text(e.name)
                                       ],
                                     ),

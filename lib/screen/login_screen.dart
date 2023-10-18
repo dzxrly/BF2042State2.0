@@ -124,6 +124,7 @@ class LoginFormState extends State<LoginForm>
   bool enablePlayerUidQuery = false;
   bool queryBtnLoading = false;
   FocusNode platformFocusNode = FocusNode();
+  FocusNode playerNameFocusNode = FocusNode();
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
   PlayerInfoAPI playerInfoAPI = PlayerInfoAPI();
@@ -158,6 +159,8 @@ class LoginFormState extends State<LoginForm>
     BuildContext context,
     double playerInfoCardWidthScale,
   ) async {
+    platformFocusNode.unfocus();
+    playerNameFocusNode.unfocus();
     if (platformName == null ||
         playerName == null ||
         platformName!.isEmpty ||
@@ -170,10 +173,10 @@ class LoginFormState extends State<LoginForm>
       });
       playerInfoAPI
           .fetchPlayerInfo(
-              platformName!.trim(),
-              enablePlayerUidQuery ? '' : playerName!.trim(),
-              enablePlayerUidQuery ? playerUid!.trim() : '',
-              enablePlayerUidQuery)
+          platformName!.trim(),
+          enablePlayerUidQuery ? '' : playerName!.trim(),
+          enablePlayerUidQuery ? playerUid!.trim() : '',
+          enablePlayerUidQuery)
           .then((response) {
         if (response.userName != null && response.userId != null) {
           queryHistory.setHistory(
@@ -331,6 +334,7 @@ class LoginFormState extends State<LoginForm>
                     : null,
               ),
               controller: playerNameController,
+              focusNode: playerNameFocusNode,
               onChanged: (String? value) {
                 setState(() {
                   playerName = value;
@@ -400,6 +404,8 @@ class LoginFormState extends State<LoginForm>
                       Checkbox(
                           value: enablePlayerUidQuery,
                           onChanged: (value) {
+                            platformFocusNode.unfocus();
+                            playerNameFocusNode.unfocus();
                             setState(() {
                               enablePlayerUidQuery = value!;
                               platformName = null;
