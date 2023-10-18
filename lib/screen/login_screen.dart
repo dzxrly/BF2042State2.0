@@ -27,71 +27,86 @@ enum Platform {
 }
 
 class LoginScreen extends StatelessWidget {
-  final double widthScale;
+  final double loginScreenWidthScale;
+  final double playerInfoCardWidthScale;
 
-  const LoginScreen({required this.widthScale, super.key});
+  const LoginScreen(
+      {required this.loginScreenWidthScale,
+      required this.playerInfoCardWidthScale,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            LoginContainer(
-              widthScale: widthScale,
-            )
-          ],
-        ));
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        LoginContainer(
+          loginScreenWidthScale: loginScreenWidthScale,
+          playerInfoCardWidthScale: playerInfoCardWidthScale,
+        )
+      ],
+    ));
   }
 }
 
 class LoginContainer extends StatelessWidget {
-  final double widthScale;
+  final double loginScreenWidthScale;
+  final double playerInfoCardWidthScale;
 
-  const LoginContainer({required this.widthScale, super.key});
+  const LoginContainer(
+      {required this.loginScreenWidthScale,
+      required this.playerInfoCardWidthScale,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
-    final formWidth = MediaQuery.of(context).size.width * widthScale;
+    final formWidth = MediaQuery.of(context).size.width * loginScreenWidthScale;
 
     return Center(
         child: Column(children: [
-          SvgPicture.asset(
-            'assets/bf_2042_white_logo.svg',
-            colorFilter: ColorFilter.mode(
-              Theme.of(context).colorScheme.primary,
-              BlendMode.modulate,
+      SvgPicture.asset(
+        'assets/bf_2042_white_logo.svg',
+        colorFilter: ColorFilter.mode(
+          Theme.of(context).colorScheme.primary,
+          BlendMode.modulate,
+        ),
+        width: formWidth,
+      ),
+      Container(
+          margin: const EdgeInsets.only(top: 4),
+          padding: const EdgeInsets.only(top: 2, bottom: 2),
+          color: Theme.of(context).colorScheme.primary,
+          width: formWidth,
+          child: Text(
+            '战绩查询助手',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
+              letterSpacing: 10,
             ),
-            width: formWidth,
-          ),
-          Container(
-              margin: const EdgeInsets.only(top: 4),
-              padding: const EdgeInsets.only(top: 2, bottom: 2),
-              color: Theme.of(context).colorScheme.primary,
-              width: formWidth,
-              child: Text(
-                '战绩查询助手',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 14,
-                  letterSpacing: 10,
-                ),
-                textAlign: TextAlign.center,
-              )),
-          const Padding(padding: EdgeInsets.only(top: 10)),
-          LoginForm(
-            widthScale: widthScale,
-          ),
-        ]));
+            textAlign: TextAlign.center,
+          )),
+      const Padding(padding: EdgeInsets.only(top: 16)),
+      LoginForm(
+        loginScreenWidthScale: loginScreenWidthScale,
+        playerInfoCardWidthScale: playerInfoCardWidthScale,
+      ),
+    ]));
   }
 }
 
 class LoginForm extends StatefulWidget {
-  final double widthScale;
+  final double loginScreenWidthScale;
+  final double playerInfoCardWidthScale;
 
-  const LoginForm({required this.widthScale, super.key});
+  const LoginForm(
+      {required this.loginScreenWidthScale,
+      required this.playerInfoCardWidthScale,
+      super.key});
 
   @override
   LoginFormState createState() => LoginFormState();
@@ -123,11 +138,7 @@ class LoginFormState extends State<LoginForm>
           return ListTile(
             title: Text(
               Platform.values[index].label,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             onTap: () {
               setState(() {
@@ -142,13 +153,16 @@ class LoginFormState extends State<LoginForm>
     );
   }
 
-  void queryBtnOnPressed(BuildContext context) async {
+  void queryBtnOnPressed(
+    BuildContext context,
+    double playerInfoCardWidthScale,
+  ) async {
     if (platformName == null ||
         playerName == null ||
         platformName!.isEmpty ||
         playerName!.isEmpty) {
       ErrorSnackBar.showErrorSnackBar(
-          context, '游戏平台或玩家昵称不能为空!', widget.widthScale);
+          context, '游戏平台或玩家昵称不能为空!', widget.loginScreenWidthScale);
     } else {
       setState(() {
         queryBtnLoading = true;
@@ -172,7 +186,9 @@ class LoginFormState extends State<LoginForm>
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => const PlayerInfoScreen(),
+            builder: (context) => PlayerInfoScreen(
+              playerInfoCardWidthScale: playerInfoCardWidthScale,
+            ),
           ),
         );
         setState(() {
@@ -183,7 +199,7 @@ class LoginFormState extends State<LoginForm>
           queryBtnLoading = false;
         });
         ErrorSnackBar.showErrorSnackBar(
-            context, error.toString(), widget.widthScale);
+            context, error.toString(), widget.loginScreenWidthScale);
       });
     }
   }
@@ -199,24 +215,21 @@ class LoginFormState extends State<LoginForm>
                 return ListTile(
                   title: Text(
                     queryHistory.playerNameHistory[index],
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   subtitle: Text(
                     queryHistory.playerUidHistory[index],
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 14,
-                    ),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   onTap: () {
                     setState(() {
                       platformName = queryHistory.playerPlatformHistory[index];
-                      platformController.text =
-                          queryHistory.playerPlatformHistory[index];
+                      // set platformName to platformController, by platform value index platform label
+                      platformController.text = Platform.values
+                          .firstWhere((element) =>
+                              element.value ==
+                              queryHistory.playerPlatformHistory[index])
+                          .label;
                       playerName = queryHistory.playerNameHistory[index];
                       playerUid = queryHistory.playerUidHistory[index];
                       playerNameController.text = enablePlayerUidQuery
@@ -231,11 +244,7 @@ class LoginFormState extends State<LoginForm>
           : Center(
               child: Text(
                 '暂无查询历史',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
     );
@@ -250,7 +259,8 @@ class LoginFormState extends State<LoginForm>
 
   @override
   Widget build(BuildContext context) {
-    final formWidth = MediaQuery.of(context).size.width * widget.widthScale;
+    final formWidth =
+        MediaQuery.of(context).size.width * widget.loginScreenWidthScale;
 
     return Form(
       key: _formKey,
@@ -259,31 +269,19 @@ class LoginFormState extends State<LoginForm>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           SizedBox(
-            height: 54,
             width: formWidth,
             child: TextField(
               focusNode: platformFocusNode,
               decoration: InputDecoration(
-                labelStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(19),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
                 labelText: '游戏平台',
-                prefixIcon: Icon(Icons.gamepad,
-                    color: Theme.of(context).colorScheme.primary),
+                prefixIcon: const Icon(Icons.gamepad),
                 // if playerName is not null, show clear button
                 suffixIcon: platformName != null
                     ? IconButton(
-                        icon: Icon(Icons.clear,
-                            color: Theme.of(context).colorScheme.primary),
+                        icon: const Icon(Icons.clear),
                         onPressed: () {
                           setState(() {
                             platformName = null;
@@ -311,36 +309,24 @@ class LoginFormState extends State<LoginForm>
           const Padding(padding: EdgeInsets.only(top: 10)),
           SizedBox(
             width: formWidth,
-            height: 54,
             child: TextField(
               decoration: InputDecoration(
-                labelStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(19),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
                 labelText: playerNameTextFieldLabel,
-                prefixIcon: Icon(Icons.person,
-                    color: Theme.of(context).colorScheme.primary),
+                prefixIcon: const Icon(Icons.person),
                 // if playerName is not null, show clear button
                 suffixIcon: playerName != null
                     ? IconButton(
-                  icon: Icon(Icons.clear,
-                      color: Theme.of(context).colorScheme.primary),
-                  onPressed: () {
-                    setState(() {
-                      playerName = null;
-                      playerNameController.clear();
-                    });
-                  },
-                )
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          setState(() {
+                            playerName = null;
+                            playerNameController.clear();
+                          });
+                        },
+                      )
                     : null,
               ),
               controller: playerNameController,
@@ -357,7 +343,6 @@ class LoginFormState extends State<LoginForm>
             duration: const Duration(milliseconds: 300),
             child: SizedBox(
               width: formWidth,
-              height: 48,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
@@ -368,27 +353,40 @@ class LoginFormState extends State<LoginForm>
                     disabledBackgroundColor:
                         Theme.of(context).colorScheme.secondaryContainer,
                   ),
-                  onPressed:
-                      queryBtnLoading ? null : () => queryBtnOnPressed(context),
+                  onPressed: queryBtnLoading
+                      ? null
+                      : () => queryBtnOnPressed(
+                          context, widget.playerInfoCardWidthScale),
                   child: queryBtnLoading
                       ? SpinKitCubeGrid(
                           color: Theme.of(context).colorScheme.primary,
                           size: 24,
                         )
-                      : const Row(
+                      : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Icon(Icons.search),
-                            Padding(padding: EdgeInsets.only(left: 8)),
-                      Text('查询', style: TextStyle(fontSize: 16)),
-                    ],
-                  )),
+                            const Icon(Icons.search),
+                            const Padding(padding: EdgeInsets.only(left: 8)),
+                            Text('查询',
+                                style: TextStyle(
+                                  fontSize: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.fontSize,
+                                  fontWeight: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.fontWeight,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                )),
+                          ],
+                        )),
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           SizedBox(
-            height: 48,
             width: formWidth,
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -409,17 +407,23 @@ class LoginFormState extends State<LoginForm>
                               playerNameController.clear();
                             });
                           }),
-                      const Text('启用增强查询',
-                          style: TextStyle(
-                            fontSize: 14,
-                          )),
+                      Text('启用增强查询',
+                          style: Theme.of(context).textTheme.titleSmall),
                     ],
                   ),
                   TextButton(
                       onPressed: () => queryHistoryBtnOnPressed(context),
-                      child: const Text('查询历史',
+                      child: Text('查询历史',
                           style: TextStyle(
-                            fontSize: 14,
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.fontWeight,
+                            color: Theme.of(context).colorScheme.primary,
                           )))
                 ]),
           )

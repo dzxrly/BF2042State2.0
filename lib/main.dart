@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreen extends StatelessWidget {
-  final double widthScale = 0.85;
+  final double loginScreenWidthScale = 0.85;
+  final double playerInfoCardWidthScale = 0.95;
 
   const MainScreen({super.key});
 
@@ -74,7 +75,8 @@ class MainScreen extends StatelessWidget {
         ],
       ),
       body: LoginScreen(
-        widthScale: widthScale,
+        loginScreenWidthScale: loginScreenWidthScale,
+        playerInfoCardWidthScale: playerInfoCardWidthScale,
       ),
     );
   }
