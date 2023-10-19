@@ -115,7 +115,7 @@ class PlayerInfoScreen extends StatelessWidget {
 
 class PlayerBaseInfoCard extends StatelessWidget {
   final double playerInfoCardWidthScale;
-  NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
   PlayerBaseInfoCard({required this.playerInfoCardWidthScale, super.key});
 
@@ -155,10 +155,9 @@ class PlayerDetailsInfoCard extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(19),
             ),
-            child: Container(
+            child: SizedBox(
                 width: MediaQuery.of(context).size.width *
                     playerInfoCardWidthScale,
-                padding: const EdgeInsets.only(top: 8),
                 child: DefaultTabController(
                     length: TabList.values.length,
                     child: Column(
@@ -178,9 +177,9 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.center,
                                       children: [
-                                        e.icon,
-                                        const Padding(
-                                            padding: EdgeInsets.only(left: 8)),
+                                        // e.icon,
+                                        // const Padding(
+                                        //     padding: EdgeInsets.only(left: 8)),
                                         Text(e.name)
                                       ],
                                     ),
