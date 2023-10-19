@@ -12,7 +12,6 @@ class KeyInfoView extends StatelessWidget {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       return SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -39,9 +38,9 @@ class KeyInfoView extends StatelessWidget {
                       fractionDigits: 2,
                     ),
                     KeyInfoWidget(
-                      keyName: 'DPM',
-                      showValue: playerInfo.playerInfo?.damagePerMinute ?? 0.0,
-                      fractionDigits: 2,
+                      keyName: '爆头率',
+                      showValueString:
+                          playerInfo.playerInfo?.headshots ?? '0.00%',
                     ),
                   ]),
               Flex(
@@ -55,14 +54,14 @@ class KeyInfoView extends StatelessWidget {
                           playerInfo.playerInfo?.winPercent ?? '0.00%',
                     ),
                     KeyInfoWidget(
-                      keyName: '爆头率',
-                      showValueString:
-                          playerInfo.playerInfo?.headshots ?? '0.00%',
+                      keyName: 'DPM',
+                      showValue: playerInfo.playerInfo?.damagePerMinute ?? 0.0,
+                      fractionDigits: 2,
                     ),
                     KeyInfoWidget(
-                      keyName: '命中率',
-                      showValueString:
-                          '${((playerInfo.playerInfo?.shotsHit ?? 0.0) / (playerInfo.playerInfo?.shotsFired ?? 1.0) * 100).toStringAsFixed(2)}%',
+                      keyName: '场均伤害',
+                      showValue: playerInfo.playerInfo?.damagePerMatch ?? 0.0,
+                      fractionDigits: 2,
                     ),
                   ]),
               Flex(
@@ -86,9 +85,9 @@ class KeyInfoView extends StatelessWidget {
                           '${double.parse(playerInfo.playerInfo?.humanPrecentage?.replaceAll('%', '') ?? '0').toStringAsFixed(2)}%',
                     ),
                     KeyInfoWidget(
-                      keyName: '场均伤害',
-                      showValue: playerInfo.playerInfo?.damagePerMatch ?? 0.0,
-                      fractionDigits: 2,
+                      keyName: '命中率',
+                      showValueString:
+                          '${((playerInfo.playerInfo?.shotsHit ?? 0.0) / (playerInfo.playerInfo?.shotsFired ?? 1.0) * 100).toStringAsFixed(2)}%',
                     ),
                   ]),
               Flex(
@@ -113,54 +112,6 @@ class KeyInfoView extends StatelessWidget {
                       showValueString: playerInfo.playerInfo?.bestClass ?? '无',
                     ),
                   ]),
-              Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    KeyInfoWidget(
-                      keyName: 'MVP',
-                      showValue: playerInfo.playerInfo?.mvp?.toDouble() ?? 0.0,
-                      fractionDigits: 0,
-                    ),
-                    KeyInfoWidget(
-                      keyName: '最佳小队',
-                      showValue:
-                          playerInfo.playerInfo?.bestSquad?.toDouble() ?? 0.0,
-                      fractionDigits: 0,
-                    ),
-                    KeyInfoWidget(
-                      keyName: '摧毁载具',
-                      showValue: playerInfo.playerInfo?.vehiclesDestroyed
-                              ?.toDouble() ??
-                          0.0,
-                      fractionDigits: 0,
-                    ),
-                  ]),
-              Flex(
-                  direction: Axis.horizontal,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    KeyInfoWidget(
-                      keyName: '助攻次数',
-                      showValue:
-                          playerInfo.playerInfo?.killAssists?.toDouble() ?? 0.0,
-                      fractionDigits: 0,
-                    ),
-                    KeyInfoWidget(
-                      keyName: '救助次数',
-                      showValue:
-                          playerInfo.playerInfo?.revives?.toDouble() ?? 0.0,
-                      fractionDigits: 0,
-                    ),
-                    KeyInfoWidget(
-                      keyName: '补给次数',
-                      showValue:
-                          playerInfo.playerInfo?.resupplies?.toDouble() ?? 0.0,
-                      fractionDigits: 0,
-                    ),
-                  ])
             ],
           ),
         ),
@@ -188,16 +139,16 @@ class KeyInfoWidget extends StatelessWidget {
     return Expanded(
       flex: 1,
       child: Container(
-        padding: const EdgeInsets.only(top: 16, bottom: 16),
+        padding: const EdgeInsets.only(top: 8, bottom: 8),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
               keyName,
-              style: Theme.of(context).textTheme.titleSmall,
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-            const Padding(padding: EdgeInsets.only(top: 8)),
+            const Padding(padding: EdgeInsets.only(top: 2)),
             FittedBox(
               fit: BoxFit.fitWidth,
               child: Text(

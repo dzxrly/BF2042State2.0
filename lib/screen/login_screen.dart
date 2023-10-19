@@ -414,7 +414,7 @@ class LoginFormState extends State<LoginForm>
                               playerNameController.clear();
                             });
                           }),
-                      Text('启用增强查询',
+                      Text('增强查询',
                           style: Theme.of(context).textTheme.titleSmall),
                     ],
                   ),

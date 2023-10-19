@@ -28,27 +28,88 @@ class PlayerInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Flex(
-            direction: Axis.vertical,
+    return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
+      return Scaffold(
+          appBar: AppBar(
+              title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              PlayerBaseInfoCard(
-                playerInfoCardWidthScale: playerInfoCardWidthScale,
+              SizedBox(
+                width: 42,
+                height: 42,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.network(
+                    playerInfo.playerInfo?.avatar ?? '#',
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.asset('assets/avatar_span.png',
+                          fit: BoxFit.cover);
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      } else {
+                        return SpinKitCubeGrid(
+                          size: 24,
+                          color: Theme.of(context).colorScheme.primary,
+                        );
+                      }
+                    },
+                  ),
+                ),
               ),
-              const Padding(padding: EdgeInsets.only(top: 4)),
-              PlayerDetailsInfoCard(
-                playerInfoCardWidthScale: playerInfoCardWidthScale,
-              ),
-              const Padding(padding: EdgeInsets.only(top: 8)),
+              const Padding(padding: EdgeInsets.only(left: 8)),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    playerInfo.playerInfo?.userName ?? '未知',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleLarge?.fontSize,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  Text(
+                    'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.labelSmall?.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.labelSmall?.fontWeight,
+                    ),
+                  ),
+                ],
+              )
             ],
-          ),
-        ));
+          )),
+          body: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Flex(
+              direction: Axis.vertical,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PlayerBaseInfoCard(
+                  playerInfoCardWidthScale: playerInfoCardWidthScale,
+                ),
+                const Padding(padding: EdgeInsets.only(top: 4)),
+                PlayerDetailsInfoCard(
+                  playerInfoCardWidthScale: playerInfoCardWidthScale,
+                ),
+                const Padding(padding: EdgeInsets.only(top: 8)),
+              ],
+            ),
+          ));
+    });
   }
 }
 
@@ -67,84 +128,14 @@ class PlayerBaseInfoCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(19),
           ),
           child: Container(
-              width:
-                  MediaQuery.of(context).size.width * playerInfoCardWidthScale,
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flex(
-                    direction: Axis.horizontal,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(19),
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: Image.network(
-                              playerInfo.playerInfo?.avatar ?? '#',
-                              errorBuilder: (context, error, stackTrace) {
-                                return Image.asset('assets/avatar_span.png');
-                              },
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) {
-                                  return child;
-                                } else {
-                                  return SpinKitCubeGrid(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  );
-                                }
-                              },
-                            ),
-                          )),
-                      Expanded(
-                        flex: 3,
-                        child: Container(
-                            padding: const EdgeInsets.only(left: 16),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(playerInfo.playerInfo?.userName ?? '未知',
-                                    style: TextStyle(
-                                      fontSize: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.fontSize,
-                                      fontWeight: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium
-                                          ?.fontWeight,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    )),
-                                Text(
-                                  'UID: ${playerInfo.playerInfo?.userId.toString()}',
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
-                                Text(
-                                  '${numberFormat.format(double.parse(((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600).toStringAsFixed(2)))} 小时',
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
-                              ],
-                            )),
-                      )
-                    ],
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 16)),
-                  Text(
-                    'BFBan查询结果: TODO',
-                    style: Theme.of(context).textTheme.titleSmall,
-                  )
-                ],
-              )),
+            width: MediaQuery.of(context).size.width * playerInfoCardWidthScale,
+            padding: const EdgeInsets.all(4),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [KeyInfoView()],
+            ),
+          ),
         );
       },
     );
@@ -199,7 +190,7 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                         const Expanded(
                           child: TabBarView(
                             children: [
-                              KeyInfoView(),
+                              Center(child: Text('总览')),
                               Center(child: Text('武器')),
                               Center(child: Text('载具')),
                               Center(child: Text('装备')),
