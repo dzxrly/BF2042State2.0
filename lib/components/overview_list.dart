@@ -45,7 +45,7 @@ class OverviewList extends StatelessWidget {
           fractionDigits: 2,
         ),
         OverviewListItemContent(
-          keyName: '总伤害量',
+          keyName: '总伤害量 (含AI)',
           showValue: (playerInfo.playerInfo?.damage ?? 0.0).toDouble(),
           fractionDigits: 0,
         ),
@@ -143,7 +143,7 @@ class OverviewListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
