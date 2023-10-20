@@ -27,10 +27,9 @@ class KeyInfoView extends StatelessWidget {
                   ),
                   KeyInfoWidget(
                     keyName: '真实KPM',
-                    showValue: double.parse(playerInfo
-                                .playerInfo?.humanPrecentage
-                                ?.replaceAll('%', '') ??
-                            '0') /
+                    showValue: double.parse(
+                            (playerInfo.playerInfo?.humanPrecentage ?? '0')
+                                .replaceAll('%', '')) /
                         100 *
                         (playerInfo.playerInfo?.killsPerMinute ?? 0.0),
                     fractionDigits: 2,
@@ -47,14 +46,18 @@ class KeyInfoView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '胜率',
-                    showValueString:
-                        playerInfo.playerInfo?.winPercent ?? '0.00%',
+                    keyName: '真实击杀数',
+                    showValue: double.parse(
+                            (playerInfo.playerInfo?.humanPrecentage ?? '0')
+                                .replaceAll('%', '')) /
+                        100 *
+                        (playerInfo.playerInfo?.kills ?? 0),
+                    fractionDigits: 0,
                   ),
                   KeyInfoWidget(
-                    keyName: 'DPM',
-                    showValue: playerInfo.playerInfo?.damagePerMinute ?? 0.0,
-                    fractionDigits: 2,
+                    keyName: '真实击杀比',
+                    showValueString:
+                        '${double.parse((playerInfo.playerInfo?.humanPrecentage ?? '0').replaceAll('%', '')).toStringAsFixed(2)}%',
                   ),
                   KeyInfoWidget(
                     keyName: '场均伤害',
@@ -68,19 +71,14 @@ class KeyInfoView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '真实击杀数',
-                    showValue: double.parse(playerInfo
-                                .playerInfo?.humanPrecentage
-                                ?.replaceAll('%', '') ??
-                            '0') /
-                        100 *
-                        (playerInfo.playerInfo?.kills ?? 0),
-                    fractionDigits: 0,
+                    keyName: '胜率',
+                    showValueString:
+                        playerInfo.playerInfo?.winPercent ?? '0.00%',
                   ),
                   KeyInfoWidget(
-                    keyName: '真实击杀比',
-                    showValueString:
-                        '${double.parse(playerInfo.playerInfo?.humanPrecentage?.replaceAll('%', '') ?? '0').toStringAsFixed(2)}%',
+                    keyName: 'DPM',
+                    showValue: playerInfo.playerInfo?.damagePerMinute ?? 0.0,
+                    fractionDigits: 2,
                   ),
                   KeyInfoWidget(
                     keyName: '命中率',
@@ -100,8 +98,8 @@ class KeyInfoView extends StatelessWidget {
                   ),
                   KeyInfoWidget(
                     keyName: '游玩场次',
-                    showValue:
-                        playerInfo.playerInfo?.matchesPlayed?.toDouble() ?? 0.0,
+                    showValue: (playerInfo.playerInfo?.matchesPlayed ?? 0.0)
+                        .toDouble(),
                     fractionDigits: 0,
                   ),
                   KeyInfoWidget(

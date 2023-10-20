@@ -1,3 +1,5 @@
+import 'package:battlefield_2042_state/components/overview_list.dart';
+import 'package:battlefield_2042_state/components/weapon_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -32,64 +34,64 @@ class PlayerInfoScreen extends StatelessWidget {
       return Scaffold(
           appBar: AppBar(
               title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 42,
-                height: 42,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                    playerInfo.playerInfo?.avatar ?? '#',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset('assets/avatar_span.png',
-                          fit: BoxFit.cover);
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      } else {
-                        return SpinKitCubeGrid(
-                          size: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(left: 8)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    playerInfo.playerInfo?.userName ?? '未知',
-                    style: TextStyle(
-                      fontSize:
+                  SizedBox(
+                    width: 42,
+                    height: 42,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: Image.network(
+                        playerInfo.playerInfo?.avatar ?? '#',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset('assets/avatar_span.png',
+                              fit: BoxFit.cover);
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) {
+                            return child;
+                          } else {
+                            return SpinKitCubeGrid(
+                              size: 24,
+                              color: Theme.of(context).colorScheme.primary,
+                            );
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 8)),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        playerInfo.playerInfo?.userName ?? '未知',
+                        style: TextStyle(
+                          fontSize:
                           Theme.of(context).textTheme.titleLarge?.fontSize,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                  Text(
-                    'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
-                    style: TextStyle(
-                      fontSize:
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                      ),
+                      Text(
+                        'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
+                        style: TextStyle(
+                          fontSize:
                           Theme.of(context).textTheme.labelSmall?.fontSize,
-                      fontWeight:
+                          fontWeight:
                           Theme.of(context).textTheme.labelSmall?.fontWeight,
-                    ),
-                  ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
-              )
-            ],
-          )),
+              )),
           body: SizedBox(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -145,8 +147,7 @@ class PlayerBaseInfoCard extends StatelessWidget {
 class PlayerDetailsInfoCard extends StatelessWidget {
   final double playerInfoCardWidthScale;
 
-  const PlayerDetailsInfoCard(
-      {required this.playerInfoCardWidthScale, super.key});
+  const PlayerDetailsInfoCard({required this.playerInfoCardWidthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -168,29 +169,29 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           isScrollable: true,
                           tabs: TabList.values
                               .map((e) => Tab(
-                                      child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        // e.icon,
-                                        // const Padding(
-                                        //     padding: EdgeInsets.only(left: 8)),
-                                        Text(e.name)
-                                      ],
-                                    ),
-                                  )))
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8),
+                                child: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.center,
+                                  children: [
+                                    // e.icon,
+                                    // const Padding(
+                                    //     padding: EdgeInsets.only(left: 8)),
+                                    Text(e.name)
+                                  ],
+                                ),
+                              )))
                               .toList(),
                         ),
                         const Expanded(
                           child: TabBarView(
                             children: [
-                              Center(child: Text('总览')),
-                              Center(child: Text('武器')),
+                              OverviewList(),
+                              WeaponList(),
                               Center(child: Text('载具')),
                               Center(child: Text('装备')),
                               Center(child: Text('模式')),
