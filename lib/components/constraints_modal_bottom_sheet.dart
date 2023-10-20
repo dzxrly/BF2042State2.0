@@ -19,8 +19,11 @@ class ConstraintsModalBottomSheet {
             duration: const Duration(milliseconds: 150),
             child: Container(
               constraints: BoxConstraints(
-                minHeight: 90,
-                maxHeight: MediaQuery.of(context).size.height / 1.5,
+                minHeight: 50,
+                maxHeight: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.75,
               ),
               padding: const EdgeInsets.all(16),
               child: child,
