@@ -1,4 +1,5 @@
 import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/model/info_list_item_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -97,102 +98,38 @@ class WeaponList extends StatelessWidget {
       final weaponList = playerInfo.playerInfo?.weapons ?? [];
       weaponList.sort((a, b) => (b.kills ?? 0).compareTo(a.kills ?? 0));
 
-      return Container(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                        child: Text('武器名称',
-                            textAlign: TextAlign.left,
-                            style: Theme.of(context).textTheme.labelLarge)),
-                    Expanded(
-                        child: Text('击杀数',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.labelLarge)),
-                    Expanded(
-                        child: Text('KPM',
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.labelLarge)),
-                    Expanded(
-                        child: Text('时长 (小时)',
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context).textTheme.labelLarge)),
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  prototypeItem: WeaponListItem(
-                      weapon: Weapon(
-                    accuracy: '0.0%',
-                    damage: 0,
-                    damagePerMinute: 0.0,
-                    headshotKills: 0,
-                    hitVKills: 0.0,
-                    id: 'null',
-                    kills: 0,
-                    killsPerMinute: 0.0,
-                    multiKills: 0,
-                    shotsFired: 0,
-                    shotsHit: 0,
-                    timeEquipped: 0,
-                    type: 'null',
-                    weaponName: 'null',
-                  )),
-                  itemCount: playerInfo.playerInfo?.weapons?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return WeaponListItem(
-                      onTap: () => {
-                        showWeaponDetails(
-                            context,
-                            playerInfo.playerInfo?.weapons?[index] ??
-                                Weapon(
-                                  accuracy: '0.0%',
-                                  damage: 0,
-                                  damagePerMinute: 0.0,
-                                  headshotKills: 0,
-                                  hitVKills: 0.0,
-                                  id: 'null',
-                                  kills: 0,
-                                  killsPerMinute: 0.0,
-                                  multiKills: 0,
-                                  shotsFired: 0,
-                                  shotsHit: 0,
-                                  timeEquipped: 0,
-                                  type: 'null',
-                                  weaponName: 'null',
-                                ))
-                      },
-                      weapon: playerInfo.playerInfo?.weapons?[index] ??
-                          Weapon(
-                            accuracy: '0.0%',
-                            damage: 0,
-                            damagePerMinute: 0.0,
-                            headshotKills: 0,
-                            hitVKills: 0.0,
-                            id: 'null',
-                            kills: 0,
-                            killsPerMinute: 0.0,
-                            multiKills: 0,
-                            shotsFired: 0,
-                            shotsHit: 0,
-                            timeEquipped: 0,
-                            type: 'null',
-                            weaponName: 'null',
-                          ),
-                    );
-                  },
-                ),
-              )
-            ],
+      return TouchableList(
+          listTitle: [
+            Expanded(
+                child: Text('武器名称',
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.labelLarge)),
+            Expanded(
+                child: Text('击杀数',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelLarge)),
+            Expanded(
+                child: Text('KPM',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.labelLarge)),
+            Expanded(
+                child: Text('时长 (小时)',
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.labelLarge)),
+          ],
+          listChild: ListView.builder(
+            shrinkWrap: true,
+            prototypeItem: WeaponListItem(weapon: Weapon()),
+            itemCount: playerInfo.playerInfo?.weapons?.length ?? 0,
+            itemBuilder: (context, index) {
+              return WeaponListItem(
+                onTap: () => {
+                  showWeaponDetails(context,
+                      playerInfo.playerInfo?.weapons?[index] ?? Weapon())
+                },
+                weapon: playerInfo.playerInfo?.weapons?[index] ?? Weapon(),
+              );
+            },
           ));
     });
   }
@@ -208,53 +145,48 @@ class WeaponListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap as void Function()?,
-      child: Container(
-        padding: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 12),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-                child: Text(weapon.weaponName ?? '未知武器',
-                    textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelLarge)),
-            Expanded(
-                child: Text(
-              numberFormat.format(weapon.kills ?? 0),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-                fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )),
-            Expanded(
-                child: Text(
-              weapon.killsPerMinute?.toStringAsFixed(2) ?? '0.00',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-                fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            )),
-            Expanded(
-                child: Text(
-              numberFormat.format(double.parse(
-                  ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2))),
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-                fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-            ))
-          ],
+    final List<Widget> expandChildren = [
+      Expanded(
+          child: Text(weapon.weaponName ?? '未知武器',
+              softWrap: true,
+              textAlign: TextAlign.left,
+              style: Theme.of(context).textTheme.labelLarge)),
+      Expanded(
+          child: Text(
+        numberFormat.format(weapon.kills ?? 0),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
+          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          color: Theme.of(context).colorScheme.primary,
         ),
-      ),
+      )),
+      Expanded(
+          child: Text(
+        weapon.killsPerMinute?.toStringAsFixed(2) ?? '0.00',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
+          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      )),
+      Expanded(
+          child: Text(
+        numberFormat.format(double.parse(
+            ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2))),
+        textAlign: TextAlign.right,
+        style: TextStyle(
+          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
+          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ))
+    ];
+
+    return TouchableListItem(
+      expandChildren: expandChildren,
+      onTap: onTap,
     );
   }
 }

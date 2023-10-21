@@ -44,6 +44,7 @@ class PlayerInfo {
     this.wins,
     this.vehicles,
     this.gadgets,
+    this.classes,
     this.gamemodes,
     this.maps,
   });
@@ -87,6 +88,7 @@ class PlayerInfo {
   final int? wins;
   final List<Vehicle>? vehicles;
   final List<Gadget>? gadgets;
+  final List<Classes>? classes;
   final List<Gamemode>? gamemodes;
   final List<MapElement>? maps;
 
@@ -177,6 +179,34 @@ class Vehicle {
       _$VehicleFromJson(json);
 
   Map<String, dynamic> toJson() => _$VehicleToJson(this);
+}
+
+@JsonSerializable()
+class Classes {
+  Classes({
+    this.className,
+    this.characterName,
+    this.id,
+    this.kills,
+    this.deaths,
+    this.kpm,
+    this.killDeath,
+    this.secondsPlayed,
+  });
+
+  final String? className;
+  final String? characterName;
+  final String? id;
+  final int? kills;
+  final int? deaths;
+  final double? kpm;
+  final double? killDeath;
+  final int? secondsPlayed;
+
+  factory Classes.fromJson(Map<String, dynamic> json) =>
+      _$ClassesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ClassesToJson(this);
 }
 
 @JsonSerializable()

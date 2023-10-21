@@ -52,6 +52,9 @@ PlayerInfo _$PlayerInfoFromJson(Map<String, dynamic> json) => PlayerInfo(
       gadgets: (json['gadgets'] as List<dynamic>?)
           ?.map((e) => Gadget.fromJson(e as Map<String, dynamic>))
           .toList(),
+      classes: (json['classes'] as List<dynamic>?)
+          ?.map((e) => Classes.fromJson(e as Map<String, dynamic>))
+          .toList(),
       gamemodes: (json['gamemodes'] as List<dynamic>?)
           ?.map((e) => Gamemode.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -101,6 +104,7 @@ Map<String, dynamic> _$PlayerInfoToJson(PlayerInfo instance) =>
       'wins': instance.wins,
       'vehicles': instance.vehicles?.map((e) => e.toJson()).toList(),
       'gadgets': instance.gadgets?.map((e) => e.toJson()).toList(),
+      'classes': instance.classes?.map((e) => e.toJson()).toList(),
       'gamemodes': instance.gamemodes?.map((e) => e.toJson()).toList(),
       'maps': instance.maps?.map((e) => e.toJson()).toList(),
     };
@@ -175,6 +179,28 @@ Map<String, dynamic> _$VehicleToJson(Vehicle instance) => <String, dynamic>{
       'type': instance.type,
       'vehicleName': instance.vehicleName,
       'vehiclesDestroyedWith': instance.vehiclesDestroyedWith,
+    };
+
+Classes _$ClassesFromJson(Map<String, dynamic> json) => Classes(
+      className: json['className'] as String?,
+      characterName: json['characterName'] as String?,
+      id: json['id'] as String?,
+      kills: json['kills'] as int?,
+      deaths: json['deaths'] as int?,
+      kpm: (json['kpm'] as num?)?.toDouble(),
+      killDeath: (json['killDeath'] as num?)?.toDouble(),
+      secondsPlayed: json['secondsPlayed'] as int?,
+    );
+
+Map<String, dynamic> _$ClassesToJson(Classes instance) => <String, dynamic>{
+      'className': instance.className,
+      'characterName': instance.characterName,
+      'id': instance.id,
+      'kills': instance.kills,
+      'deaths': instance.deaths,
+      'kpm': instance.kpm,
+      'killDeath': instance.killDeath,
+      'secondsPlayed': instance.secondsPlayed,
     };
 
 Gadget _$GadgetFromJson(Map<String, dynamic> json) => Gadget(
