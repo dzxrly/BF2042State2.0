@@ -1,4 +1,4 @@
-package com.eggtargaryen.battlefield_2042_state
+package com.eggtargaryen.bf2042state
 
 import io.flutter.embedding.android.FlutterActivity
 
