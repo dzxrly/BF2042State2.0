@@ -31,8 +31,9 @@ enum TabList {
 
 class PlayerInfoScreen extends StatelessWidget {
   final double playerInfoCardWidthScale;
+  final NumberFormat timeFormat = NumberFormat('#,###.00');
 
-  const PlayerInfoScreen({required this.playerInfoCardWidthScale, super.key});
+  PlayerInfoScreen({required this.playerInfoCardWidthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,19 +88,28 @@ class PlayerInfoScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
                       Text(
-                        'UID: ${playerInfo.playerInfo?.userId.toString() ??
-                            '未知'}',
+                        'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
                         style: TextStyle(
                           fontSize:
-                          Theme
-                              .of(context)
+                              Theme.of(context).textTheme.labelSmall?.fontSize,
+                          fontWeight: Theme.of(context)
                               .textTheme
                               .labelSmall
-                              ?.fontSize,
-                          fontWeight:
-                          Theme
-                              .of(context)
+                              ?.fontWeight,
+                        ),
+                      ),
+                      const Padding(padding: EdgeInsets.only(left: 8)),
+                      Text(
+                        '${timeFormat.format((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600)}小时',
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.labelSmall?.fontSize,
+                          fontWeight: Theme.of(context)
                               .textTheme
                               .labelSmall
                               ?.fontWeight,
@@ -108,16 +118,12 @@ class PlayerInfoScreen extends StatelessWidget {
                     ],
                   )
                 ],
-              )),
+              )
+            ],
+          )),
           body: SizedBox(
-            height: MediaQuery
-                .of(context)
-                .size
-                .height,
-            width: MediaQuery
-                .of(context)
-                .size
-                .width,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             child: Flex(
               direction: Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.start,

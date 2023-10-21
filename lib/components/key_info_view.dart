@@ -231,7 +231,7 @@ class KeyInfoWidget extends StatelessWidget {
             children: [
               Text(
                 keyName,
-                style: Theme.of(context).textTheme.labelMedium,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const Padding(padding: EdgeInsets.only(top: 2)),
               FittedBox(

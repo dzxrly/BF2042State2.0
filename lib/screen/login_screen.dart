@@ -173,10 +173,10 @@ class LoginFormState extends State<LoginForm>
       });
       playerInfoAPI
           .fetchPlayerInfo(
-          platformName!.trim(),
-          enablePlayerUidQuery ? '' : playerName!.trim(),
-          enablePlayerUidQuery ? playerUid!.trim() : '',
-          enablePlayerUidQuery)
+              platformName!.trim(),
+              enablePlayerUidQuery ? '' : playerName!.trim(),
+              enablePlayerUidQuery ? playerUid!.trim() : '',
+              enablePlayerUidQuery)
           .then((response) {
         if (response.userName != null && response.userId != null) {
           queryHistory.setHistory(

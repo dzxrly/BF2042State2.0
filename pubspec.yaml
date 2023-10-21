@@ -94,14 +94,6 @@ flutter:
         - asset: fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Medium.ttf
         - asset: fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Regular.ttf
         - asset: fonts/HarmonyOS_Sans_SC/HarmonyOS_Sans_SC_Thin.ttf
-    - family: HarmonyOS_Sans
-      fonts:
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Black.ttf
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Bold.ttf
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Light.ttf
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Medium.ttf
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Regular.ttf
-        - asset: fonts/HarmonyOS_Sans/HarmonyOS_Sans_Thin.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

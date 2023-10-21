@@ -19,7 +19,8 @@ class QueryHistory {
   }
 
   // set history to playerNameHistory and playerPlatformHistory
-  Future<void> setHistory(String playerName, String playerPlatform, String playerUid) async {
+  Future<void> setHistory(
+      String playerName, String playerPlatform, String playerUid) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (!playerUidHistory.contains(playerUid)) {
       playerNameHistory.add(playerName);
