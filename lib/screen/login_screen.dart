@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/player_info_model.dart';
 
@@ -118,6 +120,8 @@ class LoginFormState extends State<LoginForm>
   final TextEditingController platformController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
   final QueryHistory queryHistory = QueryHistory();
+  late String version = 'null';
+  late String buildNumber = '-1';
   String? platformName;
   String? playerName;
   String? playerUid;
@@ -128,6 +132,20 @@ class LoginFormState extends State<LoginForm>
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
   PlayerInfoAPI playerInfoAPI = PlayerInfoAPI();
+
+  void getVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      version = packageInfo.version;
+      buildNumber = packageInfo.buildNumber;
+    });
+  }
+
+  Future<void> urlLauncher(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('错误! 无法打开: $url');
+    }
+  }
 
   void platformTextFieldOnTap(BuildContext context) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -257,8 +275,10 @@ class LoginFormState extends State<LoginForm>
   // load history when initState
   @override
   initState() {
-    super.initState();
     queryHistory.loadHistory();
+    getVersion();
+
+    super.initState();
   }
 
   @override
@@ -433,7 +453,12 @@ class LoginFormState extends State<LoginForm>
                             color: Theme.of(context).colorScheme.primary,
                           )))
                 ]),
-          )
+          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
+          Text(
+            'Ver.$version',
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
         ],
       ),
     );
