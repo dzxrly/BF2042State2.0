@@ -1,6 +1,6 @@
 import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/player_detail_info_list.dart';
-import 'package:battlefield_2042_state/model/info_list_item_content.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -62,8 +62,10 @@ class WeaponList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(weapon.weaponName ?? '未知武器',
-                        style: Theme.of(context).textTheme.titleMedium),
+                    FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(weapon.weaponName ?? '未知武器',
+                            style: Theme.of(context).textTheme.titleLarge)),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -103,19 +105,19 @@ class WeaponList extends StatelessWidget {
             Expanded(
                 child: Text('武器名称',
                     textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 child: Text('击杀数',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 child: Text('KPM',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 child: Text('时长 (小时)',
                     textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
           ],
           listChild: ListView.builder(
             shrinkWrap: true,
@@ -150,14 +152,14 @@ class WeaponListItem extends StatelessWidget {
           child: Text(weapon.weaponName ?? '未知武器',
               softWrap: true,
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           child: Text(
         numberFormat.format(weapon.kills ?? 0),
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.primary,
         ),
       )),
@@ -166,8 +168,8 @@ class WeaponListItem extends StatelessWidget {
         weapon.killsPerMinute?.toStringAsFixed(2) ?? '0.00',
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.primary,
         ),
       )),
@@ -177,8 +179,8 @@ class WeaponListItem extends StatelessWidget {
             ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2))),
         textAlign: TextAlign.right,
         style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.primary,
         ),
       ))

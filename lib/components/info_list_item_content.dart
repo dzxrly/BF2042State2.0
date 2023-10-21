@@ -36,7 +36,7 @@ class InfoListItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(keyName, style: Theme.of(context).textTheme.labelLarge),
+          Text(keyName, style: Theme.of(context).textTheme.bodyLarge),
           Text(
             showValue != null
                 ? numberFormat.format(double.parse(

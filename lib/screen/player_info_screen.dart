@@ -40,86 +40,92 @@ class PlayerInfoScreen extends StatelessWidget {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       return Scaffold(
           appBar: AppBar(
-              title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 42,
-                height: 42,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Image.network(
-                    playerInfo.playerInfo?.avatar ?? '#',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Image.asset('assets/avatar_span.png',
-                          fit: BoxFit.cover);
-                    },
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) {
-                        return child;
-                      } else {
-                        return SpinKitCubeGrid(
-                          size: 24,
-                          color: Theme.of(context).colorScheme.primary,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              const Padding(padding: EdgeInsets.only(left: 8)),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  FittedBox(
-                    child: Text(
-                      playerInfo.playerInfo?.userName ?? '未知',
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.titleLarge?.fontSize,
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
+              title: SizedBox(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 42,
+                  height: 42,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Image.network(
+                      playerInfo.playerInfo?.avatar ?? '#',
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset('assets/avatar_span.png',
+                            fit: BoxFit.cover);
+                      },
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return SpinKitCubeGrid(
+                            size: 24,
+                            color: Theme.of(context).colorScheme.primary,
+                          );
+                        }
+                      },
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
+                ),
+                const Padding(padding: EdgeInsets.only(left: 8)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    FittedBox(
+                      child: Text(
+                        playerInfo.playerInfo?.userName ?? '未知',
                         style: TextStyle(
                           fontSize:
-                              Theme.of(context).textTheme.labelSmall?.fontSize,
-                          fontWeight: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.fontWeight,
+                              Theme.of(context).textTheme.titleLarge?.fontSize,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
-                      const Padding(padding: EdgeInsets.only(left: 8)),
-                      Text(
-                        '${timeFormat.format((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600)}小时',
-                        style: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.labelSmall?.fontSize,
-                          fontWeight: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.fontWeight,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
+                          style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.fontWeight,
+                          ),
                         ),
-                      ),
-                    ],
-                  )
-                ],
-              )
-            ],
+                        const Padding(padding: EdgeInsets.only(left: 8)),
+                        Text(
+                          '${timeFormat.format((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600)}小时',
+                          style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.fontWeight,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                )
+              ],
+            ),
           )),
           body: SizedBox(
             height: MediaQuery.of(context).size.height,

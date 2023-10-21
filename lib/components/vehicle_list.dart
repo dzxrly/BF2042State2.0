@@ -4,9 +4,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../api/player_info.dart';
-import '../model/info_list_item_content.dart';
 import '../model/player_info_model.dart';
 import 'constraints_modal_bottom_sheet.dart';
+import 'info_list_item_content.dart';
 
 class VehicleList extends StatelessWidget {
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
@@ -66,8 +66,11 @@ class VehicleList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(vehicle.vehicleName ?? '未知载具',
-                        style: Theme.of(context).textTheme.titleMedium),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(vehicle.vehicleName ?? '未知载具',
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -109,17 +112,17 @@ class VehicleList extends StatelessWidget {
                 child: Text('载具名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
                 child: Text('击杀数',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
                 child: Text('KPM',
                     textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
           ],
           listChild: ListView.builder(
               shrinkWrap: true,

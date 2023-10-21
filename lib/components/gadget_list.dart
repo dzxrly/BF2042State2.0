@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../model/info_list_item_content.dart';
 import '../model/player_info_model.dart';
 import 'constraints_modal_bottom_sheet.dart';
+import 'info_list_item_content.dart';
 
 class GadgetList extends StatelessWidget {
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
@@ -52,8 +52,11 @@ class GadgetList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(gadget.gadgetName ?? '未知装备',
-                        style: Theme.of(context).textTheme.titleMedium),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(gadget.gadgetName ?? '未知装备',
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -96,12 +99,12 @@ class GadgetList extends StatelessWidget {
                 child: Text('装备名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
                 child: Text('击杀数',
                     textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
           ],
           listChild: ListView.builder(
               shrinkWrap: true,

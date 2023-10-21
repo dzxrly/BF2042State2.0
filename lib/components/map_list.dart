@@ -5,9 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../api/player_info.dart';
-import '../model/info_list_item_content.dart';
 import '../model/player_info_model.dart';
 import 'constraints_modal_bottom_sheet.dart';
+import 'info_list_item_content.dart';
 
 class MapList extends StatelessWidget {
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
@@ -47,10 +47,13 @@ class MapList extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                        Translator.gameMapTranslate(
-                            mapElement.mapName ?? '未知地图'),
-                        style: Theme.of(context).textTheme.titleMedium),
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                          Translator.gameMapTranslate(
+                              mapElement.mapName ?? '未知地图'),
+                          style: Theme.of(context).textTheme.titleLarge),
+                    ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -92,17 +95,17 @@ class MapList extends StatelessWidget {
                 child: Text('地图名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
                 child: Text('游玩场数',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
                 child: Text('胜率',
                     textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.labelLarge)),
+                    style: Theme.of(context).textTheme.bodyLarge)),
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
