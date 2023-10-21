@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:battlefield_2042_state/api/player_info.dart';
+import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:http/http.dart' as http;
 
 import 'bfban_check.dart';
@@ -42,6 +43,22 @@ class BFBanCheckAPI extends APIBase {
       return BFBanCheck.fromJson(jsonDecode(response.body)['userids'][userId]);
     } else if (response.statusCode == 404) {
       throw '查找的玩家不存在!';
+    } else {
+      log('Response status code: ${response.statusCode}, body: ${response.body}');
+      throw '似乎发生了网络错误，请重试';
+    }
+  }
+}
+
+class GiteeVersionCheckAPI extends APIBase {
+  Future<GiteeVersionCheck> fetchGiteeVersionCheck() async {
+    final String url =
+        '$giteeBaseAPI/repos/egg-targaryen/BF2042State2.0/releases/latest';
+    log(url);
+    final response = await http.get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      return GiteeVersionCheck.fromJson(jsonDecode(response.body));
     } else {
       log('Response status code: ${response.statusCode}, body: ${response.body}');
       throw '似乎发生了网络错误，请重试';

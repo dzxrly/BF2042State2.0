@@ -14,7 +14,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../api/version_check.dart';
 import '../model/player_info_model.dart';
+import '../utils/tools.dart';
 
 enum Platform {
   pc('PC', 'pc', FaIcon(FontAwesomeIcons.windows)),
@@ -120,8 +122,8 @@ class LoginFormState extends State<LoginForm>
   final TextEditingController platformController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
   final QueryHistory queryHistory = QueryHistory();
-  late String version = 'null';
-  late String buildNumber = '-1';
+  bool isVersionOutdated = false;
+  String? latestVersionDownloadUrl;
   String? platformName;
   String? playerName;
   String? playerUid;
@@ -132,13 +134,31 @@ class LoginFormState extends State<LoginForm>
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
   PlayerInfoAPI playerInfoAPI = PlayerInfoAPI();
+  GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
 
   void getVersion() async {
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    setState(() {
-      version = packageInfo.version;
-      buildNumber = packageInfo.buildNumber;
-    });
+    try {
+      PackageInfo packageInfo = await PackageInfo.fromPlatform();
+      String currentVersion = packageInfo.version;
+      GiteeVersionCheck giteeVersionCheck =
+          await giteeVersionCheckAPI.fetchGiteeVersionCheck();
+      if (giteeVersionCheck.tagName != null &&
+          giteeVersionCheck.assets != null &&
+          giteeVersionCheck.assets!.isNotEmpty) {
+        if (UtilTools.versionCompare(
+            currentVersion, giteeVersionCheck.tagName!)) {
+          setState(() {
+            isVersionOutdated = true;
+            latestVersionDownloadUrl =
+                giteeVersionCheck.assets![0].browserDownloadUrl;
+          });
+        }
+      } else {
+        throw '错误! 无法获取最新版本信息';
+      }
+    } catch (error) {
+      rethrow;
+    }
   }
 
   Future<void> urlLauncher(String url) async {
@@ -277,7 +297,6 @@ class LoginFormState extends State<LoginForm>
   initState() {
     queryHistory.loadHistory();
     getVersion();
-
     super.initState();
   }
 
@@ -455,10 +474,18 @@ class LoginFormState extends State<LoginForm>
                 ]),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          Text(
-            'Ver.$version',
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+          isVersionOutdated
+              ? TextButton(
+                  style: TextButton.styleFrom(
+                    foregroundColor: Theme.of(context).colorScheme.error,
+                  ),
+                  onPressed: () {
+                    if (latestVersionDownloadUrl != null) {
+                      urlLauncher(latestVersionDownloadUrl!);
+                    }
+                  },
+                  child: const Text('发现新版本，点击下载'))
+              : Container(),
         ],
       ),
     );
