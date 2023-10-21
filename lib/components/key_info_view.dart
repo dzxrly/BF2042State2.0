@@ -14,17 +14,15 @@ class KeyInfoView extends StatefulWidget {
   const KeyInfoView({required this.userId, Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() {
-    return KeyInfoViewState();
-  }
+  State<StatefulWidget> createState() => _KeyInfoViewState();
 }
 
-class KeyInfoViewState extends State<KeyInfoView> {
+class _KeyInfoViewState extends State<KeyInfoView> {
   late int bfbanStatus;
   late String? bfbanUrl;
   BFBanCheckAPI bfBanCheckAPI = BFBanCheckAPI();
 
-  KeyInfoViewState() {
+  _KeyInfoViewState() {
     bfbanStatus = -2; // -2: loading, -3: error, -1: not banned
     bfbanUrl = null;
   }
@@ -173,7 +171,7 @@ class KeyInfoViewState extends State<KeyInfoView> {
                                 'BFBan',
                                 style: Theme.of(context).textTheme.labelMedium,
                               ),
-                              const Padding(padding: EdgeInsets.only(top: 2)),
+                              const Padding(padding: EdgeInsets.only(top: 8)),
                               FittedBox(
                                 fit: BoxFit.fitWidth,
                                 child: Text(
