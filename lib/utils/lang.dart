@@ -62,6 +62,21 @@ class Translator {
     'Custom': '门户自定义',
   };
 
+  static Map<int, String> bfbanStatusMap = {
+    -3: '网络错误',
+    -2: '正在查询',
+    -1: '无结果',
+    0: '未处理',
+    1: '挂逼',
+    2: '待自证',
+    3: 'MOSS自证',
+    4: '无效举报',
+    5: '讨论中',
+    6: '需要更多管理投票',
+    7: 'null',
+    8: '刷枪',
+  };
+
   static classesTranslate(String className) {
     return classesMap[className] ?? className;
   }
@@ -72,5 +87,9 @@ class Translator {
 
   static gamemodeTranslate(String gamemode) {
     return gamemodeMap[gamemode] ?? gamemode;
+  }
+
+  static bfbanStatusTranslate(int bfbanStatus) {
+    return bfbanStatusMap[bfbanStatus] ?? bfbanStatus.toString();
   }
 }

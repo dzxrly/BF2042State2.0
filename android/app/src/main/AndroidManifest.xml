@@ -2,7 +2,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="battlefield_2042_state"
+        android:label="BF2042State"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
