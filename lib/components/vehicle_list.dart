@@ -156,15 +156,15 @@ class VehicleListItem extends StatelessWidget {
           flex: 2,
           child: Text(vehicle.vehicleName ?? '未知载具',
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           flex: 1,
           child: Text(
             numberFormat.format(vehicle.kills ?? 0),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),

@@ -143,15 +143,15 @@ class ClassesListItem extends StatelessWidget {
           child: Text(
               Translator.classesTranslate(classes.characterName ?? '未知专家'),
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           flex: 2,
           child: Text(
             numberFormat.format(classes.kills ?? 0),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
@@ -161,8 +161,8 @@ class ClassesListItem extends StatelessWidget {
             classes.killDeath?.toStringAsFixed(2) ?? '0.00',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
@@ -172,8 +172,8 @@ class ClassesListItem extends StatelessWidget {
             classes.kpm?.toStringAsFixed(2) ?? '0.00',
             textAlign: TextAlign.right,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),

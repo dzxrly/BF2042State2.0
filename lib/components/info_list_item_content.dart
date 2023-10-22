@@ -36,15 +36,15 @@ class InfoListItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(keyName, style: Theme.of(context).textTheme.bodyLarge),
+          Text(keyName, style: Theme.of(context).textTheme.bodyMedium),
           Text(
             showValue != null
                 ? numberFormat.format(double.parse(
                     showValue!.toStringAsFixed(fractionDigits ?? 2)))
                 : showValueString ?? '未知',
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.bodyLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )

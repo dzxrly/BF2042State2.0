@@ -176,15 +176,15 @@ class GameModeListItem extends StatelessWidget {
           child: Text(
               Translator.gamemodeTranslate(gamemode.gamemodeName ?? '未知模式'),
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           flex: 1,
           child: Text(
             numberFormat.format(gamemode.matches ?? 0),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
@@ -194,8 +194,8 @@ class GameModeListItem extends StatelessWidget {
             gamemode.winPercent ?? '0.00%',
             textAlign: TextAlign.right,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),

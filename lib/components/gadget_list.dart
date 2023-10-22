@@ -138,15 +138,15 @@ class GadgetListItem extends StatelessWidget {
           flex: 3,
           child: Text(gadget.gadgetName ?? '未知装备',
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           flex: 1,
           child: Text(
             numberFormat.format(gadget.kills ?? 0),
             textAlign: TextAlign.right,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:battlefield_2042_state/api/player_info.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
@@ -21,9 +22,19 @@ class PlayerInfoAPI extends APIBase {
     final response = await http.get(Uri.parse(url));
 
     if (response.statusCode == 200) {
-      return PlayerInfo.fromJson(jsonDecode(response.body));
+      try {
+        PlayerInfo.fromJson(jsonDecode(response.body));
+        return PlayerInfo.fromJson(jsonDecode(response.body));
+      } catch (e) {
+        log(e.toString());
+        throw '该用户可能没有玩过战地2042';
+      }
     } else if (response.statusCode == 404) {
       throw '查找的玩家不存在!';
+    } else if (response.statusCode == 408 ||
+        response.statusCode == 503 ||
+        response.statusCode == 504) {
+      throw 'Gametools服务器错误，请稍后再试';
     } else {
       throw '似乎发生了网络错误，请重试';
     }

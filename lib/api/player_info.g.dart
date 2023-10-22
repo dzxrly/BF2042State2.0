@@ -9,7 +9,6 @@ part of 'player_info.dart';
 PlayerInfo _$PlayerInfoFromJson(Map<String, dynamic> json) => PlayerInfo(
       accuracy: json['accuracy'] as String?,
       avatar: json['avatar'] as String?,
-      bestClass: json['bestClass'] as String?,
       bestSquad: json['bestSquad'] as int?,
       damage: json['damage'] as int?,
       damagePerMatch: (json['damagePerMatch'] as num?)?.toDouble(),
@@ -67,7 +66,6 @@ Map<String, dynamic> _$PlayerInfoToJson(PlayerInfo instance) =>
     <String, dynamic>{
       'accuracy': instance.accuracy,
       'avatar': instance.avatar,
-      'bestClass': instance.bestClass,
       'bestSquad': instance.bestSquad,
       'damage': instance.damage,
       'damagePerMatch': instance.damagePerMatch,

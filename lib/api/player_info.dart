@@ -7,7 +7,6 @@ class PlayerInfo {
   PlayerInfo({
     this.accuracy,
     this.avatar,
-    this.bestClass,
     this.bestSquad,
     this.damage,
     this.damagePerMatch,
@@ -51,7 +50,6 @@ class PlayerInfo {
 
   final String? accuracy;
   final String? avatar;
-  final String? bestClass;
   final int? bestSquad;
   final int? damage;
   final double? damagePerMatch;

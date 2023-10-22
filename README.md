@@ -1,6 +1,6 @@
 # 战地2042战绩查询助手
 
-![最新版本](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge)
+![最新版本](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge) ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white) ![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white) ![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)
 
 一个简陋的战地2042战绩查询应用，由Egg Targaryen (橘子ID: Xx__Koraidon__xX) 开发。
 

@@ -169,7 +169,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                             children: [
                               Text(
                                 'BFBan',
-                                style: Theme.of(context).textTheme.labelMedium,
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8)),
                               FittedBox(
@@ -179,11 +179,11 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                   style: TextStyle(
                                     fontWeight: Theme.of(context)
                                         .textTheme
-                                        .bodyLarge
+                                        .bodyMedium
                                         ?.fontWeight,
                                     fontSize: Theme.of(context)
                                         .textTheme
-                                        .bodyLarge
+                                        .bodyMedium
                                         ?.fontSize,
                                     color: bfbanStatus != 1
                                         ? Theme.of(context).colorScheme.primary
@@ -241,8 +241,8 @@ class KeyInfoWidget extends StatelessWidget {
                       : showValueString ?? '未知',
                   style: TextStyle(
                     fontWeight:
-                        Theme.of(context).textTheme.bodyLarge?.fontWeight,
-                    fontSize: Theme.of(context).textTheme.bodyLarge?.fontSize,
+                        Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                    fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                     color: Theme.of(context).colorScheme.primary,
                   ),
                 ),

@@ -152,14 +152,14 @@ class WeaponListItem extends StatelessWidget {
           child: Text(weapon.weaponName ?? '未知武器',
               softWrap: true,
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           child: Text(
         numberFormat.format(weapon.kills ?? 0),
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.primary,
         ),
       )),

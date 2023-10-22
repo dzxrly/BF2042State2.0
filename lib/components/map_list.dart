@@ -140,15 +140,15 @@ class MapListItem extends StatelessWidget {
           flex: 2,
           child: Text(Translator.gameMapTranslate(mapElement.mapName ?? '未知地图'),
               textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.labelLarge)),
+              style: Theme.of(context).textTheme.bodyMedium)),
       Expanded(
           flex: 1,
           child: Text(
             numberFormat.format(mapElement.matches ?? 0),
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
@@ -158,8 +158,8 @@ class MapListItem extends StatelessWidget {
             mapElement.winPercent ?? '0.00%',
             textAlign: TextAlign.right,
             style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
