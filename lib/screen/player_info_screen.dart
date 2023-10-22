@@ -57,8 +57,12 @@ class PlayerInfoScreen extends StatelessWidget {
                       playerInfo.playerInfo?.avatar ?? '#',
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset('assets/avatar_span.png',
-                            fit: BoxFit.cover);
+                        return Image.asset(
+                          'assets/avatar_span.png',
+                          fit: BoxFit.cover,
+                          cacheHeight: 42,
+                          cacheWidth: 42,
+                        );
                       },
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) {

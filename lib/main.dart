@@ -42,12 +42,12 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: lightColorScheme,
-        fontFamily: 'HarmonyOS_Sans_SC',
+        // fontFamily: 'HarmonyOS_Sans_SC',
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: darkColorScheme,
-        fontFamily: 'HarmonyOS_Sans_SC',
+        // fontFamily: 'HarmonyOS_Sans_SC',
         useMaterial3: true,
       ),
       themeMode: ThemeMode.system,
