@@ -15,18 +15,18 @@ import 'package:provider/provider.dart';
 import '../components/key_info_view.dart';
 
 enum TabList {
-  overview('总览', FaIcon(FontAwesomeIcons.personRifle, size: 16)),
-  weapon('武器', FaIcon(FontAwesomeIcons.gun, size: 16)),
-  vehicle('载具', FaIcon(FontAwesomeIcons.jetFighter, size: 16)),
-  equipment('装备', FaIcon(FontAwesomeIcons.toolbox, size: 16)),
-  classes('专家', FaIcon(FontAwesomeIcons.userTie, size: 16)),
-  mode('模式', FaIcon(FontAwesomeIcons.bars, size: 16)),
-  map('地图', FaIcon(FontAwesomeIcons.map, size: 16));
+  overview('总览'),
+  weapon('武器'),
+  vehicle('载具'),
+  equipment('装备'),
+  classes('专家'),
+  mode('模式'),
+  map('地图');
 
-  const TabList(this.name, this.icon);
+  const TabList(this.name, {this.icon});
 
   final String name;
-  final FaIcon icon;
+  final FaIcon? icon;
 }
 
 class PlayerInfoScreen extends StatelessWidget {
@@ -214,20 +214,9 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           tabs: TabList.values
                               .map((e) => Tab(
                                       child: Container(
-                                    padding: const EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                         left: 8, right: 8),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        // e.icon,
-                                        // const Padding(
-                                        //     padding: EdgeInsets.only(left: 8)),
-                                        Text(e.name)
-                                      ],
-                                    ),
+                                    child: Text(e.name),
                                   )))
                               .toList(),
                         ),

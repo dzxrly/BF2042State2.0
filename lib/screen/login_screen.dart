@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/error_snackbar.dart';
@@ -247,55 +245,66 @@ class LoginFormState extends State<LoginForm>
   }
 
   void queryHistoryBtnOnPressed(BuildContext context) {
-    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
-      context,
-      queryHistory.playerUidHistory.isNotEmpty
-          ? ListView.builder(
-              shrinkWrap: true,
-              itemCount: queryHistory.playerUidHistory.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    queryHistory.playerNameHistory[index],
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  subtitle: Text(
-                    queryHistory.playerUidHistory[index],
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
-                  onTap: () {
-                    setState(() {
-                      platformName = queryHistory.playerPlatformHistory[index];
-                      // set platformName to platformController, by platform value index platform label
-                      platformController.text = Platform.values
-                          .firstWhere((element) =>
-                              element.value ==
-                              queryHistory.playerPlatformHistory[index])
-                          .label;
-                      playerName = queryHistory.playerNameHistory[index];
-                      playerUid = queryHistory.playerUidHistory[index];
-                      playerNameController.text = enablePlayerUidQuery
-                          ? queryHistory.playerUidHistory[index]
-                          : queryHistory.playerNameHistory[index];
-                    });
-                    Navigator.pop(context);
-                  },
-                );
-              },
-            )
-          : Center(
-              child: Text(
-                '暂无查询历史',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-    );
+    queryHistory
+        .loadHistory()
+        .then((value) => {
+              ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+                context,
+                queryHistory.playerUidHistory.isNotEmpty
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: queryHistory.playerUidHistory.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ListTile(
+                            title: Text(
+                              queryHistory.playerNameHistory[index],
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            subtitle: Text(
+                              queryHistory.playerUidHistory[index],
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                            onTap: () {
+                              setState(() {
+                                platformName =
+                                    queryHistory.playerPlatformHistory[index];
+                                // set platformName to platformController, by platform value index platform label
+                                platformController.text = Platform.values
+                                    .firstWhere((element) =>
+                                        element.value ==
+                                        queryHistory
+                                            .playerPlatformHistory[index])
+                                    .label;
+                                playerName =
+                                    queryHistory.playerNameHistory[index];
+                                playerUid =
+                                    queryHistory.playerUidHistory[index];
+                                playerNameController.text = enablePlayerUidQuery
+                                    ? queryHistory.playerUidHistory[index]
+                                    : queryHistory.playerNameHistory[index];
+                              });
+                              Navigator.pop(context);
+                            },
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          '暂无查询历史',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ),
+              )
+            })
+        .catchError((error) {
+      ErrorSnackBar.showErrorSnackBar(
+          context, error.toString(), widget.loginScreenWidthScale);
+    });
   }
 
   // load history when initState
   @override
   initState() {
-    queryHistory.loadHistory();
     getVersion();
     super.initState();
   }
@@ -338,7 +347,6 @@ class LoginFormState extends State<LoginForm>
               controller: platformController,
               readOnly: true,
               onChanged: (String? value) {
-                log(value.toString());
                 setState(() {
                   platformName = value;
                 });
