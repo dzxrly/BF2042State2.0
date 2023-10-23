@@ -14,6 +14,16 @@
 
 [最新版下载](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
+## Star 记录
+
+<a href="https://star-history.com/#dzxrly/BF2042State2.0&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date" />
+  </picture>
+</a>
+
 ## 请我喝一杯咖啡
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F0PZH7X)
