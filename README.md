@@ -12,7 +12,9 @@
 
 ## 下载地址
 
-[最新版下载](https://github.com/dzxrly/BF2042State2.0/releases/latest)
+Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042State2.0/releases/latest)
+
+网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
 ## 请我喝一杯咖啡
 

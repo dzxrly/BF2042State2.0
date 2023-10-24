@@ -4,7 +4,7 @@
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FAFDFA",
-    "theme_color": "#006B5C",
+    "theme_color": "#4BFCDD",
     "description": "A Simple App for BF2042 state query.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
