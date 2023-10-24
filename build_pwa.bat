@@ -1,1 +1,1 @@
-flutter build web --web-renderer canvaskit --release
+flutter build web --web-renderer canvaskit --release --base-href=/BF2042StateWeb/
