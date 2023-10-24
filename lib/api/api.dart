@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:battlefield_2042_state/api/player_info.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
@@ -26,7 +25,6 @@ class PlayerInfoAPI extends APIBase {
         PlayerInfo.fromJson(jsonDecode(response.body));
         return PlayerInfo.fromJson(jsonDecode(response.body));
       } catch (e) {
-        log(e.toString());
         throw '该用户可能没有玩过战地2042';
       }
     } else if (response.statusCode == 404) {
