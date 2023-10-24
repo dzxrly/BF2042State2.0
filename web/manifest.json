@@ -1,7 +1,7 @@
 {
     "name": "BF2042StateV2",
     "short_name": "BF2042State",
-    "start_url": ".",
+    "start_url": "./BF2042StateWeb",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
