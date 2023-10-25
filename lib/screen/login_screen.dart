@@ -135,27 +135,29 @@ class LoginFormState extends State<LoginForm>
   GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
 
   void getVersion() async {
-    try {
-      PackageInfo packageInfo = await PackageInfo.fromPlatform();
-      String currentVersion = packageInfo.version;
-      GiteeVersionCheck giteeVersionCheck =
-          await giteeVersionCheckAPI.fetchGiteeVersionCheck();
-      if (giteeVersionCheck.tagName != null &&
-          giteeVersionCheck.assets != null &&
-          giteeVersionCheck.assets!.isNotEmpty) {
-        if (UtilTools.versionCompare(
-            currentVersion, giteeVersionCheck.tagName!)) {
-          setState(() {
-            isVersionOutdated = true;
-            latestVersionDownloadUrl =
-                giteeVersionCheck.assets![0].browserDownloadUrl;
-          });
+    if (!PlatformUtils.isWeb) {
+      try {
+        PackageInfo packageInfo = await PackageInfo.fromPlatform();
+        String currentVersion = packageInfo.version;
+        GiteeVersionCheck giteeVersionCheck =
+            await giteeVersionCheckAPI.fetchGiteeVersionCheck();
+        if (giteeVersionCheck.tagName != null &&
+            giteeVersionCheck.assets != null &&
+            giteeVersionCheck.assets!.isNotEmpty) {
+          if (UtilTools.versionCompare(
+              currentVersion, giteeVersionCheck.tagName!)) {
+            setState(() {
+              isVersionOutdated = true;
+              latestVersionDownloadUrl =
+                  giteeVersionCheck.assets![0].browserDownloadUrl;
+            });
+          }
+        } else {
+          throw '错误! 无法获取最新版本信息';
         }
-      } else {
-        throw '错误! 无法获取最新版本信息';
+      } catch (error) {
+        rethrow;
       }
-    } catch (error) {
-      rethrow;
     }
   }
 
@@ -482,7 +484,7 @@ class LoginFormState extends State<LoginForm>
                 ]),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          isVersionOutdated
+          isVersionOutdated && !PlatformUtils.isWeb
               ? TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.error,
