@@ -14,7 +14,13 @@ class ErrorSnackBar {
             color: Theme.of(context).colorScheme.onError,
           ),
           const Padding(padding: EdgeInsets.only(left: 8)),
-          Text(errorMsg, style: const TextStyle(fontSize: 14)),
+          Text(
+            errorMsg,
+            style: const TextStyle(fontSize: 14),
+            softWrap: true,
+            maxLines: 5,
+            overflow: TextOverflow.ellipsis,
+          ),
         ],
       ),
       behavior: SnackBarBehavior.floating,
@@ -23,6 +29,7 @@ class ErrorSnackBar {
       ),
       backgroundColor: Theme.of(context).colorScheme.error,
       width: MediaQuery.of(context).size.width * widthScale,
+      clipBehavior: Clip.antiAlias,
     ));
   }
 }

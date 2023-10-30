@@ -216,12 +216,19 @@ class LoginFormState extends State<LoginForm>
               enablePlayerUidQuery ? playerUid!.trim() : '',
               enablePlayerUidQuery)
           .then((response) {
-        if (response.userName != null && response.userId != null) {
+        if (response.userName != null &&
+            response.userId != null &&
+            response.userName != '' &&
+            response.userId != 0 &&
+            response.secondsPlayed != null &&
+            response.secondsPlayed != 0) {
           queryHistory.setHistory(
             response.userName!,
             platformName!,
             response.userId.toString(),
           );
+        } else {
+          throw '该用户似乎没有玩过战地2042';
         }
         Provider.of<PlayerInfoModel>(context, listen: false)
             .updatePlayerInfo(response);
