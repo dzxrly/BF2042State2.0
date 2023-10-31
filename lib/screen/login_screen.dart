@@ -200,11 +200,12 @@ class LoginFormState extends State<LoginForm>
     platformFocusNode.unfocus();
     playerNameFocusNode.unfocus();
     if (platformName == null ||
-        playerName == null ||
-        platformName!.isEmpty ||
-        playerName!.isEmpty) {
+        (enablePlayerUidQuery && playerUid == null) ||
+        (!enablePlayerUidQuery && playerName == null)) {
       ErrorSnackBar.showErrorSnackBar(
-          context, '游戏平台或玩家昵称不能为空!', widget.loginScreenWidthScale);
+          context,
+          enablePlayerUidQuery ? '游戏平台或UID不能为空!' : '游戏平台或玩家昵称不能为空!',
+          widget.loginScreenWidthScale);
     } else {
       setState(() {
         queryBtnLoading = true;
@@ -377,23 +378,41 @@ class LoginFormState extends State<LoginForm>
                 labelText: playerNameTextFieldLabel,
                 prefixIcon: const Icon(Icons.person),
                 // if playerName is not null, show clear button
-                suffixIcon: playerName != null
-                    ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            playerName = null;
-                            playerNameController.clear();
-                          });
-                        },
-                      )
-                    : null,
+                suffixIcon: enablePlayerUidQuery
+                    ? playerUid != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                playerUid = null;
+                                playerNameController.clear();
+                                playerNameFocusNode.unfocus();
+                              });
+                            },
+                          )
+                        : null
+                    : playerName != null
+                        ? IconButton(
+                            icon: const Icon(Icons.clear),
+                            onPressed: () {
+                              setState(() {
+                                playerName = null;
+                                playerNameController.clear();
+                                playerNameFocusNode.unfocus();
+                              });
+                            },
+                          )
+                        : null,
               ),
               controller: playerNameController,
               focusNode: playerNameFocusNode,
               onChanged: (String? value) {
                 setState(() {
-                  playerName = value;
+                  if (enablePlayerUidQuery) {
+                    playerUid = value;
+                  } else {
+                    playerName = value;
+                  }
                 });
               },
             ),
