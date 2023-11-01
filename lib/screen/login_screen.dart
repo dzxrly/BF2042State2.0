@@ -404,6 +404,7 @@ class LoginFormState extends State<LoginForm>
                           )
                         : null,
               ),
+              textInputAction: TextInputAction.search,
               controller: playerNameController,
               focusNode: playerNameFocusNode,
               onChanged: (String? value) {
@@ -415,6 +416,8 @@ class LoginFormState extends State<LoginForm>
                   }
                 });
               },
+              onEditingComplete: () =>
+                  queryBtnOnPressed(context, widget.playerInfoCardWidthScale),
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
