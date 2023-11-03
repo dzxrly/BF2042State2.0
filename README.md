@@ -1,6 +1,6 @@
 # 战地2042战绩查询助手
 
-![RELEASE](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge&label=RELEASE) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdzxrly%2FBF2042State2.0%2Fmain%2Fpubspec.yaml&query=%24.dependencies.flutter.sdk&style=for-the-badge&label=SDK) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdzxrly%2FBF2042State2.0%2Fmain%2Fpubspec.yaml&query=%24.environment.sdk&style=for-the-badge&label=Flutter%20Environment)
+![RELEASE](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge&label=RELEASE) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdzxrly%2FBF2042State2.0%2Fmain%2Fpubspec.yaml&query=%24.dependencies.flutter.sdk&style=for-the-badge&label=SDK) ![Static Badge](https://img.shields.io/badge/Platform-Android_%7C_Web_PWA-4BFCDD?style=for-the-badge)
 
 一个简陋的战地2042战绩查询应用，由Egg Targaryen (橘子ID: Xx__Koraidon__xX) 开发。
 
@@ -25,13 +25,3 @@ Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042Sta
 ## 请我喝一杯咖啡
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F0PZH7X)
-
-## Star 记录
-
-<a href="https://star-history.com/#dzxrly/BF2042State2.0&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=dzxrly/BF2042State2.0&type=Date" />
-  </picture>
-</a>
