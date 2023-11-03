@@ -16,6 +16,8 @@ Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042Sta
 
 网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
+> 由于开发者没有苹果设备，暂时不提供iOS版本。
+
 ## 开发计划
 
 [BF2042State V2 开发计划](https://github.com/users/dzxrly/projects/3)
