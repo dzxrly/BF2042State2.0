@@ -1,4 +1,4 @@
-import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/screen/login_screen.dart';
 import 'package:battlefield_2042_state/theme/color_schemes.g.dart';

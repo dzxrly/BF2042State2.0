@@ -1,4 +1,4 @@
-import 'package:battlefield_2042_state/components/info_list_item_content.dart';
+import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

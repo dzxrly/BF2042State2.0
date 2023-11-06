@@ -1,6 +1,6 @@
-import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
-import 'package:battlefield_2042_state/components/info_list_item_content.dart';
-import 'package:battlefield_2042_state/components/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
+import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';

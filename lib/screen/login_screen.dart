@@ -1,6 +1,6 @@
 import 'package:battlefield_2042_state/api/api.dart';
-import 'package:battlefield_2042_state/components/constraints_modal_bottom_sheet.dart';
-import 'package:battlefield_2042_state/components/error_snackbar.dart';
+import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/basic/error_snackbar.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:battlefield_2042_state/screen/player_info_screen.dart';
 import 'package:flutter/cupertino.dart';
