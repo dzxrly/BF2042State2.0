@@ -122,6 +122,9 @@ class LoginFormState extends State<LoginForm>
   final QueryHistory queryHistory = QueryHistory();
   bool isVersionOutdated = false;
   String? latestVersionDownloadUrl;
+  String? updateLog;
+  String? currentVersionName;
+  String? newVersionName;
   String? platformName;
   String? playerName;
   String? playerUid;
@@ -138,18 +141,20 @@ class LoginFormState extends State<LoginForm>
     if (!PlatformUtils.isWeb) {
       try {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        String currentVersion = packageInfo.version;
+        currentVersionName = packageInfo.version ?? '0.0.0';
         GiteeVersionCheck giteeVersionCheck =
             await giteeVersionCheckAPI.fetchGiteeVersionCheck();
         if (giteeVersionCheck.tagName != null &&
             giteeVersionCheck.assets != null &&
             giteeVersionCheck.assets!.isNotEmpty) {
           if (UtilTools.versionCompare(
-              currentVersion, giteeVersionCheck.tagName!)) {
+              currentVersionName!, giteeVersionCheck.tagName!)) {
             setState(() {
               isVersionOutdated = true;
               latestVersionDownloadUrl =
                   giteeVersionCheck.assets![0].browserDownloadUrl;
+              updateLog = giteeVersionCheck.body;
+              newVersionName = giteeVersionCheck.tagName;
             });
           }
         } else {
@@ -310,6 +315,74 @@ class LoginFormState extends State<LoginForm>
       ErrorSnackBar.showErrorSnackBar(
           context, error.toString(), widget.loginScreenWidthScale);
     });
+  }
+
+  void showVersionUpdateDetail(BuildContext context) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text('发现新版本:', style: Theme.of(context).textTheme.titleMedium),
+                const Padding(padding: EdgeInsets.only(left: 8)),
+                Text(currentVersionName ?? '0.0.0',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      color: Theme.of(context).colorScheme.primary,
+                    )),
+                const Padding(padding: EdgeInsets.only(left: 8)),
+                Text('->', style: Theme.of(context).textTheme.titleMedium),
+                const Padding(padding: EdgeInsets.only(left: 8)),
+                Text(newVersionName ?? '0.0.0',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      color: Theme.of(context).colorScheme.primary,
+                    )),
+              ],
+            ),
+            const Padding(padding: EdgeInsets.only(top: 8)),
+            const Divider(height: 1),
+            const Padding(padding: EdgeInsets.only(top: 8)),
+            Text('更新日志', style: Theme.of(context).textTheme.titleMedium),
+            const Padding(padding: EdgeInsets.only(top: 4)),
+            Text(updateLog ?? '无',
+                softWrap: true, style: Theme.of(context).textTheme.bodyMedium),
+            const Padding(padding: EdgeInsets.only(top: 16)),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(19),
+                  ),
+                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  disabledBackgroundColor:
+                      Theme.of(context).colorScheme.secondaryContainer,
+                ),
+                onPressed: () => urlLauncher(latestVersionDownloadUrl ??
+                    'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
+                child: Text('点击下载',
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ))),
+          ],
+        ));
   }
 
   // load history when initState
@@ -518,12 +591,8 @@ class LoginFormState extends State<LoginForm>
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.error,
                   ),
-                  onPressed: () {
-                    if (latestVersionDownloadUrl != null) {
-                      urlLauncher(latestVersionDownloadUrl!);
-                    }
-                  },
-                  child: const Text('发现新版本，点击下载'))
+                  onPressed: () => showVersionUpdateDetail(context),
+                  child: const Text('发现新版本，点击查看详情'))
               : Container(),
         ],
       ),

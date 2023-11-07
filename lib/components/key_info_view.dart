@@ -33,7 +33,9 @@ class _KeyInfoViewState extends State<KeyInfoView> {
         BFBanCheck bfBanCheck = await bfBanCheckAPI.fetchBFBanCheck(userId);
         setState(() {
           bfbanStatus = bfBanCheck.status ?? -1;
-          bfbanUrl = bfBanCheck.url;
+          bfbanUrl = bfBanCheck.originPersonaId == null
+              ? bfBanCheck.url
+              : 'https://bfban.gametools.network/player/${bfBanCheck.originPersonaId}';
         });
       } catch (e) {
         setState(() {

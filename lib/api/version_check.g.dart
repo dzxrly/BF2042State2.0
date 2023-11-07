@@ -10,6 +10,7 @@ GiteeVersionCheck _$GiteeVersionCheckFromJson(Map<String, dynamic> json) =>
     GiteeVersionCheck(
       id: json['id'] as int?,
       tagName: json['tag_name'] as String?,
+      body: json['body'] as String?,
       assets: (json['assets'] as List<dynamic>?)
           ?.map((e) => ReleaseAssets.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -19,6 +20,7 @@ Map<String, dynamic> _$GiteeVersionCheckToJson(GiteeVersionCheck instance) =>
     <String, dynamic>{
       'id': instance.id,
       'tag_name': instance.tagName,
+      'body': instance.body,
       'assets': instance.assets?.map((e) => e.toJson()).toList(),
     };
 

@@ -214,7 +214,7 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           tabs: TabList.values
                               .map((e) => Tab(
                                       child: Container(
-                                        padding: const EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 8, right: 8),
                                     child: Text(e.name),
                                   )))

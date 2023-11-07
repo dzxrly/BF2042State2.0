@@ -7,12 +7,14 @@ class GiteeVersionCheck {
   GiteeVersionCheck({
     this.id,
     this.tagName,
+    this.body,
     this.assets,
   });
 
   final int? id;
   @JsonKey(name: 'tag_name')
   final String? tagName;
+  final String? body;
   final List<ReleaseAssets>? assets;
 
   factory GiteeVersionCheck.fromJson(Map<String, dynamic> json) =>
