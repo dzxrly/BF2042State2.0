@@ -77,7 +77,8 @@ class GiteeVersionCheckAPI extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
 
       if (response.statusCode == 200) {
-        return GiteeVersionCheck.fromJson(jsonDecode(response.body));
+        return GiteeVersionCheck.fromJson(
+            jsonDecode(utf8.decode(response.bodyBytes)));
       } else {
         throw '似乎发生了网络错误，请重试';
       }
