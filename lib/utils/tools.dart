@@ -70,3 +70,11 @@ class PlatformUtils {
 
   static bool get isLinux => _isLinux();
 }
+
+class WidthBreakpoints {
+  static double minXS = 0.0;
+  static double minS = 600.0;
+  static double minM = 1024.0;
+  static double minL = 1440.0;
+  static double minXL = 1920.0;
+}

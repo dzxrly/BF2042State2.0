@@ -2,6 +2,7 @@ import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/screen/login_screen.dart';
 import 'package:battlefield_2042_state/theme/color_schemes.g.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -57,30 +58,43 @@ class MyApp extends StatelessWidget {
 }
 
 class MainScreen extends StatelessWidget {
-  final double loginScreenWidthScale = 0.85;
-  final double playerInfoCardWidthScale = 0.95;
-
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
-                  context, const BottomSheetInfo());
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
-      ),
-      body: LoginScreen(
-        loginScreenWidthScale: loginScreenWidthScale,
-        playerInfoCardWidthScale: playerInfoCardWidthScale,
-      ),
-    );
+        appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+                    context, const BottomSheetInfo());
+              },
+              icon: const Icon(Icons.menu),
+            )
+          ],
+        ),
+        body: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+          if (constraints.maxWidth < WidthBreakpoints.minS) {
+            return const LoginScreen(
+              loginScreenWidthScale: 0.85,
+              playerInfoCardWidthScale: 0.95,
+            );
+          } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
+          } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
+          } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
+          } else {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
+          }
+        }));
   }
 }
 
