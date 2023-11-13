@@ -8,10 +8,27 @@ import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
-class VehicleList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+enum DataType {
+  kpm('KPM', 'killsPerMinute'),
+  secondsPlayed('时长', 'timePlayed'),
+  destroyCount('摧毁载具', 'destroyCount');
 
-  VehicleList({Key? key}) : super(key: key);
+  const DataType(this.label, this.value);
+
+  final String label;
+  final String value;
+}
+
+class VehicleList extends StatefulWidget {
+  const VehicleList({Key? key}) : super(key: key);
+
+  @override
+  VehicleListState createState() => VehicleListState();
+}
+
+class VehicleListState extends State<VehicleList> {
+  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  String dataTypeValue = 'killsPerMinute';
 
   void showVehicleDetails(BuildContext context, Vehicle vehicle) {
     final List<InfoListItemContent> vehicleDetailList = [
@@ -99,6 +116,28 @@ class VehicleList extends StatelessWidget {
         ));
   }
 
+  void setDataTypeValue(String value) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: DataType.values.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(DataType.values[index].label),
+              value: DataType.values[index].value,
+              groupValue: dataTypeValue,
+              onChanged: (value) {
+                setState(() {
+                  dataTypeValue = value.toString();
+                });
+                Navigator.pop(context);
+              },
+            );
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
@@ -108,7 +147,7 @@ class VehicleList extends StatelessWidget {
       return TouchableList(
           listTitle: [
             Expanded(
-                flex: 2,
+                flex: 3,
                 child: Text('载具名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
@@ -119,14 +158,31 @@ class VehicleList extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                flex: 1,
-                child: Text('KPM',
-                    textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.bodyLarge)),
+                flex: 2,
+                child: InkWell(
+                    onTap: () => {setDataTypeValue(dataTypeValue)},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                            DataType.values
+                                .firstWhere(
+                                    (element) => element.value == dataTypeValue)
+                                .label,
+                            textAlign: TextAlign.right,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        Icon(Icons.arrow_drop_down,
+                            color: Theme.of(context).colorScheme.primary)
+                      ],
+                    ))),
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: VehicleListItem(vehicle: Vehicle()),
+              prototypeItem: VehicleListItem(
+                vehicle: Vehicle(),
+                dataTypeValue: dataTypeValue,
+              ),
               itemCount: playerInfo.playerInfo?.vehicles?.length ?? 0,
               itemBuilder: (context, index) {
                 return VehicleListItem(
@@ -135,6 +191,7 @@ class VehicleList extends StatelessWidget {
                     showVehicleDetails(context,
                         playerInfo.playerInfo?.vehicles?[index] ?? Vehicle())
                   },
+                  dataTypeValue: dataTypeValue,
                 );
               }));
     });
@@ -143,17 +200,35 @@ class VehicleList extends StatelessWidget {
 
 class VehicleListItem extends StatelessWidget {
   final Vehicle vehicle;
+  final String dataTypeValue;
   final Function? onTap;
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  VehicleListItem({Key? key, required this.vehicle, this.onTap})
+  VehicleListItem(
+      {Key? key,
+      required this.vehicle,
+      required this.dataTypeValue,
+      this.onTap})
       : super(key: key);
+
+  String filterVehicleDataByDataTypeValue(Vehicle vehicle, String value) {
+    switch (value) {
+      case 'killsPerMinute':
+        return vehicle.killsPerMinute?.toStringAsFixed(2) ?? '0.00';
+      case 'timePlayed':
+        return '${numberFormat.format(double.parse(((vehicle.timeIn ?? 0) / 3600.0).toStringAsFixed(2)))}小时';
+      case 'destroyCount':
+        return numberFormat.format(vehicle.vehiclesDestroyedWith ?? 0);
+      default:
+        return numberFormat.format(vehicle.timeIn ?? 0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> expandChildren = [
       Expanded(
-          flex: 2,
+          flex: 3,
           child: Text(vehicle.vehicleName ?? '未知载具',
               textAlign: TextAlign.left,
               style: Theme.of(context).textTheme.bodyMedium)),
@@ -169,9 +244,9 @@ class VehicleListItem extends StatelessWidget {
             ),
           )),
       Expanded(
-          flex: 1,
+          flex: 2,
           child: Text(
-            vehicle.killsPerMinute?.toStringAsFixed(2) ?? '0.00',
+            filterVehicleDataByDataTypeValue(vehicle, dataTypeValue),
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,

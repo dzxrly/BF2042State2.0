@@ -8,10 +8,28 @@ import 'package:provider/provider.dart';
 import '../api/player_info.dart';
 import '../model/player_info_model.dart';
 
-class WeaponList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+enum DataType {
+  secondsPlayed('时长', 'timePlayed'),
+  headshotRate('爆头率', 'headshotRate'),
+  accuracy('命中率', 'accuracy'),
+  efficiency('效率', 'efficiency');
 
-  WeaponList({Key? key}) : super(key: key);
+  const DataType(this.label, this.value);
+
+  final String label;
+  final String value;
+}
+
+class WeaponList extends StatefulWidget {
+  const WeaponList({Key? key}) : super(key: key);
+
+  @override
+  WeaponListState createState() => WeaponListState();
+}
+
+class WeaponListState extends State<WeaponList> {
+  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  String dataTypeValue = 'timePlayed';
 
   void showWeaponDetails(BuildContext context, Weapon weapon) {
     final List<InfoListItemContent> weaponDetailList = [
@@ -44,9 +62,7 @@ class WeaponList extends StatelessWidget {
           showValue: (weapon.multiKills ?? 0).toDouble(),
           fractionDigits: 0),
       InfoListItemContent(
-          keyName: '每次击杀命中数',
-          showValue: weapon.hitVKills ?? 0.0,
-          fractionDigits: 2),
+          keyName: '效率', showValue: weapon.hitVKills ?? 0.0, fractionDigits: 2),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -94,6 +110,28 @@ class WeaponList extends StatelessWidget {
         ));
   }
 
+  void setDataTypeValue(String value) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: DataType.values.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(DataType.values[index].label),
+              value: DataType.values[index].value,
+              groupValue: dataTypeValue,
+              onChanged: (value) {
+                setState(() {
+                  dataTypeValue = value.toString();
+                });
+                Navigator.pop(context);
+              },
+            );
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
@@ -115,13 +153,30 @@ class WeaponList extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                child: Text('时长 (小时)',
-                    textAlign: TextAlign.right,
-                    style: Theme.of(context).textTheme.bodyLarge)),
+                child: InkWell(
+                    onTap: () => {setDataTypeValue(dataTypeValue)},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                            DataType.values
+                                .firstWhere(
+                                    (element) => element.value == dataTypeValue)
+                                .label,
+                            textAlign: TextAlign.right,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        Icon(Icons.arrow_drop_down,
+                            color: Theme.of(context).colorScheme.primary)
+                      ],
+                    ))),
           ],
           listChild: ListView.builder(
             shrinkWrap: true,
-            prototypeItem: WeaponListItem(weapon: Weapon()),
+            prototypeItem: WeaponListItem(
+              weapon: Weapon(),
+              dataTypeValue: dataTypeValue,
+            ),
             itemCount: playerInfo.playerInfo?.weapons?.length ?? 0,
             itemBuilder: (context, index) {
               return WeaponListItem(
@@ -130,6 +185,7 @@ class WeaponList extends StatelessWidget {
                       playerInfo.playerInfo?.weapons?[index] ?? Weapon())
                 },
                 weapon: playerInfo.playerInfo?.weapons?[index] ?? Weapon(),
+                dataTypeValue: dataTypeValue,
               );
             },
           ));
@@ -139,11 +195,29 @@ class WeaponList extends StatelessWidget {
 
 class WeaponListItem extends StatelessWidget {
   final Weapon weapon;
+  final String dataTypeValue;
   final Function? onTap;
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  WeaponListItem({Key? key, required this.weapon, this.onTap})
+  WeaponListItem(
+      {Key? key, required this.weapon, required this.dataTypeValue, this.onTap})
       : super(key: key);
+
+  String filterWeaponDataByDataTypeValue(Weapon weapon, String value) {
+    switch (value) {
+      case 'timePlayed':
+        return '${numberFormat.format(double.parse(((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2)))}小时';
+      case 'headshotRate':
+        return '${((weapon.headshotKills ?? 0) / (weapon.kills ?? 1) * 100).toStringAsFixed(2)}%';
+      case 'accuracy':
+        return '${((weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1) * 100).toStringAsFixed(2)}%';
+      case 'efficiency':
+        return (weapon.hitVKills ?? 0.0).toStringAsFixed(2);
+      default:
+        return numberFormat.format(double.parse(
+            ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2)));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,8 +249,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-        numberFormat.format(double.parse(
-            ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2))),
+            filterWeaponDataByDataTypeValue(weapon, dataTypeValue),
         textAlign: TextAlign.right,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
