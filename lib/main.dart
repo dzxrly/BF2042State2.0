@@ -4,6 +4,7 @@ import 'package:battlefield_2042_state/screen/login_screen.dart';
 import 'package:battlefield_2042_state/theme/color_schemes.g.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -57,8 +58,44 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() => MainScreenState();
+}
+
+class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
+  final SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.transparent,
+  );
+
+  void transparentSystemUi() {
+    SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      transparentSystemUi();
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    transparentSystemUi();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,25 +113,25 @@ class MainScreen extends StatelessWidget {
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth < WidthBreakpoints.minS) {
-            return const LoginScreen(
-              loginScreenWidthScale: 0.85,
-              playerInfoCardWidthScale: 0.95,
-            );
-          } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
-          } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
-          } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
-          } else {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
-          }
-        }));
+              if (constraints.maxWidth < WidthBreakpoints.minS) {
+                return const LoginScreen(
+                  loginScreenWidthScale: 0.85,
+                  playerInfoCardWidthScale: 0.95,
+                );
+              } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
+              } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
+              } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
+              } else {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
+              }
+            }));
   }
 }
 
