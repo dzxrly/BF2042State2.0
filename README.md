@@ -10,16 +10,23 @@
 
 ## 下载地址
 
-Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042State2.0/releases/latest)
+- Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
-网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
+- 网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
-> 由于开发者没有苹果设备，暂时不提供iOS版本。
+- iOS版本: 由于开发者没有苹果设备，暂时不提供iOS版本
 
 ## 开发计划
 
 [BF2042State V2 开发计划](https://github.com/users/dzxrly/projects/3)
 
-## 请我喝一杯咖啡
+---
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/F1F0PZH7X)
+<div style="display: flex; justify-content: start; align-items: center;">
+    <div style="display: flex; flex-direction: row; justify-content: center; align-items: center; background-color: #4BFCDD; padding: 15px 25px; border: none; border-radius: 19px; box-shadow: 0 5px 5px -3px #0003, 0 8px 10px 1px #00000024, 0 3px 14px 2px #0000001f; cursor: pointer;">
+        <a href="https://ko-fi.com/F1F0PZH7X" target="_blank" style="text-decoration: none;">
+            <img src="./img/coffee.svg" width="24" height="24"></img>
+            <button style="background-color: transparent; border: none; color: #000000; letter-spacing: 3px; font-size: 20px; font-weight: 500; text-align: center;">请我喝一杯咖啡~</button>
+        </a>
+    </div>
+</div>
