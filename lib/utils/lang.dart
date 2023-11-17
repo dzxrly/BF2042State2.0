@@ -65,7 +65,7 @@ class Translator {
   static Map<int, String> bfbanStatusMap = {
     -3: '网络错误',
     -2: '正在查询',
-    -1: '无结果',
+    -1: '无记录',
     0: '未处理',
     1: '挂逼',
     2: '待自证',

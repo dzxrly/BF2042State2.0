@@ -175,24 +175,71 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8)),
                               FittedBox(
-                                fit: BoxFit.fitWidth,
-                                child: Text(
-                                  Translator.bfbanStatusTranslate(bfbanStatus),
-                                  style: TextStyle(
-                                    fontWeight: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.fontWeight,
-                                    fontSize: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.fontSize,
-                                    color: bfbanStatus != 1
-                                        ? Theme.of(context).colorScheme.primary
-                                        : Theme.of(context).colorScheme.error,
-                                  ),
-                                ),
-                              ),
+                                  fit: BoxFit.fitWidth,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      bfbanStatus != -2
+                                          ? Icon(
+                                              bfbanStatus == -1
+                                                  ? Icons.check_circle_outline
+                                                  : Icons.error_outline,
+                                              size: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              color: bfbanStatus != 1
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .primary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                            )
+                                          : SizedBox(
+                                              width: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              height: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
+                                      const Padding(
+                                          padding: EdgeInsets.only(left: 2)),
+                                      Text(
+                                        Translator.bfbanStatusTranslate(
+                                            bfbanStatus),
+                                        style: TextStyle(
+                                          fontWeight: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.fontWeight,
+                                          fontSize: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium
+                                              ?.fontSize,
+                                          color: bfbanStatus != 1
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .error,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                             ],
                           ),
                         ),
