@@ -181,41 +181,41 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       bfbanStatus != -2
                                           ? Icon(
-                                        bfbanStatus == -1
-                                            ? Icons.check_circle_outline
-                                            : Icons.error_outline,
-                                        size: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        color: bfbanStatus != 1
-                                            ? Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            : Theme.of(context)
-                                            .colorScheme
-                                            .error,
-                                      )
+                                              bfbanStatus == -1
+                                                  ? Icons.check_circle_outline
+                                                  : Icons.error_outline,
+                                              size: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              color: bfbanStatus != 1
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .primary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                            )
                                           : SizedBox(
-                                        width: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        height: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
+                                              width: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              height: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
                                       const Padding(
                                           padding: EdgeInsets.only(left: 2)),
                                       Text(
@@ -232,11 +232,11 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                               ?.fontSize,
                                           color: bfbanStatus != 1
                                               ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
+                                                  .colorScheme
+                                                  .primary
                                               : Theme.of(context)
-                                              .colorScheme
-                                              .error,
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ),
                                     ],

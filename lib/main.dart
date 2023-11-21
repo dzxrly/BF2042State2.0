@@ -112,25 +112,25 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth < WidthBreakpoints.minS) {
-                return const LoginScreen(
-                  loginScreenWidthScale: 0.85,
-                  playerInfoCardWidthScale: 0.95,
-                );
-              } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
-              } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
-              } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
-              } else {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
-              }
-            }));
+          if (constraints.maxWidth < WidthBreakpoints.minS) {
+            return const LoginScreen(
+              loginScreenWidthScale: 0.85,
+              playerInfoCardWidthScale: 0.95,
+            );
+          } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
+          } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
+          } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
+          } else {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
+          }
+        }));
   }
 }
 

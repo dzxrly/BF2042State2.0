@@ -19,6 +19,7 @@ class InfoListItem extends StatelessWidget {
   final double? showValue;
   final String? showValueString;
   final int? fractionDigits;
+  final Color? textColor;
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
   InfoListItem(
@@ -26,6 +27,7 @@ class InfoListItem extends StatelessWidget {
       this.showValue,
       this.showValueString,
       this.fractionDigits,
+      this.textColor,
       Key? key})
       : super(key: key);
 
@@ -45,7 +47,7 @@ class InfoListItem extends StatelessWidget {
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
               fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
-              color: Theme.of(context).colorScheme.primary,
+              color: textColor ?? Theme.of(context).colorScheme.primary,
             ),
           )
         ],

@@ -249,7 +249,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-            filterWeaponDataByDataTypeValue(weapon, dataTypeValue),
+        filterWeaponDataByDataTypeValue(weapon, dataTypeValue),
         textAlign: TextAlign.right,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

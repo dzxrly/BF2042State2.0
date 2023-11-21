@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:battlefield_2042_state/api/player_info.dart';
-import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:http/http.dart' as http;
 
+import 'bf_play_info.dart';
 import 'bfban_check.dart';
+import 'player_info.dart';
+import 'version_check.dart';
 
 class APIBase {
   final String gametoolsBaseAPI = 'https://api.gametools.network';
@@ -36,6 +37,27 @@ class PlayerInfoAPI extends APIBase {
           response.statusCode == 503 ||
           response.statusCode == 504) {
         throw 'Gametools服务器错误，请稍后再试';
+      } else {
+        throw '似乎发生了网络错误，请重试';
+      }
+    } on TimeoutException catch (_) {
+      throw '请求超时，请稍后再试';
+    } catch (_) {
+      throw '似乎发生了错误，请重试';
+    }
+  }
+}
+
+class BFPlayInfoAPI extends APIBase {
+  Future<BFPlayInfo> fetchBFPlayInfo(String playerId) async {
+    final String url = '$gametoolsBaseAPI/bfglobal/games/?playerid=$playerId';
+    try {
+      final response = await http.get(Uri.parse(url)).timeout(timeout);
+
+      if (response.statusCode == 200) {
+        return BFPlayInfo.fromJson(jsonDecode(response.body));
+      } else if (response.statusCode == 404) {
+        throw '查找的玩家不存在!';
       } else {
         throw '似乎发生了网络错误，请重试';
       }
