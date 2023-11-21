@@ -72,7 +72,6 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   void transparentSystemUi() {
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
   @override
