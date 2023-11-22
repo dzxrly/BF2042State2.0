@@ -160,6 +160,7 @@ class VehicleListState extends State<VehicleList> {
             Expanded(
                 flex: 2,
                 child: InkWell(
+                    borderRadius: BorderRadius.circular(19),
                     onTap: () => {setDataTypeValue(dataTypeValue)},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -172,8 +173,11 @@ class VehicleListState extends State<VehicleList> {
                                 .label,
                             textAlign: TextAlign.right,
                             style: Theme.of(context).textTheme.bodyLarge),
-                        Icon(Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary)
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 16,
+                        )
                       ],
                     ))),
           ],

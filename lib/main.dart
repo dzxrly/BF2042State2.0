@@ -75,11 +75,19 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   }
 
+  void forcePortrait() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.resumed) {
       transparentSystemUi();
+      forcePortrait();
     }
   }
 
@@ -88,6 +96,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // TODO: implement initState
     super.initState();
     transparentSystemUi();
+    forcePortrait();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -100,6 +109,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           actions: [
             IconButton(

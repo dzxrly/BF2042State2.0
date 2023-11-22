@@ -154,20 +154,23 @@ class WeaponListState extends State<WeaponList> {
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 child: InkWell(
+                    borderRadius: BorderRadius.circular(19),
                     onTap: () => {setDataTypeValue(dataTypeValue)},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                            DataType.values
-                                .firstWhere(
-                                    (element) => element.value == dataTypeValue)
-                                .label,
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context).textTheme.bodyLarge),
+                          DataType.values
+                              .firstWhere(
+                                  (element) => element.value == dataTypeValue)
+                              .label,
+                          textAlign: TextAlign.right,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                         Icon(Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary)
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 16)
                       ],
                     ))),
           ],

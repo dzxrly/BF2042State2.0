@@ -40,17 +40,18 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        LoginContainer(
-          loginScreenWidthScale: loginScreenWidthScale,
-          playerInfoCardWidthScale: playerInfoCardWidthScale,
-        )
-      ],
-    ));
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            LoginContainer(
+              loginScreenWidthScale: loginScreenWidthScale,
+              playerInfoCardWidthScale: playerInfoCardWidthScale,
+            )
+          ],
+        ));
   }
 }
 
@@ -241,9 +242,7 @@ class LoginFormState extends State<LoginForm>
         Navigator.push(
           context,
           CupertinoPageRoute(
-            builder: (context) => PlayerInfoScreen(
-              playerInfoCardWidthScale: playerInfoCardWidthScale,
-            ),
+            builder: (context) => PlayerInfoScreen(),
           ),
         );
         setState(() {
