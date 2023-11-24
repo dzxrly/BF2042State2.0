@@ -10,6 +10,7 @@ class TouchableListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(19),
       onTap: onTap as void Function()?,
       child: Container(
         padding: const EdgeInsets.only(left: 8, right: 8, top: 16, bottom: 16),

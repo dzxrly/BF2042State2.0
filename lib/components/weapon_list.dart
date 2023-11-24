@@ -74,7 +74,7 @@ class WeaponListState extends State<WeaponList> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -82,7 +82,7 @@ class WeaponListState extends State<WeaponList> {
                         fit: BoxFit.scaleDown,
                         child: Text(weapon.weaponName ?? '未知武器',
                             style: Theme.of(context).textTheme.titleLarge)),
-                    const Padding(padding: EdgeInsets.only(left: 8)),
+                    const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(
@@ -110,7 +110,7 @@ class WeaponListState extends State<WeaponList> {
         ));
   }
 
-  void setDataTypeValue(String value) {
+  void setDataTypeValue(BuildContext context, String value) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
         context,
         ListView.builder(
@@ -155,7 +155,7 @@ class WeaponListState extends State<WeaponList> {
             Expanded(
                 child: InkWell(
                     borderRadius: BorderRadius.circular(19),
-                    onTap: () => {setDataTypeValue(dataTypeValue)},
+                    onTap: () => {setDataTypeValue(context, dataTypeValue)},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,10 +226,13 @@ class WeaponListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> expandChildren = [
       Expanded(
-          child: Text(weapon.weaponName ?? '未知武器',
-              softWrap: true,
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.bodyMedium)),
+          child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(weapon.weaponName ?? '未知武器',
+            softWrap: true,
+            textAlign: TextAlign.left,
+            style: Theme.of(context).textTheme.bodyMedium),
+      )),
       Expanded(
           child: Text(
         numberFormat.format(weapon.kills ?? 0),

@@ -395,7 +395,7 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                               const OverviewList(),
                               const WeaponList(),
                               const VehicleList(),
-                              GadgetList(),
+                              const GadgetList(),
                               ClassesList(),
                               GameModeList(),
                               MapList(),

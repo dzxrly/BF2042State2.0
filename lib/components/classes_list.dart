@@ -140,10 +140,13 @@ class ClassesListItem extends StatelessWidget {
     final List<Widget> expandChildren = [
       Expanded(
           flex: 2,
-          child: Text(
-              Translator.classesTranslate(classes.characterName ?? '未知专家'),
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.bodyMedium)),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+                Translator.classesTranslate(classes.characterName ?? '未知专家'),
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyMedium),
+          )),
       Expanded(
           flex: 2,
           child: Text(

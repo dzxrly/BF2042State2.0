@@ -123,25 +123,25 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              if (constraints.maxWidth < WidthBreakpoints.minS) {
-                return const LoginScreen(
-                  loginScreenWidthScale: 0.85,
-                  playerInfoCardWidthScale: 0.95,
-                );
-              } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
-              } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
-              } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
-              } else {
-                return const LoginScreen(
-                    loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
-              }
-            }));
+          if (constraints.maxWidth < WidthBreakpoints.minS) {
+            return const LoginScreen(
+              loginScreenWidthScale: 0.85,
+              playerInfoCardWidthScale: 0.95,
+            );
+          } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
+          } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
+          } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
+          } else {
+            return const LoginScreen(
+                loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
+          }
+        }));
   }
 }
 
@@ -198,7 +198,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
-                    Theme.of(context).textTheme.bodySmall?.fontWeight,
+                        Theme.of(context).textTheme.bodySmall?.fontWeight,
                     color: Theme.of(context).colorScheme.primary,
                   )),
               const Padding(padding: EdgeInsets.only(left: 8)),
@@ -206,7 +206,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
-                    Theme.of(context).textTheme.bodySmall?.fontWeight,
+                        Theme.of(context).textTheme.bodySmall?.fontWeight,
                     color: Theme.of(context).colorScheme.primary,
                   )),
             ],
@@ -227,9 +227,9 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   Text('Github',
                       style: TextStyle(
                         fontSize:
-                        Theme.of(context).textTheme.bodySmall?.fontSize,
+                            Theme.of(context).textTheme.bodySmall?.fontSize,
                         fontWeight:
-                        Theme.of(context).textTheme.bodySmall?.fontWeight,
+                            Theme.of(context).textTheme.bodySmall?.fontWeight,
                         color: Theme.of(context).colorScheme.primary,
                       )),
                 ],
@@ -237,9 +237,9 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
           const Divider(),
           Text(
             '本应用由 Egg Targaryen 开发 (橘子: Xx__Koraidon__xX)。'
-                '玩家数据接口来自 gametools.network，非常感谢其提供的接口。'
-                'BFBan数据来自 bfban.com，结果仅供参考，'
-                '本应用及作者不对该结果负责，如有疑问请自行联系BFBan。',
+            '玩家数据接口来自 gametools.network，非常感谢其提供的接口。'
+            'BFBan数据来自 bfban.com，结果仅供参考，'
+            '本应用及作者不对该结果负责，如有疑问请自行联系BFBan。',
             softWrap: true,
             style: Theme.of(context).textTheme.bodyMedium,
           )

@@ -8,10 +8,27 @@ import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
-class GadgetList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+enum DataType {
+  kpm('KPM', 'killsPerMinute'),
+  uses('使用', 'uses'),
+  destroyCount('摧毁载具', 'destroyCount');
 
-  GadgetList({Key? key}) : super(key: key);
+  const DataType(this.label, this.value);
+
+  final String label;
+  final String value;
+}
+
+class GadgetList extends StatefulWidget {
+  const GadgetList({Key? key}) : super(key: key);
+
+  @override
+  GadgetListState createState() => GadgetListState();
+}
+
+class GadgetListState extends State<GadgetList> {
+  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  String dataTypeValue = 'killsPerMinute';
 
   void showVehicleDetails(BuildContext context, Gadget gadget) {
     final List<InfoListItemContent> gadgetDetailList = [
@@ -57,11 +74,6 @@ class GadgetList extends StatelessWidget {
                       child: Text(gadget.gadgetName ?? '未知装备',
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 8)),
-                    Badge(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        label:
-                            Text('使用${numberFormat.format(gadget.uses ?? 0)}次'))
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -85,7 +97,28 @@ class GadgetList extends StatelessWidget {
         ));
   }
 
-  @override
+  void setDataTypeValue(BuildContext context, String value) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: DataType.values.length,
+          itemBuilder: (context, index) {
+            return RadioListTile(
+              title: Text(DataType.values[index].label),
+              value: DataType.values[index].value,
+              groupValue: dataTypeValue,
+              onChanged: (value) {
+                setState(() {
+                  dataTypeValue = value.toString();
+                });
+                Navigator.pop(context);
+              },
+            );
+          },
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
@@ -95,7 +128,7 @@ class GadgetList extends StatelessWidget {
       return TouchableList(
           listTitle: [
             Expanded(
-                flex: 3,
+                flex: 2,
                 child: Text('装备名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
@@ -103,15 +136,40 @@ class GadgetList extends StatelessWidget {
             Expanded(
                 flex: 1,
                 child: Text('击杀数',
-                    textAlign: TextAlign.right,
+                    textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
+            Expanded(
+                flex: 1,
+                child: InkWell(
+                    borderRadius: BorderRadius.circular(19),
+                    onTap: () => {setDataTypeValue(context, dataTypeValue)},
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                            DataType.values
+                                .firstWhere(
+                                    (element) => element.value == dataTypeValue)
+                                .label,
+                            textAlign: TextAlign.right,
+                            style: Theme.of(context).textTheme.bodyLarge),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 16,
+                        )
+                      ],
+                    )))
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: GadgetListItem(gadget: Gadget()),
+              prototypeItem: GadgetListItem(
+                  dataTypeValue: dataTypeValue, gadget: Gadget()),
               itemCount: playerInfo.playerInfo?.vehicles?.length ?? 0,
               itemBuilder: (context, index) {
                 return GadgetListItem(
+                  dataTypeValue: dataTypeValue,
                   gadget: playerInfo.playerInfo?.gadgets?[index] ?? Gadget(),
                   onTap: () => {
                     showVehicleDetails(context,
@@ -125,31 +183,60 @@ class GadgetList extends StatelessWidget {
 
 class GadgetListItem extends StatelessWidget {
   final Gadget gadget;
+  final String dataTypeValue;
   final Function? onTap;
   final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  GadgetListItem({Key? key, required this.gadget, this.onTap})
+  GadgetListItem(
+      {Key? key, required this.gadget, required this.dataTypeValue, this.onTap})
       : super(key: key);
+
+  String filterGadgetDataByDataTypeValue(Gadget gadget, String value) {
+    switch (value) {
+      case 'killsPerMinute':
+        return gadget.kpm.toString();
+      case 'uses':
+        return '${gadget.uses.toString()}次';
+      case 'destroyCount':
+        return gadget.vehiclesDestroyedWith.toString();
+      default:
+        return gadget.kpm.toString();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> expandChildren = [
       Expanded(
-          flex: 3,
-          child: Text(gadget.gadgetName ?? '未知装备',
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.bodyMedium)),
+          flex: 2,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(gadget.gadgetName ?? '未知装备',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyMedium),
+          )),
       Expanded(
           flex: 1,
           child: Text(
             numberFormat.format(gadget.kills ?? 0),
-            textAlign: TextAlign.right,
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
               fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
               color: Theme.of(context).colorScheme.primary,
             ),
           )),
+      Expanded(
+          flex: 1,
+          child: Text(
+            filterGadgetDataByDataTypeValue(gadget, dataTypeValue),
+            textAlign: TextAlign.right,
+            style: TextStyle(
+              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+              color: Theme.of(context).colorScheme.primary,
+            ),
+          ))
     ];
 
     return TouchableListItem(

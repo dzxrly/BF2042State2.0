@@ -138,9 +138,13 @@ class MapListItem extends StatelessWidget {
     final List<Widget> expandChildren = [
       Expanded(
           flex: 2,
-          child: Text(Translator.gameMapTranslate(mapElement.mapName ?? '未知地图'),
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.bodyMedium)),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(
+                Translator.gameMapTranslate(mapElement.mapName ?? '未知地图'),
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyMedium),
+          )),
       Expanded(
           flex: 1,
           child: Text(

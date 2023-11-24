@@ -79,7 +79,7 @@ class VehicleListState extends State<VehicleList> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -88,7 +88,7 @@ class VehicleListState extends State<VehicleList> {
                       child: Text(vehicle.vehicleName ?? '未知载具',
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 8)),
+                    const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(
@@ -116,7 +116,7 @@ class VehicleListState extends State<VehicleList> {
         ));
   }
 
-  void setDataTypeValue(String value) {
+  void setDataTypeValue(BuildContext context, String value) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
         context,
         ListView.builder(
@@ -147,7 +147,7 @@ class VehicleListState extends State<VehicleList> {
       return TouchableList(
           listTitle: [
             Expanded(
-                flex: 3,
+                flex: 2,
                 child: Text('载具名称',
                     softWrap: true,
                     textAlign: TextAlign.left,
@@ -158,10 +158,10 @@ class VehicleListState extends State<VehicleList> {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                flex: 2,
+                flex: 1,
                 child: InkWell(
                     borderRadius: BorderRadius.circular(19),
-                    onTap: () => {setDataTypeValue(dataTypeValue)},
+                    onTap: () => {setDataTypeValue(context, dataTypeValue)},
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -232,10 +232,13 @@ class VehicleListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> expandChildren = [
       Expanded(
-          flex: 3,
-          child: Text(vehicle.vehicleName ?? '未知载具',
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.bodyMedium)),
+          flex: 2,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Text(vehicle.vehicleName ?? '未知载具',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyMedium),
+          )),
       Expanded(
           flex: 1,
           child: Text(
@@ -248,7 +251,7 @@ class VehicleListItem extends StatelessWidget {
             ),
           )),
       Expanded(
-          flex: 2,
+          flex: 1,
           child: Text(
             filterVehicleDataByDataTypeValue(vehicle, dataTypeValue),
             textAlign: TextAlign.right,
