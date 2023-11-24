@@ -222,6 +222,22 @@ class PlayerInfoScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        if (playerInfo.iconData != null)
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              FaIcon(
+                                playerInfo.iconData,
+                                size: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.fontSize,
+                              ),
+                              const Padding(padding: EdgeInsets.only(left: 4)),
+                            ],
+                          ),
                         Text(
                           'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
                           style: TextStyle(
@@ -261,30 +277,32 @@ class PlayerInfoScreen extends StatelessWidget {
               ],
             ),
           )),
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              if (constraints.maxWidth < WidthBreakpoints.minS) {
-                return const PlayerInfoMainContent(
-                  playerInfoCardWidthScale: 0.95,
-                );
-              } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-                return const PlayerInfoMainContent(
-                  playerInfoCardWidthScale: 0.7,
-                );
-              } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-                return const PlayerInfoMainContent(
-                  playerInfoCardWidthScale: 0.6,
-                );
-              } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-                return const PlayerInfoMainContent(
-                  playerInfoCardWidthScale: 0.5,
-                );
-              } else {
-                return const PlayerInfoMainContent(
-                  playerInfoCardWidthScale: 0.4,
-                );
-              }
-            },
+          body: SafeArea(
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                if (constraints.maxWidth < WidthBreakpoints.minS) {
+                  return const PlayerInfoMainContent(
+                    playerInfoCardWidthScale: 0.95,
+                  );
+                } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+                  return const PlayerInfoMainContent(
+                    playerInfoCardWidthScale: 0.7,
+                  );
+                } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+                  return const PlayerInfoMainContent(
+                    playerInfoCardWidthScale: 0.6,
+                  );
+                } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+                  return const PlayerInfoMainContent(
+                    playerInfoCardWidthScale: 0.5,
+                  );
+                } else {
+                  return const PlayerInfoMainContent(
+                    playerInfoCardWidthScale: 0.4,
+                  );
+                }
+              },
+            ),
           ));
     });
   }

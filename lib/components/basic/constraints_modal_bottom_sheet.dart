@@ -14,7 +14,8 @@ class ConstraintsModalBottomSheet {
           ),
         ),
         builder: (BuildContext context) {
-          return AnimatedPadding(
+          return SafeArea(
+              child: AnimatedPadding(
             padding: MediaQuery.of(context).viewInsets,
             duration: const Duration(milliseconds: 150),
             child: Container(
@@ -25,7 +26,7 @@ class ConstraintsModalBottomSheet {
               padding: const EdgeInsets.all(16),
               child: child,
             ),
-          );
+          ));
         });
   }
 }

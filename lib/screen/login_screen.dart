@@ -21,11 +21,11 @@ enum Platform {
   psn('PlayStation (PSN)', 'psn', FaIcon(FontAwesomeIcons.playstation)),
   xboxseries('XBOX SERIES X/S', 'xboxseries', FaIcon(FontAwesomeIcons.xbox));
 
-  const Platform(this.label, this.value, [this.icon]);
+  const Platform(this.label, this.value, this.icon);
 
   final String label;
   final String value;
-  final FaIcon? icon;
+  final FaIcon icon;
 }
 
 class LoginScreen extends StatelessWidget {
@@ -41,16 +41,18 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            LoginContainer(
-              loginScreenWidthScale: loginScreenWidthScale,
-              playerInfoCardWidthScale: playerInfoCardWidthScale,
-            )
-          ],
+        body: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              LoginContainer(
+                loginScreenWidthScale: loginScreenWidthScale,
+                playerInfoCardWidthScale: playerInfoCardWidthScale,
+              )
+            ],
+          ),
         ));
   }
 }
@@ -237,8 +239,12 @@ class LoginFormState extends State<LoginForm>
         } else {
           throw '该用户似乎没有玩过战地2042';
         }
-        Provider.of<PlayerInfoModel>(context, listen: false)
-            .updatePlayerInfo(response);
+        Provider.of<PlayerInfoModel>(context, listen: false).updatePlayerInfo(
+            response,
+            Platform.values
+                .firstWhere((element) => element.value == platformName)
+                .icon
+                .icon);
         Navigator.push(
           context,
           CupertinoPageRoute(
@@ -270,6 +276,12 @@ class LoginFormState extends State<LoginForm>
                         itemCount: queryHistory.playerUidHistory.length,
                         itemBuilder: (BuildContext context, int index) {
                           return ListTile(
+                            // set leading icon to platform icon
+                            leading: Platform.values
+                                .firstWhere((element) =>
+                                    element.value ==
+                                    queryHistory.playerPlatformHistory[index])
+                                .icon,
                             title: Text(
                               queryHistory.playerNameHistory[index],
                               style: Theme.of(context).textTheme.titleMedium,
@@ -281,18 +293,18 @@ class LoginFormState extends State<LoginForm>
                             onTap: () {
                               setState(() {
                                 platformName =
-                                    queryHistory.playerPlatformHistory[index];
+                                queryHistory.playerPlatformHistory[index];
                                 // set platformName to platformController, by platform value index platform label
                                 platformController.text = Platform.values
                                     .firstWhere((element) =>
-                                        element.value ==
-                                        queryHistory
-                                            .playerPlatformHistory[index])
+                                element.value ==
+                                    queryHistory
+                                        .playerPlatformHistory[index])
                                     .label;
                                 playerName =
-                                    queryHistory.playerNameHistory[index];
+                                queryHistory.playerNameHistory[index];
                                 playerUid =
-                                    queryHistory.playerUidHistory[index];
+                                queryHistory.playerUidHistory[index];
                                 playerNameController.text = enablePlayerUidQuery
                                     ? queryHistory.playerUidHistory[index]
                                     : queryHistory.playerNameHistory[index];
