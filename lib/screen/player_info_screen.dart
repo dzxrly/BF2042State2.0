@@ -376,9 +376,8 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TabBar(
-                          splashBorderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(19),
-                              topRight: Radius.circular(19)),
+                          splashBorderRadius:
+                              const BorderRadius.all(Radius.circular(19)),
                           isScrollable: true,
                           tabs: TabList.values
                               .map((e) => Tab(
