@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/error_snackbar.dart';
@@ -32,10 +34,9 @@ class LoginScreen extends StatelessWidget {
   final double loginScreenWidthScale;
   final double playerInfoCardWidthScale;
 
-  const LoginScreen(
-      {required this.loginScreenWidthScale,
-      required this.playerInfoCardWidthScale,
-      super.key});
+  const LoginScreen({required this.loginScreenWidthScale,
+    required this.playerInfoCardWidthScale,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +62,9 @@ class LoginContainer extends StatelessWidget {
   final double loginScreenWidthScale;
   final double playerInfoCardWidthScale;
 
-  const LoginContainer(
-      {required this.loginScreenWidthScale,
-      required this.playerInfoCardWidthScale,
-      super.key});
+  const LoginContainer({required this.loginScreenWidthScale,
+    required this.playerInfoCardWidthScale,
+    super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -72,35 +72,35 @@ class LoginContainer extends StatelessWidget {
 
     return Center(
         child: Column(children: [
-      SvgPicture.asset(
-        'assets/bf_2042_white_logo.svg',
-        colorFilter: ColorFilter.mode(
-          Theme.of(context).colorScheme.primary,
-          BlendMode.modulate,
-        ),
-        width: formWidth,
-      ),
-      Container(
-          margin: const EdgeInsets.only(top: 4),
-          padding: const EdgeInsets.only(top: 2, bottom: 2),
-          color: Theme.of(context).colorScheme.primary,
-          width: formWidth,
-          child: Text(
-            '战绩查询助手',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
-              fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-              letterSpacing: 10,
+          SvgPicture.asset(
+            'assets/bf_2042_white_logo.svg',
+            colorFilter: ColorFilter.mode(
+              Theme.of(context).colorScheme.primary,
+              BlendMode.modulate,
             ),
-            textAlign: TextAlign.center,
-          )),
-      const Padding(padding: EdgeInsets.only(top: 16)),
-      LoginForm(
-        loginScreenWidthScale: loginScreenWidthScale,
-        playerInfoCardWidthScale: playerInfoCardWidthScale,
-      ),
-    ]));
+            width: formWidth,
+          ),
+          Container(
+              margin: const EdgeInsets.only(top: 4),
+              padding: const EdgeInsets.only(top: 2, bottom: 2),
+              color: Theme.of(context).colorScheme.primary,
+              width: formWidth,
+              child: Text(
+                '战绩查询助手',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+                  fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
+                  letterSpacing: 10,
+                ),
+                textAlign: TextAlign.center,
+              )),
+          const Padding(padding: EdgeInsets.only(top: 16)),
+          LoginForm(
+            loginScreenWidthScale: loginScreenWidthScale,
+            playerInfoCardWidthScale: playerInfoCardWidthScale,
+          ),
+        ]));
   }
 }
 
@@ -108,10 +108,9 @@ class LoginForm extends StatefulWidget {
   final double loginScreenWidthScale;
   final double playerInfoCardWidthScale;
 
-  const LoginForm(
-      {required this.loginScreenWidthScale,
-      required this.playerInfoCardWidthScale,
-      super.key});
+  const LoginForm({required this.loginScreenWidthScale,
+    required this.playerInfoCardWidthScale,
+    super.key});
 
   @override
   LoginFormState createState() => LoginFormState();
@@ -146,7 +145,7 @@ class LoginFormState extends State<LoginForm>
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
         currentVersionName = packageInfo.version ?? '0.0.0';
         GiteeVersionCheck giteeVersionCheck =
-            await giteeVersionCheckAPI.fetchGiteeVersionCheck();
+        await giteeVersionCheckAPI.fetchGiteeVersionCheck();
         if (giteeVersionCheck.tagName != null &&
             giteeVersionCheck.assets != null &&
             giteeVersionCheck.assets!.isNotEmpty) {
@@ -201,10 +200,8 @@ class LoginFormState extends State<LoginForm>
     );
   }
 
-  void queryBtnOnPressed(
-    BuildContext context,
-    double playerInfoCardWidthScale,
-  ) async {
+  void queryBtnOnPressed(BuildContext context,
+      double playerInfoCardWidthScale,) async {
     platformFocusNode.unfocus();
     playerNameFocusNode.unfocus();
     if (platformName == null ||
@@ -220,10 +217,10 @@ class LoginFormState extends State<LoginForm>
       });
       playerInfoAPI
           .fetchPlayerInfo(
-              platformName!.trim(),
-              enablePlayerUidQuery ? '' : playerName!.trim(),
-              enablePlayerUidQuery ? playerUid!.trim() : '',
-              enablePlayerUidQuery)
+          platformName!.trim(),
+          enablePlayerUidQuery ? '' : playerName!.trim(),
+          enablePlayerUidQuery ? playerUid!.trim() : '',
+          enablePlayerUidQuery)
           .then((response) {
         if (response.userName != null &&
             response.userId != null &&
@@ -236,25 +233,26 @@ class LoginFormState extends State<LoginForm>
             platformName!,
             response.userId.toString(),
           );
+          Provider.of<PlayerInfoModel>(context, listen: false).updatePlayerInfo(
+              response,
+              Platform.values
+                  .firstWhere((element) => element.value == platformName)
+                  .icon
+                  .icon);
+          Navigator.push(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => PlayerInfoScreen(),
+            ),
+          );
         } else {
           throw '该用户似乎没有玩过战地2042';
         }
-        Provider.of<PlayerInfoModel>(context, listen: false).updatePlayerInfo(
-            response,
-            Platform.values
-                .firstWhere((element) => element.value == platformName)
-                .icon
-                .icon);
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => PlayerInfoScreen(),
-          ),
-        );
         setState(() {
           queryBtnLoading = false;
         });
       }).catchError((error) {
+        log(error.toString());
         setState(() {
           queryBtnLoading = false;
         });
@@ -268,60 +266,75 @@ class LoginFormState extends State<LoginForm>
     queryHistory
         .loadHistory()
         .then((value) => {
-              ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
-                context,
-                queryHistory.playerUidHistory.isNotEmpty
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: queryHistory.playerUidHistory.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            // set leading icon to platform icon
-                            leading: Platform.values
-                                .firstWhere((element) =>
-                                    element.value ==
-                                    queryHistory.playerPlatformHistory[index])
-                                .icon,
-                            title: Text(
-                              queryHistory.playerNameHistory[index],
-                              style: Theme.of(context).textTheme.titleMedium,
-                            ),
-                            subtitle: Text(
-                              queryHistory.playerUidHistory[index],
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                            onTap: () {
-                              setState(() {
-                                platformName =
-                                queryHistory.playerPlatformHistory[index];
-                                // set platformName to platformController, by platform value index platform label
-                                platformController.text = Platform.values
+      ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        queryHistory.playerUidHistory.isNotEmpty
+            ? ListView.builder(
+          shrinkWrap: true,
+          itemCount: queryHistory.playerUidHistory.length,
+          itemBuilder: (BuildContext context, int index) {
+                          return Dismissible(
+                              key: Key(queryHistory.playerUidHistory[index]),
+                              onDismissed: (direction) {
+                                queryHistory.deleteHistory(
+                                    queryHistory.playerUidHistory[index]);
+                              },
+                              background: Container(
+                                color: Theme.of(context).colorScheme.error,
+                                child: const Icon(Icons.delete),
+                              ),
+                              child: ListTile(
+                                // set leading icon to platform icon
+                                leading: Platform.values
                                     .firstWhere((element) =>
-                                element.value ==
-                                    queryHistory
-                                        .playerPlatformHistory[index])
-                                    .label;
-                                playerName =
-                                queryHistory.playerNameHistory[index];
-                                playerUid =
-                                queryHistory.playerUidHistory[index];
-                                playerNameController.text = enablePlayerUidQuery
-                                    ? queryHistory.playerUidHistory[index]
-                                    : queryHistory.playerNameHistory[index];
-                              });
-                              Navigator.pop(context);
-                            },
-                          );
+                                        element.value ==
+                                        queryHistory
+                                            .playerPlatformHistory[index])
+                                    .icon,
+                                title: Text(
+                                  queryHistory.playerNameHistory[index],
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                subtitle: Text(
+                                  queryHistory.playerUidHistory[index],
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    platformName = queryHistory
+                                        .playerPlatformHistory[index];
+                                    // set platformName to platformController, by platform value index platform label
+                                    platformController.text = Platform.values
+                                        .firstWhere((element) =>
+                                            element.value ==
+                                            queryHistory
+                                                .playerPlatformHistory[index])
+                                        .label;
+                                    playerName =
+                                        queryHistory.playerNameHistory[index];
+                                    playerUid =
+                                        queryHistory.playerUidHistory[index];
+                                    playerNameController.text =
+                                        enablePlayerUidQuery
+                                            ? queryHistory
+                                                .playerUidHistory[index]
+                                            : queryHistory
+                                                .playerNameHistory[index];
+                                  });
+                                  Navigator.pop(context);
+                                },
+                              ));
                         },
-                      )
-                    : Center(
-                        child: Text(
-                          '暂无查询历史',
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-              )
-            })
+        )
+            : Center(
+          child: Text(
+            '暂无查询历史',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      )
+    })
         .catchError((error) {
       ErrorSnackBar.showErrorSnackBar(
           context, error.toString(), widget.loginScreenWidthScale);
@@ -346,9 +359,9 @@ class LoginFormState extends State<LoginForm>
                 Text(currentVersionName ?? '0.0.0',
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      Theme.of(context).textTheme.titleMedium?.fontSize,
                       fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      Theme.of(context).textTheme.titleMedium?.fontWeight,
                       color: Theme.of(context).colorScheme.primary,
                     )),
                 const Padding(padding: EdgeInsets.only(left: 8)),
@@ -357,9 +370,9 @@ class LoginFormState extends State<LoginForm>
                 Text(newVersionName ?? '0.0.0',
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      Theme.of(context).textTheme.titleMedium?.fontSize,
                       fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      Theme.of(context).textTheme.titleMedium?.fontWeight,
                       color: Theme.of(context).colorScheme.primary,
                     )),
               ],
@@ -380,16 +393,16 @@ class LoginFormState extends State<LoginForm>
                   foregroundColor: Theme.of(context).colorScheme.onPrimary,
                   backgroundColor: Theme.of(context).colorScheme.primary,
                   disabledBackgroundColor:
-                      Theme.of(context).colorScheme.secondaryContainer,
+                  Theme.of(context).colorScheme.secondaryContainer,
                 ),
                 onPressed: () => urlLauncher(latestVersionDownloadUrl ??
                     'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
                 child: Text('点击下载',
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
+                      Theme.of(context).textTheme.titleMedium?.fontSize,
                       fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
+                      Theme.of(context).textTheme.titleMedium?.fontWeight,
                       color: Theme.of(context).colorScheme.onPrimary,
                     ))),
           ],
@@ -427,15 +440,15 @@ class LoginFormState extends State<LoginForm>
                 // if playerName is not null, show clear button
                 suffixIcon: platformName != null
                     ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            platformName = null;
-                            platformController.clear();
-                            platformFocusNode.unfocus();
-                          });
-                        },
-                      )
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      platformName = null;
+                      platformController.clear();
+                      platformFocusNode.unfocus();
+                    });
+                  },
+                )
                     : null,
               ),
               controller: platformController,
@@ -464,29 +477,29 @@ class LoginFormState extends State<LoginForm>
                 // if playerName is not null, show clear button
                 suffixIcon: enablePlayerUidQuery
                     ? playerUid != null
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                playerUid = null;
-                                playerNameController.clear();
-                                playerNameFocusNode.unfocus();
-                              });
-                            },
-                          )
-                        : null
+                    ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      playerUid = null;
+                      playerNameController.clear();
+                      playerNameFocusNode.unfocus();
+                    });
+                  },
+                )
+                    : null
                     : playerName != null
-                        ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                playerName = null;
-                                playerNameController.clear();
-                                playerNameFocusNode.unfocus();
-                              });
-                            },
-                          )
-                        : null,
+                    ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      playerName = null;
+                      playerNameController.clear();
+                      playerNameFocusNode.unfocus();
+                    });
+                  },
+                )
+                    : null,
               ),
               textInputAction: TextInputAction.search,
               controller: playerNameController,
@@ -518,38 +531,38 @@ class LoginFormState extends State<LoginForm>
                     foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     disabledBackgroundColor:
-                        Theme.of(context).colorScheme.secondaryContainer,
+                    Theme.of(context).colorScheme.secondaryContainer,
                   ),
                   onPressed: queryBtnLoading
                       ? null
                       : () => queryBtnOnPressed(
-                          context, widget.playerInfoCardWidthScale),
+                      context, widget.playerInfoCardWidthScale),
                   child: queryBtnLoading
                       ? SpinKitCubeGrid(
-                          color: Theme.of(context).colorScheme.primary,
-                          size: 24,
-                        )
+                    color: Theme.of(context).colorScheme.primary,
+                    size: 24,
+                  )
                       : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Icon(Icons.search),
-                            const Padding(padding: EdgeInsets.only(left: 8)),
-                            Text('查询',
-                                style: TextStyle(
-                                  fontSize: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.fontSize,
-                                  fontWeight: Theme.of(context)
-                                      .textTheme
-                                      .titleMedium
-                                      ?.fontWeight,
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary,
-                                )),
-                          ],
-                        )),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.search),
+                      const Padding(padding: EdgeInsets.only(left: 8)),
+                      Text('查询',
+                          style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .titleMedium
+                                ?.fontWeight,
+                            color:
+                            Theme.of(context).colorScheme.onPrimary,
+                          )),
+                    ],
+                  )),
             ),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
@@ -599,11 +612,11 @@ class LoginFormState extends State<LoginForm>
           const Padding(padding: EdgeInsets.only(top: 10)),
           isVersionOutdated && !PlatformUtils.isWeb
               ? TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.error,
-                  ),
-                  onPressed: () => showVersionUpdateDetail(context),
-                  child: const Text('发现新版本，点击查看详情'))
+              style: TextButton.styleFrom(
+                foregroundColor: Theme.of(context).colorScheme.error,
+              ),
+              onPressed: () => showVersionUpdateDetail(context),
+              child: const Text('发现新版本，点击查看详情'))
               : Container(),
         ],
       ),

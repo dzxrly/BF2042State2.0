@@ -36,14 +36,14 @@ class PlayerInfoAPI extends APIBase {
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw 'Gametools服务器错误，请稍后再试';
+        throw '服务器错误，请稍后再试';
       } else {
         throw '似乎发生了网络错误，请重试';
       }
     } on TimeoutException catch (_) {
       throw '请求超时，请稍后再试';
-    } catch (_) {
-      throw '似乎发生了错误，请重试';
+    } catch (e) {
+      rethrow;
     }
   }
 }
@@ -63,8 +63,8 @@ class BFPlayInfoAPI extends APIBase {
       }
     } on TimeoutException catch (_) {
       throw '请求超时，请稍后再试';
-    } catch (_) {
-      throw '似乎发生了错误，请重试';
+    } catch (e) {
+      rethrow;
     }
   }
 }
@@ -85,8 +85,8 @@ class BFBanCheckAPI extends APIBase {
       }
     } on TimeoutException catch (_) {
       throw '请求超时，请稍后再试';
-    } catch (_) {
-      throw '似乎发生了错误，请重试';
+    } catch (e) {
+      rethrow;
     }
   }
 }
@@ -106,8 +106,8 @@ class GiteeVersionCheckAPI extends APIBase {
       }
     } on TimeoutException catch (_) {
       throw '请求超时，请稍后再试';
-    } catch (_) {
-      throw '似乎发生了错误，请重试';
+    } catch (e) {
+      rethrow;
     }
   }
 }

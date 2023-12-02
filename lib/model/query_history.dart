@@ -38,4 +38,20 @@ class QueryHistory {
       await prefs.setStringList(playerUidHistoryKey, playerUidHistory.toList());
     }
   }
+
+  // delete player history by playerUid
+  Future<void> deleteHistory(String playerUid) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int index = playerUidHistory.indexOf(playerUid);
+    if (index != -1) {
+      playerNameHistory.removeAt(index);
+      playerPlatformHistory.removeAt(index);
+      playerUidHistory.removeAt(index);
+      await prefs.setStringList(
+          playerNameHistoryKey, playerNameHistory.toList());
+      await prefs.setStringList(
+          playerPlatformHistoryKey, playerPlatformHistory.toList());
+      await prefs.setStringList(playerUidHistoryKey, playerUidHistory.toList());
+    }
+  }
 }
