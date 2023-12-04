@@ -254,7 +254,12 @@ class LoginFormState extends State<LoginForm>
                         builder: (context) => PlayerInfoScreen(),
                       ),
                     )
-                  });
+                  })
+              .catchError((error) {
+            log(error.toString());
+            ErrorSnackBar.showErrorSnackBar(
+                context, '写入缓存时发生错误!', widget.loginScreenWidthScale);
+          });
         } else {
           throw '该用户似乎没有玩过战地2042';
         }
@@ -262,7 +267,6 @@ class LoginFormState extends State<LoginForm>
           queryBtnLoading = false;
         });
       }).catchError((error) {
-        log(error.toString());
         setState(() {
           queryBtnLoading = false;
         });
@@ -275,8 +279,7 @@ class LoginFormState extends State<LoginForm>
   void queryHistoryBtnOnPressed(BuildContext context) {
     queryHistory
         .loadHistory()
-        .then((value) =>
-    {
+        .then((value) => {
               ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
                 context,
                 queryHistory.playerUidHistory.isNotEmpty
@@ -286,13 +289,27 @@ class LoginFormState extends State<LoginForm>
                         itemBuilder: (BuildContext context, int index) {
                           return Dismissible(
                               key: Key(queryHistory.playerUidHistory[index]),
+                              direction: DismissDirection.endToStart,
                               onDismissed: (direction) {
                                 queryHistory.deleteHistory(
                                     queryHistory.playerUidHistory[index]);
                               },
                               background: Container(
                                 color: Theme.of(context).colorScheme.error,
-                                child: const Icon(Icons.delete),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Padding(
+                                        padding: EdgeInsets.only(right: 16)),
+                                    Icon(Icons.delete,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onError),
+                                    const Padding(
+                                        padding: EdgeInsets.only(right: 16)),
+                                  ],
+                                ),
                               ),
                               child: ListTile(
                                 // set leading icon to platform icon
