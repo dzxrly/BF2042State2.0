@@ -1,7 +1,6 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/bf_play_info.dart';
+import 'package:battlefield_2042_state/api/player_feslid.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/classes_list.dart';
@@ -39,6 +38,7 @@ enum TabList {
 class PlayerInfoScreen extends StatelessWidget {
   final NumberFormat timeFormat = NumberFormat('#,###.00');
   final BFPlayInfoAPI bfPlayInfoAPI = BFPlayInfoAPI();
+  final PostPlayerFeslidAPI postPlayerFeslidAPI = PostPlayerFeslidAPI();
 
   PlayerInfoScreen({super.key});
 
@@ -51,13 +51,45 @@ class PlayerInfoScreen extends StatelessWidget {
     }
   }
 
+  Future<PlayerFeslid?> getPlayerFeslid(
+    String platform,
+    String personaId,
+    String nucleusId,
+  ) async {
+    // pc: 1, psn: 2, xboxseries: 3
+    String platformId = '1';
+    switch (platform) {
+      case 'pc':
+        platformId = '1';
+        break;
+      case 'psn':
+        platformId = '2';
+        break;
+      case 'xboxseries':
+        platformId = '3';
+        break;
+      default:
+        platformId = '1';
+        break;
+    }
+    try {
+      PlayerFeslid playerFeslid = await postPlayerFeslidAPI.postPlayerFeslid(
+        platformId,
+        personaId,
+        nucleusId,
+      );
+      return playerFeslid;
+    } catch (e) {
+      return null;
+    }
+  }
+
   void onInfoButtonPressed(BuildContext context, String playerId) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
         context,
         FutureBuilder<BFPlayInfo?>(
             future: getBFPlayInfo(playerId),
             builder: (context, snapshot) {
-              log(snapshot.connectionState.toString());
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -171,37 +203,68 @@ class PlayerInfoScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  width: 42,
-                  height: 42,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Image.network(
-                      playerInfo.playerInfo?.avatar ?? '#',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(
-                          'assets/avatar_span.png',
-                          fit: BoxFit.cover,
-                          cacheHeight: 42,
-                          cacheWidth: 42,
-                        );
-                      },
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) {
-                          return child;
-                        } else {
-                          return SpinKitCubeGrid(
-                            size: 24,
-                            color: Theme.of(context).colorScheme.primary,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
+                    width: 42,
+                    height: 42,
+                    child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        clipBehavior: Clip.antiAlias,
+                        child: FutureBuilder<PlayerFeslid?>(
+                            future: getPlayerFeslid(
+                              playerInfo.platform ?? '1',
+                              playerInfo.playerInfo?.id.toString() ?? '',
+                              playerInfo.playerInfo?.userId.toString() ?? '',
+                            ),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return SpinKitCubeGrid(
+                                  size: 36,
+                                  color: Theme.of(context).colorScheme.primary,
+                                );
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.data == null) {
+                                  return Image.asset(
+                                    'assets/avatar_span.png',
+                                    fit: BoxFit.cover,
+                                  );
+                                } else {
+                                  return Image.network(
+                                    snapshot.data!.avatar ??
+                                        'assets/avatar_span.png',
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.asset(
+                                        'assets/avatar_span.png',
+                                        fit: BoxFit.cover,
+                                        cacheHeight: 42,
+                                        cacheWidth: 42,
+                                      );
+                                    },
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      } else {
+                                        return SpinKitCubeGrid(
+                                          size: 36,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        );
+                                      }
+                                    },
+                                  );
+                                }
+                              } else {
+                                return Image.asset(
+                                  'assets/avatar_span.png',
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            }))),
                 const Padding(padding: EdgeInsets.only(left: 8)),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,

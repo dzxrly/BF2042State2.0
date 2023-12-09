@@ -247,7 +247,8 @@ class LoginFormState extends State<LoginForm>
                                 .firstWhere(
                                     (element) => element.value == platformName)
                                 .icon
-                                .icon),
+                                .icon,
+                            platformName),
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
@@ -468,14 +469,16 @@ class LoginFormState extends State<LoginForm>
                 // if playerName is not null, show clear button
                 suffixIcon: platformName != null
                     ? IconButton(
-                        icon: const Icon(Icons.clear),
-                        onPressed: () {
-                          setState(() {
-                            platformName = null;
-                            platformController.clear();
-                            platformFocusNode.unfocus();
-                          });
-                        },
+                  icon: const Icon(Icons.clear),
+                        onPressed: queryBtnLoading
+                            ? null
+                            : () {
+                                setState(() {
+                                  platformName = null;
+                                  platformController.clear();
+                                  platformFocusNode.unfocus();
+                                });
+                              },
                       )
                     : null,
               ),
@@ -486,9 +489,10 @@ class LoginFormState extends State<LoginForm>
                   platformName = value;
                 });
               },
-              onTap: () => {
-                platformFocusNode.unfocus(),
-                platformTextFieldOnTap(context)
+              onTap: () =>
+              {
+                if (!queryBtnLoading)
+                  {platformFocusNode.unfocus(), platformTextFieldOnTap(context)}
               },
             ),
           ),
@@ -506,32 +510,37 @@ class LoginFormState extends State<LoginForm>
                 suffixIcon: enablePlayerUidQuery
                     ? playerUid != null
                         ? IconButton(
-                            icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                playerUid = null;
-                                playerNameController.clear();
-                                playerNameFocusNode.unfocus();
-                              });
-                            },
+                  icon: const Icon(Icons.clear),
+                            onPressed: queryBtnLoading
+                                ? null
+                                : () {
+                                    setState(() {
+                                      platformName = null;
+                                      platformController.clear();
+                                      platformFocusNode.unfocus();
+                                    });
+                                  },
                           )
                         : null
                     : playerName != null
                         ? IconButton(
                             icon: const Icon(Icons.clear),
-                            onPressed: () {
-                              setState(() {
-                                playerName = null;
-                                playerNameController.clear();
-                                playerNameFocusNode.unfocus();
-                              });
-                            },
+                  onPressed: queryBtnLoading
+                                ? null
+                                : () {
+                                    setState(() {
+                                      platformName = null;
+                                      platformController.clear();
+                                      platformFocusNode.unfocus();
+                                    });
+                                  },
                           )
                         : null,
               ),
               textInputAction: TextInputAction.search,
               controller: playerNameController,
               focusNode: playerNameFocusNode,
+              readOnly: queryBtnLoading,
               onChanged: (String? value) {
                 setState(() {
                   if (enablePlayerUidQuery) {
