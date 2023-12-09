@@ -469,7 +469,7 @@ class LoginFormState extends State<LoginForm>
                 // if playerName is not null, show clear button
                 suffixIcon: platformName != null
                     ? IconButton(
-                  icon: const Icon(Icons.clear),
+                        icon: const Icon(Icons.clear),
                         onPressed: queryBtnLoading
                             ? null
                             : () {
@@ -489,8 +489,7 @@ class LoginFormState extends State<LoginForm>
                   platformName = value;
                 });
               },
-              onTap: () =>
-              {
+              onTap: () => {
                 if (!queryBtnLoading)
                   {platformFocusNode.unfocus(), platformTextFieldOnTap(context)}
               },
@@ -515,9 +514,9 @@ class LoginFormState extends State<LoginForm>
                                 ? null
                                 : () {
                                     setState(() {
-                                      platformName = null;
-                                      platformController.clear();
-                                      platformFocusNode.unfocus();
+                                      playerName = null;
+                                      playerNameController.clear();
+                                      playerNameFocusNode.unfocus();
                                     });
                                   },
                           )
@@ -529,9 +528,9 @@ class LoginFormState extends State<LoginForm>
                                 ? null
                                 : () {
                                     setState(() {
-                                      platformName = null;
-                                      platformController.clear();
-                                      platformFocusNode.unfocus();
+                                      playerName = null;
+                                      playerNameController.clear();
+                                      playerNameFocusNode.unfocus();
                                     });
                                   },
                           )
