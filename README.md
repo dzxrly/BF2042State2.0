@@ -22,4 +22,8 @@
 
 ---
 
-[![ko-fi](./img/coffee.svg)](https://ko-fi.com/F1F0PZH7X)
+<div align="center">
+
+    [![ko-fi](./img/coffee.svg)](https://ko-fi.com/F1F0PZH7X)
+
+</div>
