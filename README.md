@@ -22,8 +22,8 @@
 
 ---
 
-<div align="center">
+<p align="center">
 
     [![ko-fi](./img/coffee.svg)](https://ko-fi.com/F1F0PZH7X)
 
-</div>
+</p>
