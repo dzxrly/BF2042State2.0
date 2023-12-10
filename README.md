@@ -23,7 +23,5 @@
 ---
 
 <p align="center">
-
-    [![ko-fi](./img/coffee.svg)](https://ko-fi.com/F1F0PZH7X)
-
+	<a href="https://ko-fi.com/F1F0PZH7X"><img src="./img/coffee.svg" alt="KO-FI" /></a>
 </p>
