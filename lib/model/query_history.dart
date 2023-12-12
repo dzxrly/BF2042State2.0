@@ -36,6 +36,19 @@ class QueryHistory {
       await prefs.setStringList(
           playerPlatformHistoryKey, playerPlatformHistory.toList());
       await prefs.setStringList(playerUidHistoryKey, playerUidHistory.toList());
+    } else {
+      final int index = playerUidHistory.indexOf(playerUid);
+      playerNameHistory.removeAt(index);
+      playerPlatformHistory.removeAt(index);
+      playerUidHistory.removeAt(index);
+      playerNameHistory.add(playerName);
+      playerPlatformHistory.add(playerPlatform);
+      playerUidHistory.add(playerUid);
+      await prefs.setStringList(
+          playerNameHistoryKey, playerNameHistory.toList());
+      await prefs.setStringList(
+          playerPlatformHistoryKey, playerPlatformHistory.toList());
+      await prefs.setStringList(playerUidHistoryKey, playerUidHistory.toList());
     }
   }
 
