@@ -509,7 +509,7 @@ class LoginFormState extends State<LoginForm>
                 suffixIcon: enablePlayerUidQuery
                     ? playerUid != null
                         ? IconButton(
-                  icon: const Icon(Icons.clear),
+                            icon: const Icon(Icons.clear),
                             onPressed: queryBtnLoading
                                 ? null
                                 : () {
@@ -614,23 +614,27 @@ class LoginFormState extends State<LoginForm>
                     children: [
                       Checkbox(
                           value: enablePlayerUidQuery,
-                          onChanged: (value) {
-                            platformFocusNode.unfocus();
-                            playerNameFocusNode.unfocus();
-                            setState(() {
-                              enablePlayerUidQuery = value!;
-                              platformName = null;
-                              platformController.clear();
-                              playerName = null;
-                              playerNameController.clear();
-                            });
-                          }),
+                          onChanged: queryBtnLoading
+                              ? null
+                              : (value) {
+                                  platformFocusNode.unfocus();
+                                  playerNameFocusNode.unfocus();
+                                  setState(() {
+                                    enablePlayerUidQuery = value!;
+                                    platformName = null;
+                                    platformController.clear();
+                                    playerName = null;
+                                    playerNameController.clear();
+                                  });
+                                }),
                       Text('增强查询',
                           style: Theme.of(context).textTheme.titleSmall),
                     ],
                   ),
                   TextButton(
-                      onPressed: () => queryHistoryBtnOnPressed(context),
+                      onPressed: queryBtnLoading
+                          ? null
+                          : () => queryHistoryBtnOnPressed(context),
                       child: Text('查询历史',
                           style: TextStyle(
                             fontSize: Theme.of(context)

@@ -220,7 +220,7 @@ class PlayerInfoScreen extends StatelessWidget {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {
                                 return SpinKitCubeGrid(
-                                  size: 36,
+                                  size: 24,
                                   color: Theme.of(context).colorScheme.primary,
                                 );
                               } else if (snapshot.connectionState ==
@@ -249,7 +249,7 @@ class PlayerInfoScreen extends StatelessWidget {
                                         return child;
                                       } else {
                                         return SpinKitCubeGrid(
-                                          size: 36,
+                                          size: 24,
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary,
