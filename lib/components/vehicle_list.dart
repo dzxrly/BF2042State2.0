@@ -1,9 +1,7 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../api/player_info.dart';
 import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
@@ -27,47 +25,23 @@ class VehicleList extends StatefulWidget {
 }
 
 class VehicleListState extends State<VehicleList> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
   String dataTypeValue = 'killsPerMinute';
 
-  void showVehicleDetails(BuildContext context, Vehicle vehicle) {
+  void showVehicleDetails(BuildContext context, VehicleInfoEnsemble vehicle) {
     final List<InfoListItemContent> vehicleDetailList = [
+      InfoListItemContent(keyName: '击杀数', showValueString: vehicle.kills),
+      InfoListItemContent(keyName: 'KPM', showValueString: vehicle.KPM),
       InfoListItemContent(
-          keyName: '击杀数',
-          showValue: (vehicle.kills ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '摧毁载具', showValueString: vehicle.killedVehicle),
+      InfoListItemContent(keyName: '撞死人数', showValueString: vehicle.roadKills),
+      InfoListItemContent(keyName: '总伤害', showValueString: vehicle.damage),
+      InfoListItemContent(keyName: '连杀次数', showValueString: vehicle.multiKills),
       InfoListItemContent(
-          keyName: 'KPM',
-          showValue: vehicle.killsPerMinute ?? 0.0,
-          fractionDigits: 2),
+          keyName: '驾驶助攻', showValueString: vehicle.driverAssists),
       InfoListItemContent(
-          keyName: '摧毁载具',
-          showValue: (vehicle.vehiclesDestroyedWith ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '乘客助攻', showValueString: vehicle.passengerAssists),
       InfoListItemContent(
-          keyName: '撞死人数',
-          showValue: (vehicle.roadKills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '总伤害',
-          showValue: (vehicle.damage ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '连杀次数',
-          showValue: (vehicle.multiKills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '驾驶助攻',
-          showValue: (vehicle.driverAssists ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '乘客助攻',
-          showValue: (vehicle.passengerAssists ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '行驶距离 (KM)',
-          showValue: ((vehicle.distanceTraveled ?? 0) / 1000).toDouble(),
-          fractionDigits: 0),
+          keyName: '行驶距离 (KM)', showValueString: vehicle.distanceTraveled),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -85,30 +59,25 @@ class VehicleListState extends State<VehicleList> {
                   children: [
                     FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(vehicle.vehicleName ?? '未知载具',
+                      child: Text(vehicle.vehicleName,
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(
-                            '${numberFormat.format(double.parse(((vehicle.timeIn ?? 0) / 3600.0).toStringAsFixed(2)))}小时'))
+                        label: Text(vehicle.playedTime))
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: vehicleDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: vehicleDetailList[index].keyName,
-                      showValue: vehicleDetailList[index].showValue,
-                      showValueString: vehicleDetailList[index].showValueString,
-                      fractionDigits: vehicleDetailList[index].fractionDigits);
+                      showValueString:
+                          vehicleDetailList[index].showValueString);
                 },
               ))
             ],
@@ -141,8 +110,9 @@ class VehicleListState extends State<VehicleList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final vehicleList = playerInfo.playerInfo?.vehicles ?? [];
-      vehicleList.sort((a, b) => (b.kills ?? 0).compareTo(a.kills ?? 0));
+      final vehicleList = playerInfo.playerInfoEnsemble.vehicles;
+      vehicleList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
+          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -184,16 +154,29 @@ class VehicleListState extends State<VehicleList> {
           listChild: ListView.builder(
               shrinkWrap: true,
               prototypeItem: VehicleListItem(
-                vehicle: Vehicle(),
+                vehicle: VehicleInfoEnsemble(
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                  '未知',
+                ),
                 dataTypeValue: dataTypeValue,
               ),
-              itemCount: playerInfo.playerInfo?.vehicles?.length ?? 0,
+              itemCount: playerInfo.playerInfoEnsemble.vehicles.length,
               itemBuilder: (context, index) {
                 return VehicleListItem(
-                  vehicle: playerInfo.playerInfo?.vehicles?[index] ?? Vehicle(),
+                  vehicle: playerInfo.playerInfoEnsemble.vehicles[index],
                   onTap: () => {
-                    showVehicleDetails(context,
-                        playerInfo.playerInfo?.vehicles?[index] ?? Vehicle())
+                    showVehicleDetails(
+                        context, playerInfo.playerInfoEnsemble.vehicles[index])
                   },
                   dataTypeValue: dataTypeValue,
                 );
@@ -203,28 +186,28 @@ class VehicleListState extends State<VehicleList> {
 }
 
 class VehicleListItem extends StatelessWidget {
-  final Vehicle vehicle;
+  final VehicleInfoEnsemble vehicle;
   final String dataTypeValue;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  VehicleListItem(
+  const VehicleListItem(
       {Key? key,
       required this.vehicle,
       required this.dataTypeValue,
       this.onTap})
       : super(key: key);
 
-  String filterVehicleDataByDataTypeValue(Vehicle vehicle, String value) {
+  String filterVehicleDataByDataTypeValue(
+      VehicleInfoEnsemble vehicle, String value) {
     switch (value) {
       case 'killsPerMinute':
-        return vehicle.killsPerMinute?.toStringAsFixed(2) ?? '0.00';
+        return vehicle.KPM;
       case 'timePlayed':
-        return '${numberFormat.format(double.parse(((vehicle.timeIn ?? 0) / 3600.0).toStringAsFixed(2)))}小时';
+        return vehicle.playedTime;
       case 'destroyCount':
-        return numberFormat.format(vehicle.vehiclesDestroyedWith ?? 0);
+        return vehicle.killedVehicle;
       default:
-        return numberFormat.format(vehicle.timeIn ?? 0);
+        return vehicle.KPM;
     }
   }
 
@@ -235,14 +218,14 @@ class VehicleListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(vehicle.vehicleName ?? '未知载具',
+            child: Text(vehicle.vehicleName,
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
-            numberFormat.format(vehicle.kills ?? 0),
+            vehicle.kills,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

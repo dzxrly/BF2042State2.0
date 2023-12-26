@@ -242,7 +242,7 @@ class LoginFormState extends State<LoginForm>
               .then((value) => {
                     Provider.of<PlayerInfoModel>(context, listen: false)
                         .updatePlayerInfo(
-                            response,
+                            PlayerInfoEnsemble.gametoolsAPI(response),
                             Platform.values
                                 .firstWhere(
                                     (element) => element.value == platformName)

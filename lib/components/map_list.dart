@@ -1,36 +1,24 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../api/player_info.dart';
 import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 class MapList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  const MapList({Key? key}) : super(key: key);
 
-  MapList({Key? key}) : super(key: key);
-
-  void showVehicleDetails(BuildContext context, MapElement mapElement) {
+  void showVehicleDetails(BuildContext context, MapInfoEnsemble mapElement) {
     final List<InfoListItemContent> mapDetailList = [
       InfoListItemContent(
-          keyName: '游玩场数',
-          showValue: (mapElement.matches ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '获胜次数',
-          showValue: (mapElement.wins ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '失败次数',
-          showValue: (mapElement.losses ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '游玩场数', showValueString: mapElement.playedMatches),
+      InfoListItemContent(keyName: '获胜次数', showValueString: mapElement.win),
+      InfoListItemContent(keyName: '失败次数', showValueString: mapElement.lose),
       InfoListItemContent(
         keyName: '胜率',
-        showValueString: mapElement.winPercent ?? '0.00%',
+        showValueString: mapElement.winRate,
       ),
     ];
 
@@ -50,31 +38,24 @@ class MapList extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                          Translator.gameMapTranslate(
-                              mapElement.mapName ?? '未知地图'),
+                          Translator.gameMapTranslate(mapElement.mapName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(
-                            '${numberFormat.format(double.parse(((mapElement.secondsPlayed ?? 0) / 3600.0).toStringAsFixed(2)))}小时'))
+                        label: Text(mapElement.playedTime))
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: mapDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: mapDetailList[index].keyName,
-                      showValue: mapDetailList[index].showValue,
-                      showValueString: mapDetailList[index].showValueString,
-                      fractionDigits: mapDetailList[index].fractionDigits);
+                      showValueString: mapDetailList[index].showValueString);
                 },
               ))
             ],
@@ -85,8 +66,9 @@ class MapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final mapList = playerInfo.playerInfo?.maps ?? [];
-      mapList.sort((a, b) => (b.matches ?? 0).compareTo(a.matches ?? 0));
+      final mapList = playerInfo.playerInfoEnsemble.maps;
+      mapList.sort((a, b) => (int.parse(b.playedMatches.replaceAll(',', '')))
+          .compareTo(int.parse(a.playedMatches.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -109,15 +91,23 @@ class MapList extends StatelessWidget {
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: MapListItem(mapElement: MapElement()),
-              itemCount: playerInfo.playerInfo?.maps?.length ?? 0,
+              prototypeItem: MapListItem(
+                  mapElement: MapInfoEnsemble(
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+              )),
+              itemCount: playerInfo.playerInfoEnsemble.maps.length,
               itemBuilder: (context, index) {
                 return MapListItem(
-                  mapElement:
-                      playerInfo.playerInfo?.maps?[index] ?? MapElement(),
+                  mapElement: playerInfo.playerInfoEnsemble.maps[index],
                   onTap: () => {
-                    showVehicleDetails(context,
-                        playerInfo.playerInfo?.maps?[index] ?? MapElement())
+                    showVehicleDetails(
+                        context, playerInfo.playerInfoEnsemble.maps[index])
                   },
                 );
               }));
@@ -126,11 +116,10 @@ class MapList extends StatelessWidget {
 }
 
 class MapListItem extends StatelessWidget {
-  final MapElement mapElement;
+  final MapInfoEnsemble mapElement;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  MapListItem({Key? key, required this.mapElement, this.onTap})
+  const MapListItem({Key? key, required this.mapElement, this.onTap})
       : super(key: key);
 
   @override
@@ -140,15 +129,14 @@ class MapListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(
-                Translator.gameMapTranslate(mapElement.mapName ?? '未知地图'),
+            child: Text(Translator.gameMapTranslate(mapElement.mapName),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
-            numberFormat.format(mapElement.matches ?? 0),
+            mapElement.playedMatches,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -159,7 +147,7 @@ class MapListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            mapElement.winPercent ?? '0.00%',
+            mapElement.winRate,
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

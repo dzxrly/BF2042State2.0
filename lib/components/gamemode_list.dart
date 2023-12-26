@@ -1,71 +1,41 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../api/player_info.dart';
 import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 class GameModeList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  const GameModeList({Key? key}) : super(key: key);
 
-  GameModeList({Key? key}) : super(key: key);
-
-  void showVehicleDetails(BuildContext context, Gamemode gamemode) {
+  void showVehicleDetails(BuildContext context, GameModeInfoEnsemble gamemode) {
     final List<InfoListItemContent> gameModeDetailList = [
+      InfoListItemContent(keyName: '击杀数', showValueString: gamemode.kills),
+      InfoListItemContent(keyName: 'KPM', showValueString: gamemode.KPM),
       InfoListItemContent(
-          keyName: '击杀数',
-          showValue: (gamemode.kills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: 'KPM', showValue: gamemode.kpm ?? 0.0, fractionDigits: 2),
-      InfoListItemContent(
-          keyName: '游玩场数',
-          showValue: (gamemode.matches ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '获胜次数',
-          showValue: (gamemode.wins ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '失败次数',
-          showValue: (gamemode.losses ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '游玩场数', showValueString: gamemode.playedMatches),
+      InfoListItemContent(keyName: '获胜次数', showValueString: gamemode.win),
+      InfoListItemContent(keyName: '失败次数', showValueString: gamemode.lose),
       InfoListItemContent(
         keyName: '胜率',
-        showValueString: gamemode.winPercent ?? '0.00%',
+        showValueString: gamemode.winRate,
       ),
       InfoListItemContent(
-          keyName: '占点时长 (小时)',
-          showValueString: numberFormat.format(double.parse(
-              ((gamemode.objetiveTime ?? 0) / 3600.0).toStringAsFixed(2)))),
+          keyName: '占点时长 (小时)', showValueString: gamemode.objectTime),
       InfoListItemContent(
-          keyName: '区域防守 (次)',
-          showValue: (gamemode.sectorDefend ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '区域防守 (次)', showValueString: gamemode.sectorDefend),
       InfoListItemContent(
-          keyName: '目标防守 (次)',
-          showValue: (gamemode.objectivesDefended ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '目标防守 (次)', showValueString: gamemode.objectDefend),
       InfoListItemContent(
-          keyName: '目标占领 (次)',
-          showValue: (gamemode.objectivesCaptured ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '目标占领 (次)', showValueString: gamemode.objectCapture),
       InfoListItemContent(
-          keyName: '炸弹安放 (次)',
-          showValue: (gamemode.objectivesArmed ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '炸弹安放 (次)', showValueString: gamemode.boomPlant),
       InfoListItemContent(
-          keyName: '炸弹拆除 (次)',
-          showValue: (gamemode.objectivesDisarmed ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '炸弹拆除 (次)', showValueString: gamemode.boomDefuse),
       InfoListItemContent(
-          keyName: '炸弹摧毁 (次)',
-          showValue: (gamemode.objectivesDestroyed ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '炸弹摧毁 (次)', showValueString: gamemode.boomDestroy),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -84,32 +54,25 @@ class GameModeList extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                          Translator.gamemodeTranslate(
-                              gamemode.gamemodeName ?? '未知模式'),
+                          Translator.gamemodeTranslate(gamemode.modeName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(
-                            '${numberFormat.format(double.parse(((gamemode.secondsPlayed ?? 0) / 3600.0).toStringAsFixed(2)))}小时'))
+                        label: Text(gamemode.playedTime))
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: gameModeDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: gameModeDetailList[index].keyName,
-                      showValue: gameModeDetailList[index].showValue,
                       showValueString:
-                          gameModeDetailList[index].showValueString,
-                      fractionDigits: gameModeDetailList[index].fractionDigits);
+                          gameModeDetailList[index].showValueString);
                 },
               ))
             ],
@@ -120,8 +83,10 @@ class GameModeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final gameModeList = playerInfo.playerInfo?.gamemodes ?? [];
-      gameModeList.sort((a, b) => (b.matches ?? 0).compareTo(a.matches ?? 0));
+      final gameModeList = playerInfo.playerInfoEnsemble.gameModes;
+      gameModeList.sort((a, b) =>
+          (int.parse(b.playedMatches.replaceAll(',', '')))
+              .compareTo(int.parse(a.playedMatches.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -144,15 +109,32 @@ class GameModeList extends StatelessWidget {
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: GameModeListItem(gamemode: Gamemode()),
-              itemCount: playerInfo.playerInfo?.gamemodes?.length ?? 0,
+              prototypeItem: GameModeListItem(
+                  gamemode: GameModeInfoEnsemble(
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+              )),
+              itemCount: playerInfo.playerInfoEnsemble.gameModes.length,
               itemBuilder: (context, index) {
                 return GameModeListItem(
-                  gamemode:
-                      playerInfo.playerInfo?.gamemodes?[index] ?? Gamemode(),
+                  gamemode: playerInfo.playerInfoEnsemble.gameModes[index],
                   onTap: () => {
-                    showVehicleDetails(context,
-                        playerInfo.playerInfo?.gamemodes?[index] ?? Gamemode())
+                    showVehicleDetails(
+                        context, playerInfo.playerInfoEnsemble.gameModes[index])
                   },
                 );
               }));
@@ -161,11 +143,10 @@ class GameModeList extends StatelessWidget {
 }
 
 class GameModeListItem extends StatelessWidget {
-  final Gamemode gamemode;
+  final GameModeInfoEnsemble gamemode;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  GameModeListItem({Key? key, required this.gamemode, this.onTap})
+  const GameModeListItem({Key? key, required this.gamemode, this.onTap})
       : super(key: key);
 
   @override
@@ -175,15 +156,13 @@ class GameModeListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(
-                Translator.gamemodeTranslate(gamemode.gamemodeName ?? '未知模式'),
-                textAlign: TextAlign.left,
+            child: Text(Translator.gamemodeTranslate(gamemode.modeName),
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
-            numberFormat.format(gamemode.matches ?? 0),
+            gamemode.playedMatches,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -194,7 +173,7 @@ class GameModeListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            gamemode.winPercent ?? '0.00%',
+            gamemode.winRate,
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

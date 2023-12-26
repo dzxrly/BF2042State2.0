@@ -213,8 +213,8 @@ class PlayerInfoScreen extends StatelessWidget {
                         child: FutureBuilder<PlayerFeslid?>(
                             future: getPlayerFeslid(
                               playerInfo.platform ?? '1',
-                              playerInfo.playerInfo?.id.toString() ?? '',
-                              playerInfo.playerInfo?.userId.toString() ?? '',
+                              playerInfo.playerInfoEnsemble.personaId,
+                              playerInfo.playerInfoEnsemble.nucleusId,
                             ),
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
@@ -272,7 +272,7 @@ class PlayerInfoScreen extends StatelessWidget {
                   children: [
                     FittedBox(
                       child: Text(
-                        playerInfo.playerInfo?.userName ?? '未知',
+                        playerInfo.playerInfoEnsemble.username,
                         style: TextStyle(
                           fontSize:
                               Theme.of(context).textTheme.titleLarge?.fontSize,
@@ -302,7 +302,7 @@ class PlayerInfoScreen extends StatelessWidget {
                             ],
                           ),
                         Text(
-                          'UID: ${playerInfo.playerInfo?.userId.toString() ?? '未知'}',
+                          'UID: ${playerInfo.playerInfoEnsemble.nucleusId}',
                           style: TextStyle(
                             fontSize: Theme.of(context)
                                 .textTheme
@@ -316,7 +316,7 @@ class PlayerInfoScreen extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(left: 10)),
                         Text(
-                          '${timeFormat.format((playerInfo.playerInfo?.secondsPlayed ?? 0) / 3600)}小时',
+                          playerInfo.playerInfoEnsemble.playedTime,
                           style: TextStyle(
                             fontSize: Theme.of(context)
                                 .textTheme
@@ -334,7 +334,7 @@ class PlayerInfoScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () => onInfoButtonPressed(
-                      context, playerInfo.playerInfo?.id.toString() ?? ''),
+                      context, playerInfo.playerInfoEnsemble.personaId),
                   icon: const Icon(Icons.help_outline),
                 )
               ],
@@ -423,7 +423,7 @@ class PlayerBaseInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 KeyInfoView(
-                  userId: playerInfo.playerInfo?.userId.toString() ?? '',
+                  userId: playerInfo.playerInfoEnsemble.nucleusId,
                 )
               ],
             ),
@@ -469,13 +469,13 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                                   )))
                               .toList(),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: TabBarView(
                             children: [
-                              const OverviewList(),
-                              const WeaponList(),
-                              const VehicleList(),
-                              const GadgetList(),
+                              OverviewList(),
+                              WeaponList(),
+                              VehicleList(),
+                              GadgetList(),
                               ClassesList(),
                               GameModeList(),
                               MapList(),

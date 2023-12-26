@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 class UtilTools {
   static bool versionCompare(String currentVersion, String latestVersion) {
@@ -24,6 +25,22 @@ class UtilTools {
     }
     // compare
     return aVersion < bVersion;
+  }
+
+  static String parseDoubleAsFixedAndENUSFormat(
+      double value, int fractionDigits) {
+    final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+    // check value is NaN
+    return value.isNaN || value.isNegative
+        ? 'NaN'
+        : numberFormat
+            .format(double.parse(value.toStringAsFixed(fractionDigits)));
+  }
+
+  static String parseIntAsENUSFormat(int value) {
+    final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+    // check value is NaN
+    return value.isNaN || value.isNegative ? 'NaN' : numberFormat.format(value);
   }
 }
 

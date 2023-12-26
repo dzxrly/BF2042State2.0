@@ -1,8 +1,6 @@
-import 'package:battlefield_2042_state/api/player_info.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../model/player_info_model.dart';
@@ -10,26 +8,14 @@ import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 class ClassesList extends StatelessWidget {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
+  const ClassesList({Key? key}) : super(key: key);
 
-  ClassesList({Key? key}) : super(key: key);
-
-  void showVehicleDetails(BuildContext context, Classes classes) {
+  void showVehicleDetails(BuildContext context, CharacterInfoEnsemble classes) {
     final List<InfoListItemContent> classesDetailList = [
-      InfoListItemContent(
-          keyName: 'K/D',
-          showValue: classes.killDeath ?? 0.0,
-          fractionDigits: 2),
-      InfoListItemContent(
-          keyName: 'KPM', showValue: classes.kpm ?? 0.0, fractionDigits: 2),
-      InfoListItemContent(
-          keyName: '击杀数',
-          showValue: (classes.kills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '死亡数',
-          showValue: (classes.deaths ?? 0).toDouble(),
-          fractionDigits: 0),
+      InfoListItemContent(keyName: 'K/D', showValueString: classes.KD),
+      InfoListItemContent(keyName: 'KPM', showValueString: classes.KPM),
+      InfoListItemContent(keyName: '击杀数', showValueString: classes.kills),
+      InfoListItemContent(keyName: '死亡数', showValueString: classes.deaths),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -55,24 +41,19 @@ class ClassesList extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(
-                            '${numberFormat.format(double.parse(((classes.secondsPlayed ?? 0) / 3600.0).toStringAsFixed(2)))}小时'))
+                        label: Text(classes.playedTime))
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: classesDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: classesDetailList[index].keyName,
-                      showValue: classesDetailList[index].showValue,
-                      showValueString: classesDetailList[index].showValueString,
-                      fractionDigits: classesDetailList[index].fractionDigits);
+                      showValueString:
+                          classesDetailList[index].showValueString);
                 },
               ))
             ],
@@ -83,8 +64,9 @@ class ClassesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final classesList = playerInfo.playerInfo?.classes ?? [];
-      classesList.sort((a, b) => (b.kills ?? 0).compareTo(a.kills ?? 0));
+      final classesList = playerInfo.playerInfoEnsemble.characters;
+      classesList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
+          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -112,14 +94,24 @@ class ClassesList extends StatelessWidget {
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: ClassesListItem(classes: Classes()),
-              itemCount: playerInfo.playerInfo?.classes?.length ?? 0,
+              prototypeItem: ClassesListItem(
+                  classes: CharacterInfoEnsemble(
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+              )),
+              itemCount: playerInfo.playerInfoEnsemble.characters.length,
               itemBuilder: (context, index) {
                 return ClassesListItem(
-                  classes: playerInfo.playerInfo?.classes?[index] ?? Classes(),
+                  classes: playerInfo.playerInfoEnsemble.characters[index],
                   onTap: () => {
                     showVehicleDetails(context,
-                        playerInfo.playerInfo?.classes?[index] ?? Classes())
+                        playerInfo.playerInfoEnsemble.characters[index])
                   },
                 );
               }));
@@ -128,11 +120,10 @@ class ClassesList extends StatelessWidget {
 }
 
 class ClassesListItem extends StatelessWidget {
-  final Classes classes;
+  final CharacterInfoEnsemble classes;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  ClassesListItem({Key? key, required this.classes, this.onTap})
+  const ClassesListItem({Key? key, required this.classes, this.onTap})
       : super(key: key);
 
   @override
@@ -142,15 +133,14 @@ class ClassesListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(
-                Translator.classesTranslate(classes.characterName ?? '未知专家'),
+            child: Text(Translator.classesTranslate(classes.characterName),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 2,
           child: Text(
-            numberFormat.format(classes.kills ?? 0),
+            classes.kills,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -161,7 +151,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            classes.killDeath?.toStringAsFixed(2) ?? '0.00',
+            classes.KD,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -172,7 +162,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            classes.kpm?.toStringAsFixed(2) ?? '0.00',
+            classes.KPM,
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

@@ -2,10 +2,8 @@ import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-import '../api/player_info.dart';
 import '../model/player_info_model.dart';
 
 enum DataType {
@@ -28,41 +26,18 @@ class WeaponList extends StatefulWidget {
 }
 
 class WeaponListState extends State<WeaponList> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
   String dataTypeValue = 'timePlayed';
 
-  void showWeaponDetails(BuildContext context, Weapon weapon) {
+  void showWeaponDetails(BuildContext context, WeaponInfoEnsemble weapon) {
     final List<InfoListItemContent> weaponDetailList = [
-      InfoListItemContent(
-          keyName: '击杀数',
-          showValue: (weapon.kills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: 'KPM',
-          showValue: weapon.killsPerMinute ?? 0.0,
-          fractionDigits: 2),
-      InfoListItemContent(
-          keyName: 'DPM',
-          showValue: weapon.damagePerMinute ?? 0.0,
-          fractionDigits: 2),
-      InfoListItemContent(
-          keyName: '爆头率',
-          showValueString:
-              '${((weapon.headshotKills ?? 0) / (weapon.kills ?? 1) * 100).toStringAsFixed(2)}%'),
-      InfoListItemContent(
-          keyName: '命中率',
-          showValueString:
-              '${((weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1) * 100).toStringAsFixed(2)}%'),
-      InfoListItemContent(
-          keyName: '总伤害',
-          showValue: (weapon.damage ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '连杀次数',
-          showValue: (weapon.multiKills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '效率', showValue: weapon.hitVKills ?? 0.0, fractionDigits: 2),
+      InfoListItemContent(keyName: '击杀数', showValueString: weapon.kills),
+      InfoListItemContent(keyName: 'KPM', showValueString: weapon.KPM),
+      InfoListItemContent(keyName: 'DPM', showValueString: weapon.DPM),
+      InfoListItemContent(keyName: '爆头率', showValueString: weapon.hsRate),
+      InfoListItemContent(keyName: '命中率', showValueString: weapon.accuracy),
+      InfoListItemContent(keyName: '总伤害', showValueString: weapon.damage),
+      InfoListItemContent(keyName: '连杀次数', showValueString: weapon.multiKills),
+      InfoListItemContent(keyName: '效率', showValueString: weapon.efficiency),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -85,24 +60,18 @@ class WeaponListState extends State<WeaponList> {
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(
-                            '${numberFormat.format(double.parse(((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2)))}小时'))
+                        label: Text(weapon.playedTime))
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: weaponDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: weaponDetailList[index].keyName,
-                      showValue: weaponDetailList[index].showValue,
-                      showValueString: weaponDetailList[index].showValueString,
-                      fractionDigits: weaponDetailList[index].fractionDigits);
+                      showValueString: weaponDetailList[index].showValueString);
                 },
               ))
             ],
@@ -135,8 +104,9 @@ class WeaponListState extends State<WeaponList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final weaponList = playerInfo.playerInfo?.weapons ?? [];
-      weaponList.sort((a, b) => (b.kills ?? 0).compareTo(a.kills ?? 0));
+      final weaponList = playerInfo.playerInfoEnsemble.weapons;
+      weaponList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
+          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -177,17 +147,29 @@ class WeaponListState extends State<WeaponList> {
           listChild: ListView.builder(
             shrinkWrap: true,
             prototypeItem: WeaponListItem(
-              weapon: Weapon(),
+              weapon: WeaponInfoEnsemble(
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+                '未知',
+              ),
               dataTypeValue: dataTypeValue,
             ),
-            itemCount: playerInfo.playerInfo?.weapons?.length ?? 0,
+            itemCount: playerInfo.playerInfoEnsemble.weapons.length,
             itemBuilder: (context, index) {
               return WeaponListItem(
                 onTap: () => {
-                  showWeaponDetails(context,
-                      playerInfo.playerInfo?.weapons?[index] ?? Weapon())
+                  showWeaponDetails(
+                      context, playerInfo.playerInfoEnsemble.weapons[index])
                 },
-                weapon: playerInfo.playerInfo?.weapons?[index] ?? Weapon(),
+                weapon: playerInfo.playerInfoEnsemble.weapons[index],
                 dataTypeValue: dataTypeValue,
               );
             },
@@ -197,28 +179,27 @@ class WeaponListState extends State<WeaponList> {
 }
 
 class WeaponListItem extends StatelessWidget {
-  final Weapon weapon;
+  final WeaponInfoEnsemble weapon;
   final String dataTypeValue;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  WeaponListItem(
+  const WeaponListItem(
       {Key? key, required this.weapon, required this.dataTypeValue, this.onTap})
       : super(key: key);
 
-  String filterWeaponDataByDataTypeValue(Weapon weapon, String value) {
+  String filterWeaponDataByDataTypeValue(
+      WeaponInfoEnsemble weapon, String value) {
     switch (value) {
       case 'timePlayed':
-        return '${numberFormat.format(double.parse(((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2)))}小时';
+        return weapon.playedTime;
       case 'headshotRate':
-        return '${((weapon.headshotKills ?? 0) / (weapon.kills ?? 1) * 100).toStringAsFixed(2)}%';
+        return weapon.hsRate;
       case 'accuracy':
-        return '${((weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1) * 100).toStringAsFixed(2)}%';
+        return weapon.accuracy;
       case 'efficiency':
-        return (weapon.hitVKills ?? 0.0).toStringAsFixed(2);
+        return weapon.efficiency;
       default:
-        return numberFormat.format(double.parse(
-            ((weapon.timeEquipped ?? 0) / 3600.0).toStringAsFixed(2)));
+        return weapon.playedTime;
     }
   }
 
@@ -228,14 +209,14 @@ class WeaponListItem extends StatelessWidget {
       Expanded(
           child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Text(weapon.weaponName ?? '未知武器',
+            child: Text(weapon.weaponName,
             softWrap: true,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium),
       )),
       Expanded(
           child: Text(
-        numberFormat.format(weapon.kills ?? 0),
+            weapon.kills,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -245,7 +226,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-        weapon.killsPerMinute?.toStringAsFixed(2) ?? '0.00',
+            weapon.KPM,
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,

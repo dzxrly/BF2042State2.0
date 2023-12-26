@@ -13,79 +13,63 @@ class OverviewList extends StatelessWidget {
       final List<InfoListItemContent> overviewListItems = [
         InfoListItemContent(
           keyName: '击杀数 (含AI)',
-          showValue: (playerInfo.playerInfo?.kills ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.kills,
         ),
         InfoListItemContent(
           keyName: '死亡次数',
-          showValue: (playerInfo.playerInfo?.deaths ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.deaths,
         ),
         InfoListItemContent(
           keyName: 'K/D (含AI)',
-          showValue: playerInfo.playerInfo?.killDeath ?? 0.0,
-          fractionDigits: 2,
+          showValueString: playerInfo.playerInfoEnsemble.KD,
         ),
         InfoListItemContent(
           keyName: 'KPM (含AI)',
-          showValue: playerInfo.playerInfo?.killsPerMinute ?? 0.0,
-          fractionDigits: 2,
+          showValueString: playerInfo.playerInfoEnsemble.KPM,
         ),
         InfoListItemContent(
           keyName: '总伤害量 (含AI)',
-          showValue: (playerInfo.playerInfo?.damage ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.damage,
         ),
         InfoListItemContent(
           keyName: 'MVP',
-          showValue: (playerInfo.playerInfo?.mvp ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.MVP,
         ),
         InfoListItemContent(
           keyName: '最佳小队',
-          showValue: (playerInfo.playerInfo?.bestSquad ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.bestSquad,
         ),
         InfoListItemContent(
           keyName: '助攻次数',
-          showValue: (playerInfo.playerInfo?.killAssists ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.assists,
         ),
         InfoListItemContent(
           keyName: '获胜次数',
-          showValue: (playerInfo.playerInfo?.wins ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.win,
         ),
         InfoListItemContent(
           keyName: '战败次数',
-          showValue: (playerInfo.playerInfo?.loses ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.lose,
         ),
         InfoListItemContent(
           keyName: '摧毁载具',
-          showValue:
-              (playerInfo.playerInfo?.vehiclesDestroyed ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.killedVehicle,
         ),
         InfoListItemContent(
           keyName: '索敌次数',
-          showValue: (playerInfo.playerInfo?.enemiesSpotted ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.spotEnemy,
         ),
         InfoListItemContent(
           keyName: '急救次数',
-          showValue: (playerInfo.playerInfo?.revives ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.recovery,
         ),
         InfoListItemContent(
           keyName: '补给次数',
-          showValue: (playerInfo.playerInfo?.resupplies ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.supply,
         ),
         InfoListItemContent(
           keyName: '维修次数',
-          showValue: (playerInfo.playerInfo?.repairs ?? 0.0).toDouble(),
-          fractionDigits: 0,
+          showValueString: playerInfo.playerInfoEnsemble.repair,
         ),
       ];
 
@@ -95,16 +79,13 @@ class OverviewList extends StatelessWidget {
             shrinkWrap: true,
             prototypeItem: InfoListItem(
               keyName: '击杀数 (含AI)',
-              showValue: 0,
-              fractionDigits: 0,
+              showValueString: '9999',
             ),
             itemCount: overviewListItems.length,
             itemBuilder: (context, index) {
               return InfoListItem(
                 keyName: overviewListItems[index].keyName,
-                showValue: overviewListItems[index].showValue,
                 showValueString: overviewListItems[index].showValueString,
-                fractionDigits: overviewListItems[index].fractionDigits,
               );
             },
           ));

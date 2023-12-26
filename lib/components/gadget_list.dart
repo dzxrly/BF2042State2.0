@@ -1,7 +1,5 @@
-import 'package:battlefield_2042_state/api/player_info.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../model/player_info_model.dart';
@@ -27,33 +25,17 @@ class GadgetList extends StatefulWidget {
 }
 
 class GadgetListState extends State<GadgetList> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
   String dataTypeValue = 'killsPerMinute';
 
-  void showVehicleDetails(BuildContext context, Gadget gadget) {
+  void showVehicleDetails(BuildContext context, GadgetInfoEnsemble gadget) {
     final List<InfoListItemContent> gadgetDetailList = [
+      InfoListItemContent(keyName: '击杀数', showValueString: gadget.kills),
+      InfoListItemContent(keyName: 'KPM', showValueString: gadget.KPM),
       InfoListItemContent(
-          keyName: '击杀数',
-          showValue: (gadget.kills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: 'KPM', showValue: gadget.kpm ?? 0.0, fractionDigits: 2),
-      InfoListItemContent(
-          keyName: '摧毁载具',
-          showValue: (gadget.vehiclesDestroyedWith ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '总伤害',
-          showValue: (gadget.damage ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '连杀次数',
-          showValue: (gadget.multiKills ?? 0).toDouble(),
-          fractionDigits: 0),
-      InfoListItemContent(
-          keyName: '使用次数',
-          showValue: (gadget.uses ?? 0).toDouble(),
-          fractionDigits: 0),
+          keyName: '摧毁载具', showValueString: gadget.killedVehicle),
+      InfoListItemContent(keyName: '总伤害', showValueString: gadget.damage),
+      InfoListItemContent(keyName: '连杀次数', showValueString: gadget.multiKills),
+      InfoListItemContent(keyName: '使用次数', showValueString: gadget.used),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -77,19 +59,14 @@ class GadgetListState extends State<GadgetList> {
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: InfoListItem(
-                    keyName: 'null',
-                    showValue: 0.0,
-                    showValueString: 'null',
-                    fractionDigits: 0),
+                    shrinkWrap: true,
+                prototypeItem:
+                    InfoListItem(keyName: 'null', showValueString: 'null'),
                 itemCount: gadgetDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
                       keyName: gadgetDetailList[index].keyName,
-                      showValue: gadgetDetailList[index].showValue,
-                      showValueString: gadgetDetailList[index].showValueString,
-                      fractionDigits: gadgetDetailList[index].fractionDigits);
+                      showValueString: gadgetDetailList[index].showValueString);
                 },
               ))
             ],
@@ -122,8 +99,9 @@ class GadgetListState extends State<GadgetList> {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final gadgetList = playerInfo.playerInfo?.gadgets ?? [];
-      gadgetList.sort((a, b) => (b.kills ?? 0).compareTo(a.kills ?? 0));
+      final gadgetList = playerInfo.playerInfoEnsemble.gadgets;
+      gadgetList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
+          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
 
       return TouchableList(
           listTitle: [
@@ -165,15 +143,25 @@ class GadgetListState extends State<GadgetList> {
           listChild: ListView.builder(
               shrinkWrap: true,
               prototypeItem: GadgetListItem(
-                  dataTypeValue: dataTypeValue, gadget: Gadget()),
-              itemCount: playerInfo.playerInfo?.vehicles?.length ?? 0,
+                  dataTypeValue: dataTypeValue,
+                  gadget: GadgetInfoEnsemble(
+                    '未知',
+                    '未知',
+                    '未知',
+                    '未知',
+                    '未知',
+                    '未知',
+                    '未知',
+                    '未知',
+                  )),
+              itemCount: playerInfo.playerInfoEnsemble.vehicles.length,
               itemBuilder: (context, index) {
                 return GadgetListItem(
                   dataTypeValue: dataTypeValue,
-                  gadget: playerInfo.playerInfo?.gadgets?[index] ?? Gadget(),
+                  gadget: playerInfo.playerInfoEnsemble.gadgets[index],
                   onTap: () => {
-                    showVehicleDetails(context,
-                        playerInfo.playerInfo?.gadgets?[index] ?? Gadget())
+                    showVehicleDetails(
+                        context, playerInfo.playerInfoEnsemble.gadgets[index])
                   },
                 );
               }));
@@ -182,25 +170,25 @@ class GadgetListState extends State<GadgetList> {
 }
 
 class GadgetListItem extends StatelessWidget {
-  final Gadget gadget;
+  final GadgetInfoEnsemble gadget;
   final String dataTypeValue;
   final Function? onTap;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
 
-  GadgetListItem(
+  const GadgetListItem(
       {Key? key, required this.gadget, required this.dataTypeValue, this.onTap})
       : super(key: key);
 
-  String filterGadgetDataByDataTypeValue(Gadget gadget, String value) {
+  String filterGadgetDataByDataTypeValue(
+      GadgetInfoEnsemble gadget, String value) {
     switch (value) {
       case 'killsPerMinute':
-        return gadget.kpm.toString();
+        return gadget.KPM;
       case 'uses':
-        return '${gadget.uses.toString()}次';
+        return gadget.used;
       case 'destroyCount':
-        return gadget.vehiclesDestroyedWith.toString();
+        return gadget.killedVehicle;
       default:
-        return gadget.kpm.toString();
+        return gadget.KPM;
     }
   }
 
@@ -211,14 +199,14 @@ class GadgetListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(gadget.gadgetName ?? '未知装备',
+            child: Text(gadget.gadgetName,
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
-            numberFormat.format(gadget.kills ?? 0),
+            gadget.kills,
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
