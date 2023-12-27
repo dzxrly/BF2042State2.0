@@ -249,6 +249,12 @@ class LoginFormState extends State<LoginForm>
                 // if set queryAPI to bftracker, disable playerUid query
                 if (queryAPIName == 'bftracker') {
                   enablePlayerUidQuery = false;
+                  platformFocusNode.unfocus();
+                  playerNameFocusNode.unfocus();
+                  platformName = null;
+                  platformController.clear();
+                  playerName = null;
+                  playerNameController.clear();
                 }
               });
               Navigator.pop(context);
@@ -531,7 +537,7 @@ class LoginFormState extends State<LoginForm>
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
-                labelText: '查询API',
+                labelText: '查询 API',
                 prefixIcon: const Icon(Icons.api),
               ),
               controller: queryAPIController,
@@ -565,16 +571,16 @@ class LoginFormState extends State<LoginForm>
                 suffixIcon: platformName != null
                     ? IconButton(
                         icon: const Icon(Icons.clear),
-                  onPressed: queryBtnLoading
-                      ? null
-                      : () {
-                    setState(() {
-                      platformName = null;
-                      platformController.clear();
-                      platformFocusNode.unfocus();
-                    });
-                  },
-                )
+                        onPressed: queryBtnLoading
+                            ? null
+                            : () {
+                                setState(() {
+                                  platformName = null;
+                                  platformController.clear();
+                                  platformFocusNode.unfocus();
+                                });
+                              },
+                      )
                     : null,
               ),
               controller: platformController,
