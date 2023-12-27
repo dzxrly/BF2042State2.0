@@ -236,10 +236,10 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
               )),
           const Divider(),
           Text(
-            '本应用由 Egg Targaryen 开发 (橘子ID: x_Reshiram)。'
-            '玩家数据接口来自 gametools.network，非常感谢其提供的接口。'
-            'BFBan数据来自 bfban.com，结果仅供参考，'
-            '本应用及作者不对该结果负责，如有疑问请自行联系BFBan。',
+            '本应用由 Egg Targaryen 开发 (橘子 ID: x_Reshiram)。'
+            '玩家数据接口来自 gametools.network ，非常感谢其提供的接口。'
+            'BFBan 数据来自 bfban.com，结果仅供参考，'
+            '本应用及作者不对该结果负责，如有疑问请自行联系 BFBan。',
             softWrap: true,
             style: Theme.of(context).textTheme.bodyMedium,
           )

@@ -30,6 +30,19 @@ enum Platform {
   final FaIcon icon;
 }
 
+enum QueryAPI {
+  gametools('GAMETOOLS', 'gametools',
+      '[推荐] 由 gametools.com 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。'),
+  bftracker('BFTRACKER', 'bftracker',
+      '向 battlefieldtracker.com 发起查询请求。其服务器稳定性更高。但是只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
+
+  const QueryAPI(this.label, this.value, this.note);
+
+  final String label;
+  final String value;
+  final String note;
+}
+
 class LoginScreen extends StatelessWidget {
   final double loginScreenWidthScale;
   final double playerInfoCardWidthScale;
@@ -122,6 +135,7 @@ class LoginForm extends StatefulWidget {
 class LoginFormState extends State<LoginForm>
     with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController queryAPIController = TextEditingController();
   final TextEditingController platformController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
   final QueryHistory queryHistory = QueryHistory();
@@ -130,11 +144,13 @@ class LoginFormState extends State<LoginForm>
   String? updateLog;
   String? currentVersionName;
   String? newVersionName;
+  String queryAPIName = 'gametools';
   String? platformName;
   String? playerName;
   String? playerUid;
   bool enablePlayerUidQuery = false;
   bool queryBtnLoading = false;
+  FocusNode queryAPIFocusNode = FocusNode();
   FocusNode platformFocusNode = FocusNode();
   FocusNode playerNameFocusNode = FocusNode();
 
@@ -203,6 +219,105 @@ class LoginFormState extends State<LoginForm>
     );
   }
 
+  void queryAPIOnTap(BuildContext context) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+      context,
+      ListView.builder(
+        shrinkWrap: true,
+        itemCount: QueryAPI.values.length,
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Text(
+              QueryAPI.values[index].label,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            subtitle: Text(
+              QueryAPI.values[index].note,
+              style: Theme.of(context).textTheme.titleSmall,
+            ),
+            leading: Icon(
+              Icons.check,
+              color: queryAPIName == QueryAPI.values[index].value
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.transparent,
+            ),
+            onTap: () {
+              setState(() {
+                queryAPIName = QueryAPI.values[index].value;
+                queryAPIController.text = QueryAPI.values[index].label;
+
+                // if set queryAPI to bftracker, disable playerUid query
+                if (queryAPIName == 'bftracker') {
+                  enablePlayerUidQuery = false;
+                }
+              });
+              Navigator.pop(context);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  void queryByGametoolsAPI(
+    BuildContext context,
+  ) async {
+    playerInfoAPI
+        .fetchPlayerInfo(
+            platformName!.trim(),
+            enablePlayerUidQuery ? '' : playerName!.trim(),
+            enablePlayerUidQuery ? playerUid!.trim() : '',
+            enablePlayerUidQuery)
+        .then((response) {
+      if (response.userName != null &&
+          response.userId != null &&
+          response.userName != '' &&
+          response.userId != 0 &&
+          response.secondsPlayed != null &&
+          response.secondsPlayed != 0) {
+        queryHistory
+            .setHistory(
+              response.userName!,
+              platformName!,
+              response.userId.toString(),
+            )
+            .then((value) => {
+                  Provider.of<PlayerInfoModel>(context, listen: false)
+                      .updatePlayerInfo(
+                          PlayerInfoEnsemble.gametoolsAPI(response),
+                          Platform.values
+                              .firstWhere(
+                                  (element) => element.value == platformName)
+                              .icon
+                              .icon,
+                          platformName),
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => PlayerInfoScreen(),
+                    ),
+                  )
+                })
+            .catchError((error) {
+          log(error.toString());
+          ErrorSnackBar.showErrorSnackBar(
+              context, '写入缓存时发生错误!', widget.loginScreenWidthScale);
+        });
+      } else {
+        throw '该用户似乎没有玩过战地2042';
+      }
+      setState(() {
+        queryBtnLoading = false;
+      });
+    }).catchError((error) {
+      setState(() {
+        queryBtnLoading = false;
+      });
+      ErrorSnackBar.showErrorSnackBar(
+          context, error.toString(), widget.loginScreenWidthScale);
+    });
+  }
+
   void queryBtnOnPressed(
     BuildContext context,
     double playerInfoCardWidthScale,
@@ -220,60 +335,11 @@ class LoginFormState extends State<LoginForm>
       setState(() {
         queryBtnLoading = true;
       });
-      playerInfoAPI
-          .fetchPlayerInfo(
-              platformName!.trim(),
-              enablePlayerUidQuery ? '' : playerName!.trim(),
-              enablePlayerUidQuery ? playerUid!.trim() : '',
-              enablePlayerUidQuery)
-          .then((response) {
-        if (response.userName != null &&
-            response.userId != null &&
-            response.userName != '' &&
-            response.userId != 0 &&
-            response.secondsPlayed != null &&
-            response.secondsPlayed != 0) {
-          queryHistory
-              .setHistory(
-                response.userName!,
-                platformName!,
-                response.userId.toString(),
-              )
-              .then((value) => {
-                    Provider.of<PlayerInfoModel>(context, listen: false)
-                        .updatePlayerInfo(
-                            PlayerInfoEnsemble.gametoolsAPI(response),
-                            Platform.values
-                                .firstWhere(
-                                    (element) => element.value == platformName)
-                                .icon
-                                .icon,
-                            platformName),
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => PlayerInfoScreen(),
-                      ),
-                    )
-                  })
-              .catchError((error) {
-            log(error.toString());
-            ErrorSnackBar.showErrorSnackBar(
-                context, '写入缓存时发生错误!', widget.loginScreenWidthScale);
-          });
-        } else {
-          throw '该用户似乎没有玩过战地2042';
-        }
-        setState(() {
-          queryBtnLoading = false;
-        });
-      }).catchError((error) {
-        setState(() {
-          queryBtnLoading = false;
-        });
-        ErrorSnackBar.showErrorSnackBar(
-            context, error.toString(), widget.loginScreenWidthScale);
-      });
+      if (queryAPIName == 'gametools') {
+        queryByGametoolsAPI(context);
+      } else if (queryAPIName == 'bftracker') {
+        // TODO
+      }
     }
   }
 
@@ -442,6 +508,7 @@ class LoginFormState extends State<LoginForm>
   @override
   initState() {
     getVersion();
+    queryAPIController.text = QueryAPI.gametools.label;
     super.initState();
   }
 
@@ -459,6 +526,34 @@ class LoginFormState extends State<LoginForm>
           SizedBox(
             width: formWidth,
             child: TextField(
+              focusNode: queryAPIFocusNode,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(19),
+                ),
+                labelText: '查询API',
+                prefixIcon: const Icon(Icons.api),
+              ),
+              controller: queryAPIController,
+              readOnly: true,
+              onChanged: (String value) {
+                setState(() {
+                  queryAPIName = value;
+                });
+              },
+              onTap: () => {
+                if (!queryBtnLoading)
+                  {
+                    queryAPIFocusNode.unfocus(),
+                    queryAPIOnTap(context),
+                  }
+              },
+            ),
+          ),
+          const Padding(padding: EdgeInsets.only(top: 10)),
+          SizedBox(
+            width: formWidth,
+            child: TextField(
               focusNode: platformFocusNode,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -470,16 +565,16 @@ class LoginFormState extends State<LoginForm>
                 suffixIcon: platformName != null
                     ? IconButton(
                         icon: const Icon(Icons.clear),
-                        onPressed: queryBtnLoading
-                            ? null
-                            : () {
-                                setState(() {
-                                  platformName = null;
-                                  platformController.clear();
-                                  platformFocusNode.unfocus();
-                                });
-                              },
-                      )
+                  onPressed: queryBtnLoading
+                      ? null
+                      : () {
+                    setState(() {
+                      platformName = null;
+                      platformController.clear();
+                      platformFocusNode.unfocus();
+                    });
+                  },
+                )
                     : null,
               ),
               controller: platformController,
@@ -614,19 +709,20 @@ class LoginFormState extends State<LoginForm>
                     children: [
                       Checkbox(
                           value: enablePlayerUidQuery,
-                          onChanged: queryBtnLoading
-                              ? null
-                              : (value) {
-                                  platformFocusNode.unfocus();
-                                  playerNameFocusNode.unfocus();
-                                  setState(() {
-                                    enablePlayerUidQuery = value!;
-                                    platformName = null;
-                                    platformController.clear();
-                                    playerName = null;
-                                    playerNameController.clear();
-                                  });
-                                }),
+                          onChanged:
+                              queryBtnLoading || queryAPIName != 'gametools'
+                                  ? null
+                                  : (value) {
+                                      platformFocusNode.unfocus();
+                                      playerNameFocusNode.unfocus();
+                                      setState(() {
+                                        enablePlayerUidQuery = value!;
+                                        platformName = null;
+                                        platformController.clear();
+                                        playerName = null;
+                                        playerNameController.clear();
+                                      });
+                                    }),
                       Text('增强查询',
                           style: Theme.of(context).textTheme.titleSmall),
                     ],
