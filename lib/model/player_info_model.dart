@@ -1,4 +1,4 @@
-import 'package:battlefield_2042_state/api/player_info.dart';
+import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
@@ -177,7 +177,7 @@ class PlayerInfoEnsemble {
         gameModes = [],
         maps = [];
 
-  PlayerInfoEnsemble.gametoolsAPI(PlayerInfo playerInfo)
+  PlayerInfoEnsemble.gametoolsAPI(GametoolsPlayerInfo playerInfo)
       : avatar = '#',
         nucleusId = '未知',
         username = '未知',

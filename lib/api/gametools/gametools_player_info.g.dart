@@ -1,12 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'player_info.dart';
+part of 'gametools_player_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-PlayerInfo _$PlayerInfoFromJson(Map<String, dynamic> json) => PlayerInfo(
+GametoolsPlayerInfo _$GametoolsPlayerInfoFromJson(Map<String, dynamic> json) =>
+    GametoolsPlayerInfo(
       accuracy: json['accuracy'] as String?,
       avatar: json['avatar'] as String?,
       bestSquad: json['bestSquad'] as int?,
@@ -62,7 +63,8 @@ PlayerInfo _$PlayerInfoFromJson(Map<String, dynamic> json) => PlayerInfo(
           .toList(),
     );
 
-Map<String, dynamic> _$PlayerInfoToJson(PlayerInfo instance) =>
+Map<String, dynamic> _$GametoolsPlayerInfoToJson(
+        GametoolsPlayerInfo instance) =>
     <String, dynamic>{
       'accuracy': instance.accuracy,
       'avatar': instance.avatar,

@@ -1,10 +1,10 @@
+import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../api/api.dart';
-import '../api/bfban_check.dart';
 import '../model/player_info_model.dart';
 
 class KeyInfoView extends StatefulWidget {
@@ -99,7 +99,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: '场均伤害',
                     showValueString:
-                        playerInfo.playerInfoEnsemble.damagePerMatch,
+                    playerInfo.playerInfoEnsemble.damagePerMatch,
                   ),
                 ]),
             Flex(
@@ -114,7 +114,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: 'DPM',
                     showValueString:
-                        playerInfo.playerInfoEnsemble.damagePerMinute,
+                    playerInfo.playerInfoEnsemble.damagePerMinute,
                   ),
                   KeyInfoWidget(
                     keyName: '命中率',
@@ -129,12 +129,12 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: '场均击杀',
                     showValueString:
-                        playerInfo.playerInfoEnsemble.killsPerMatch,
+                    playerInfo.playerInfoEnsemble.killsPerMatch,
                   ),
                   KeyInfoWidget(
                     keyName: '游玩场次',
                     showValueString:
-                        playerInfo.playerInfoEnsemble.playedMatches,
+                    playerInfo.playerInfoEnsemble.playedMatches,
                   ),
                   Expanded(
                       flex: 1,
@@ -163,41 +163,41 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    CrossAxisAlignment.center,
                                     children: [
                                       bfbanStatus != -2
                                           ? Icon(
-                                              bfbanStatus == -1
-                                                  ? Icons.check_circle_outline
-                                                  : Icons.error_outline,
-                                              size: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.fontSize,
-                                              color: bfbanStatus != 1
-                                                  ? Theme.of(context)
-                                                      .colorScheme
-                                                      .primary
-                                                  : Theme.of(context)
-                                                      .colorScheme
-                                                      .error,
-                                            )
+                                        bfbanStatus == -1
+                                            ? Icons.check_circle_outline
+                                            : Icons.error_outline,
+                                        size: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.fontSize,
+                                        color: bfbanStatus != 1
+                                            ? Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            : Theme.of(context)
+                                            .colorScheme
+                                            .error,
+                                      )
                                           : SizedBox(
-                                              width: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.fontSize,
-                                              height: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.fontSize,
-                                              child: CircularProgressIndicator(
-                                                strokeWidth: 1,
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .primary,
-                                              ),
-                                            ),
+                                        width: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.fontSize,
+                                        height: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall
+                                            ?.fontSize,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 1,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
+                                      ),
                                       const Padding(
                                           padding: EdgeInsets.only(left: 2)),
                                       Text(
@@ -214,11 +214,11 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                               ?.fontSize,
                                           color: bfbanStatus != 1
                                               ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
+                                              .colorScheme
+                                              .primary
                                               : Theme.of(context)
-                                                  .colorScheme
-                                                  .error,
+                                              .colorScheme
+                                              .error,
                                         ),
                                       ),
                                     ],
@@ -262,7 +262,7 @@ class KeyInfoWidget extends StatelessWidget {
                   showValueString ?? '未知',
                   style: TextStyle(
                     fontWeight:
-                        Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                    Theme.of(context).textTheme.bodyMedium?.fontWeight,
                     fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                     color: Theme.of(context).colorScheme.primary,
                   ),

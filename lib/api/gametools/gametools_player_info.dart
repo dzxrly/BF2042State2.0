@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'player_info.g.dart';
+part 'gametools_player_info.g.dart';
 
 @JsonSerializable(explicitToJson: true)
-class PlayerInfo {
-  PlayerInfo({
+class GametoolsPlayerInfo {
+  GametoolsPlayerInfo({
     this.accuracy,
     this.avatar,
     this.bestSquad,
@@ -90,10 +90,10 @@ class PlayerInfo {
   final List<Gamemode>? gamemodes;
   final List<MapElement>? maps;
 
-  factory PlayerInfo.fromJson(Map<String, dynamic> json) =>
-      _$PlayerInfoFromJson(json);
+  factory GametoolsPlayerInfo.fromJson(Map<String, dynamic> json) =>
+      _$GametoolsPlayerInfoFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PlayerInfoToJson(this);
+  Map<String, dynamic> toJson() => _$GametoolsPlayerInfoToJson(this);
 }
 
 @JsonSerializable()

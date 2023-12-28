@@ -32,9 +32,9 @@ enum Platform {
 
 enum QueryAPI {
   gametools('GAMETOOLS', 'gametools',
-      '[推荐] 由 gametools.com 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。'),
+      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。'),
   bftracker('BFTRACKER', 'bftracker',
-      '向 battlefieldtracker.com 发起查询请求。其服务器稳定性更高。但是只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
+      '向 battlefieldtracker.com 发起查询请求，其服务器稳定性更高。但是数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
 
   const QueryAPI(this.label, this.value, this.note);
 
@@ -155,7 +155,7 @@ class LoginFormState extends State<LoginForm>
   FocusNode playerNameFocusNode = FocusNode();
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
-  PlayerInfoAPI playerInfoAPI = PlayerInfoAPI();
+  GametoolsPlayerInfoAPI gametoolsPlayerInfoAPI = GametoolsPlayerInfoAPI();
   GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
 
   void getVersion() async {
@@ -268,7 +268,7 @@ class LoginFormState extends State<LoginForm>
   void queryByGametoolsAPI(
     BuildContext context,
   ) async {
-    playerInfoAPI
+    gametoolsPlayerInfoAPI
         .fetchPlayerInfo(
             platformName!.trim(),
             enablePlayerUidQuery ? '' : playerName!.trim(),

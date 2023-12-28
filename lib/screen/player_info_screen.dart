@@ -1,6 +1,6 @@
 import 'package:battlefield_2042_state/api/api.dart';
-import 'package:battlefield_2042_state/api/bf_play_info.dart';
-import 'package:battlefield_2042_state/api/player_feslid.dart';
+import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
+import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/classes_list.dart';

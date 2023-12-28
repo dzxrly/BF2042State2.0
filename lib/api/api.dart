@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
+import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
 import 'package:http/http.dart' as http;
 
-import 'bf_play_info.dart';
-import 'bfban_check.dart';
-import 'player_feslid.dart';
-import 'player_info.dart';
+import 'gametools/bf_play_info.dart';
+import 'gametools/gametools_player_info.dart';
 import 'version_check.dart';
 
 class APIBase {
@@ -18,8 +18,8 @@ class APIBase {
   final timeout = const Duration(seconds: 15);
 }
 
-class PlayerInfoAPI extends APIBase {
-  Future<PlayerInfo> fetchPlayerInfo(String platform, String username,
+class GametoolsPlayerInfoAPI extends APIBase {
+  Future<GametoolsPlayerInfo> fetchPlayerInfo(String platform, String username,
       String userUid, bool useUidQuery) async {
     final String url =
         '$gametoolsBaseAPI/bf2042/stats/?raw=false&format_values=true&platform=$platform&skip_battlelog=false${useUidQuery ? '&nucleus_id=$userUid' : '&name=$username'}';
@@ -27,8 +27,8 @@ class PlayerInfoAPI extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          PlayerInfo.fromJson(jsonDecode(response.body));
-          return PlayerInfo.fromJson(jsonDecode(response.body));
+          GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
+          return GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw '该用户似乎没有玩过战地2042';
         }
