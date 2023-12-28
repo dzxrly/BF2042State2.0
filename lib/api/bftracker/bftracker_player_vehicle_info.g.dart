@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'bftracker_player_weapon_info.dart';
+part of 'bftracker_player_vehicle_info.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -16,6 +16,17 @@ Map<String, dynamic> _$KillsToJson(Kills instance) => <String, dynamic>{
       'value': instance.value,
     };
 
+TimePlayed _$TimePlayedFromJson(Map<String, dynamic> json) => TimePlayed(
+      percentile: (json['percentile'] as num?)?.toDouble(),
+      value: json['value'] as int?,
+    );
+
+Map<String, dynamic> _$TimePlayedToJson(TimePlayed instance) =>
+    <String, dynamic>{
+      'percentile': instance.percentile,
+      'value': instance.value,
+    };
+
 DamageDealt _$DamageDealtFromJson(Map<String, dynamic> json) => DamageDealt(
       percentile: (json['percentile'] as num?)?.toDouble(),
       value: json['value'] as int?,
@@ -27,23 +38,48 @@ Map<String, dynamic> _$DamageDealtToJson(DamageDealt instance) =>
       'value': instance.value,
     };
 
-ShotsHit _$ShotsHitFromJson(Map<String, dynamic> json) => ShotsHit(
+DestroyedWith _$DestroyedWithFromJson(Map<String, dynamic> json) =>
+    DestroyedWith(
       percentile: (json['percentile'] as num?)?.toDouble(),
       value: json['value'] as int?,
     );
 
-Map<String, dynamic> _$ShotsHitToJson(ShotsHit instance) => <String, dynamic>{
+Map<String, dynamic> _$DestroyedWithToJson(DestroyedWith instance) =>
+    <String, dynamic>{
       'percentile': instance.percentile,
       'value': instance.value,
     };
 
-TimePlayed _$TimePlayedFromJson(Map<String, dynamic> json) => TimePlayed(
+PassengerAssists _$PassengerAssistsFromJson(Map<String, dynamic> json) =>
+    PassengerAssists(
       percentile: (json['percentile'] as num?)?.toDouble(),
       value: json['value'] as int?,
     );
 
-Map<String, dynamic> _$TimePlayedToJson(TimePlayed instance) =>
+Map<String, dynamic> _$PassengerAssistsToJson(PassengerAssists instance) =>
     <String, dynamic>{
+      'percentile': instance.percentile,
+      'value': instance.value,
+    };
+
+DriverAssists _$DriverAssistsFromJson(Map<String, dynamic> json) =>
+    DriverAssists(
+      percentile: (json['percentile'] as num?)?.toDouble(),
+      value: json['value'] as int?,
+    );
+
+Map<String, dynamic> _$DriverAssistsToJson(DriverAssists instance) =>
+    <String, dynamic>{
+      'percentile': instance.percentile,
+      'value': instance.value,
+    };
+
+RoadKills _$RoadKillsFromJson(Map<String, dynamic> json) => RoadKills(
+      percentile: (json['percentile'] as num?)?.toDouble(),
+      value: json['value'] as int?,
+    );
+
+Map<String, dynamic> _$RoadKillsToJson(RoadKills instance) => <String, dynamic>{
       'percentile': instance.percentile,
       'value': instance.value,
     };
@@ -71,25 +107,13 @@ Map<String, dynamic> _$KillsPerMinuteToJson(KillsPerMinute instance) =>
       'value': instance.value,
     };
 
-ShotsAccuracy _$ShotsAccuracyFromJson(Map<String, dynamic> json) =>
-    ShotsAccuracy(
+DistanceTraveled _$DistanceTraveledFromJson(Map<String, dynamic> json) =>
+    DistanceTraveled(
       percentile: (json['percentile'] as num?)?.toDouble(),
-      value: (json['value'] as num?)?.toDouble(),
+      value: json['value'] as int?,
     );
 
-Map<String, dynamic> _$ShotsAccuracyToJson(ShotsAccuracy instance) =>
-    <String, dynamic>{
-      'percentile': instance.percentile,
-      'value': instance.value,
-    };
-
-HeadshotPercentage _$HeadshotPercentageFromJson(Map<String, dynamic> json) =>
-    HeadshotPercentage(
-      percentile: (json['percentile'] as num?)?.toDouble(),
-      value: (json['value'] as num?)?.toDouble(),
-    );
-
-Map<String, dynamic> _$HeadshotPercentageToJson(HeadshotPercentage instance) =>
+Map<String, dynamic> _$DistanceTraveledToJson(DistanceTraveled instance) =>
     <String, dynamic>{
       'percentile': instance.percentile,
       'value': instance.value,
@@ -105,19 +129,31 @@ Map<String, dynamic> _$DmgPerMinToJson(DmgPerMin instance) => <String, dynamic>{
       'value': instance.value,
     };
 
-WeaponStat _$WeaponStatFromJson(Map<String, dynamic> json) => WeaponStat(
+VehicleStat _$VehicleStatFromJson(Map<String, dynamic> json) => VehicleStat(
       kills: json['kills'] == null
           ? null
           : Kills.fromJson(json['kills'] as Map<String, dynamic>),
-      damageDealt: json['damageDealt'] == null
-          ? null
-          : DamageDealt.fromJson(json['damageDealt'] as Map<String, dynamic>),
-      shotsHit: json['shotsHit'] == null
-          ? null
-          : ShotsHit.fromJson(json['shotsHit'] as Map<String, dynamic>),
       timePlayed: json['timePlayed'] == null
           ? null
           : TimePlayed.fromJson(json['timePlayed'] as Map<String, dynamic>),
+      damageDealt: json['damageDealt'] == null
+          ? null
+          : DamageDealt.fromJson(json['damageDealt'] as Map<String, dynamic>),
+      destroyedWith: json['destroyedWith'] == null
+          ? null
+          : DestroyedWith.fromJson(
+              json['destroyedWith'] as Map<String, dynamic>),
+      passengerAssists: json['passengerAssists'] == null
+          ? null
+          : PassengerAssists.fromJson(
+              json['passengerAssists'] as Map<String, dynamic>),
+      driverAssists: json['driverAssists'] == null
+          ? null
+          : DriverAssists.fromJson(
+              json['driverAssists'] as Map<String, dynamic>),
+      roadKills: json['roadKills'] == null
+          ? null
+          : RoadKills.fromJson(json['roadKills'] as Map<String, dynamic>),
       multiKills: json['multiKills'] == null
           ? null
           : MultiKills.fromJson(json['multiKills'] as Map<String, dynamic>),
@@ -125,67 +161,65 @@ WeaponStat _$WeaponStatFromJson(Map<String, dynamic> json) => WeaponStat(
           ? null
           : KillsPerMinute.fromJson(
               json['killsPerMinute'] as Map<String, dynamic>),
-      shotsAccuracy: json['shotsAccuracy'] == null
+      distanceTraveled: json['distanceTraveled'] == null
           ? null
-          : ShotsAccuracy.fromJson(
-              json['shotsAccuracy'] as Map<String, dynamic>),
-      headshotPercentage: json['headshotPercentage'] == null
-          ? null
-          : HeadshotPercentage.fromJson(
-              json['headshotPercentage'] as Map<String, dynamic>),
+          : DistanceTraveled.fromJson(
+              json['distanceTraveled'] as Map<String, dynamic>),
       dmgPerMin: json['dmgPerMin'] == null
           ? null
           : DmgPerMin.fromJson(json['dmgPerMin'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$WeaponStatToJson(WeaponStat instance) =>
+Map<String, dynamic> _$VehicleStatToJson(VehicleStat instance) =>
     <String, dynamic>{
       'kills': instance.kills?.toJson(),
-      'damageDealt': instance.damageDealt?.toJson(),
-      'shotsHit': instance.shotsHit?.toJson(),
       'timePlayed': instance.timePlayed?.toJson(),
+      'damageDealt': instance.damageDealt?.toJson(),
+      'destroyedWith': instance.destroyedWith?.toJson(),
+      'passengerAssists': instance.passengerAssists?.toJson(),
+      'driverAssists': instance.driverAssists?.toJson(),
+      'roadKills': instance.roadKills?.toJson(),
       'multiKills': instance.multiKills?.toJson(),
       'killsPerMinute': instance.killsPerMinute?.toJson(),
-      'shotsAccuracy': instance.shotsAccuracy?.toJson(),
-      'headshotPercentage': instance.headshotPercentage?.toJson(),
+      'distanceTraveled': instance.distanceTraveled?.toJson(),
       'dmgPerMin': instance.dmgPerMin?.toJson(),
     };
 
-WeaponMetadata _$WeaponMetadataFromJson(Map<String, dynamic> json) =>
-    WeaponMetadata(
+VehicleMetadata _$VehicleMetadataFromJson(Map<String, dynamic> json) =>
+    VehicleMetadata(
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$WeaponMetadataToJson(WeaponMetadata instance) =>
+Map<String, dynamic> _$VehicleMetadataToJson(VehicleMetadata instance) =>
     <String, dynamic>{
       'name': instance.name,
     };
 
-WeaponData _$WeaponDataFromJson(Map<String, dynamic> json) => WeaponData(
+VehicleData _$VehicleDataFromJson(Map<String, dynamic> json) => VehicleData(
       type: json['type'] as String?,
       metadata: json['metadata'] == null
           ? null
-          : WeaponMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+          : VehicleMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
       stats: json['stats'] == null
           ? null
-          : WeaponStat.fromJson(json['stats'] as Map<String, dynamic>),
+          : VehicleStat.fromJson(json['stats'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$WeaponDataToJson(WeaponData instance) =>
+Map<String, dynamic> _$VehicleDataToJson(VehicleData instance) =>
     <String, dynamic>{
       'type': instance.type,
       'metadata': instance.metadata?.toJson(),
       'stats': instance.stats?.toJson(),
     };
 
-BFTrackerWeapon _$BFTrackerWeaponFromJson(Map<String, dynamic> json) =>
-    BFTrackerWeapon(
+BFTrackerVehicle _$BFTrackerVehicleFromJson(Map<String, dynamic> json) =>
+    BFTrackerVehicle(
       data: (json['data'] as List<dynamic>?)
-          ?.map((e) => WeaponData.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => VehicleData.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$BFTrackerWeaponToJson(BFTrackerWeapon instance) =>
+Map<String, dynamic> _$BFTrackerVehicleToJson(BFTrackerVehicle instance) =>
     <String, dynamic>{
       'data': instance.data?.map((e) => e.toJson()).toList(),
     };

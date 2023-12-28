@@ -208,14 +208,15 @@ class WeaponData {
 }
 
 @JsonSerializable(explicitToJson: true)
-class Weapon {
-  Weapon({
+class BFTrackerWeapon {
+  BFTrackerWeapon({
     this.data,
   });
 
   final List<WeaponData>? data;
 
-  factory Weapon.fromJson(Map<String, dynamic> json) => _$WeaponFromJson(json);
+  factory BFTrackerWeapon.fromJson(Map<String, dynamic> json) =>
+      _$BFTrackerWeaponFromJson(json);
 
-  Map<String, dynamic> toJson() => _$WeaponToJson(this);
+  Map<String, dynamic> toJson() => _$BFTrackerWeaponToJson(this);
 }

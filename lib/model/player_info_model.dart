@@ -1,3 +1,9 @@
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_gadget_info.dart';
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_info.dart';
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_map_info.dart';
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_soldier_info.dart';
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_vehicle_info.dart';
+import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,8 +37,7 @@ class WeaponInfoEnsemble {
 }
 
 class VehicleInfoEnsemble {
-  VehicleInfoEnsemble(
-      this.vehicleName,
+  VehicleInfoEnsemble(this.vehicleName,
       this.vehicleId,
       this.kills,
       this.KPM,
@@ -88,8 +93,7 @@ class CharacterInfoEnsemble {
 }
 
 class GameModeInfoEnsemble {
-  GameModeInfoEnsemble(
-      this.modeName,
+  GameModeInfoEnsemble(this.modeName,
       this.modeId,
       this.kills,
       this.KPM,
@@ -138,45 +142,6 @@ class MapInfoEnsemble {
 }
 
 class PlayerInfoEnsemble {
-  PlayerInfoEnsemble()
-      : avatar = '#',
-        nucleusId = '未知',
-        username = '未知',
-        personaId = '未知',
-        playedTime = '未知',
-        realKD = '未知',
-        realKPM = '未知',
-        hsRate = '未知',
-        realKills = '未知',
-        readKillRate = '未知',
-        damagePerMatch = '未知',
-        winRate = '未知',
-        damagePerMinute = '未知',
-        accuracy = '未知',
-        killsPerMatch = '未知',
-        playedMatches = '未知',
-        kills = '未知',
-        deaths = '未知',
-        assists = '未知',
-        KD = '未知',
-        KPM = '未知',
-        damage = '未知',
-        MVP = '未知',
-        bestSquad = '未知',
-        win = '未知',
-        lose = '未知',
-        killedVehicle = '未知',
-        spotEnemy = '未知',
-        recovery = '未知',
-        supply = '未知',
-        repair = '未知',
-        weapons = [],
-        vehicles = [],
-        gadgets = [],
-        characters = [],
-        gameModes = [],
-        maps = [];
-
   PlayerInfoEnsemble.gametoolsAPI(GametoolsPlayerInfo playerInfo)
       : avatar = '#',
         nucleusId = '未知',
@@ -222,7 +187,7 @@ class PlayerInfoEnsemble {
     username = playerInfo.userName ?? '未知';
     personaId = playerInfo.id != null ? playerInfo.id.toString() : '未知';
     playedTime =
-        '${timeFormat.format((playerInfo.secondsPlayed ?? 0) / 3600)}小时';
+    '${timeFormat.format((playerInfo.secondsPlayed ?? 0) / 3600)}小时';
 
     final double realKillsRate =
         double.parse((playerInfo.humanPrecentage ?? '0').replaceAll('%', '')) /
@@ -357,6 +322,247 @@ class PlayerInfoEnsemble {
           map.winPercent ?? '0.0%',
           '${timeFormat.format((map.secondsPlayed ?? 0) / 3600)}小时',
           UtilTools.parseIntAsENUSFormat(map.matches ?? 0))));
+    }
+  }
+
+  PlayerInfoEnsemble.bftracker(
+    BFTrackerPlayerInfo playerInfo,
+    BFTrackerWeapon weaponInfo,
+    BFTrackerVehicle vehicleInfo,
+    BFTrackerGadgets gadgetsInfo,
+    BFTrackerSoldier soldierInfo,
+    BFTrackerMap mapInfo,
+  )   : avatar = '#',
+        nucleusId = '未知',
+        username = '未知',
+        personaId = '未知',
+        playedTime = '未知',
+        realKD = '未知',
+        realKPM = '未知',
+        hsRate = '未知',
+        realKills = '未知',
+        readKillRate = '未知',
+        damagePerMatch = '未知',
+        winRate = '未知',
+        damagePerMinute = '未知',
+        accuracy = '未知',
+        killsPerMatch = '未知',
+        playedMatches = '未知',
+        kills = '未知',
+        deaths = '未知',
+        assists = '未知',
+        KD = '未知',
+        KPM = '未知',
+        damage = '未知',
+        MVP = '未知',
+        bestSquad = '未知',
+        win = '未知',
+        lose = '未知',
+        killedVehicle = '未知',
+        spotEnemy = '未知',
+        recovery = '未知',
+        supply = '未知',
+        repair = '未知',
+        weapons = [],
+        vehicles = [],
+        gadgets = [],
+        characters = [],
+        gameModes = [],
+        maps = [] {
+    final NumberFormat timeFormat = NumberFormat('#,###.00');
+
+    avatar = playerInfo.data?.platformInfo?.avatarUrl ?? '#';
+    nucleusId = playerInfo.data?.platformInfo?.platformUserId ?? '未知';
+    username = playerInfo.data?.platformInfo?.platformUserIdentifier ?? '未知';
+    final overviewSegment = playerInfo.data?.segments
+        ?.firstWhere((element) => element.type == 'overview');
+    playedTime =
+        '${timeFormat.format((overviewSegment?.stats?.timePlayed?.value ?? 0) / 3600)}小时';
+
+    final double realKillsRate =
+        (overviewSegment?.stats?.humanKills?.value ?? 0).toDouble() /
+            (overviewSegment?.stats?.kills?.value ?? 1).toDouble();
+    realKills = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.humanKills?.value ?? 0);
+    realKD = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.humanKdRatio?.value ?? 0, 2);
+    realKPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        (overviewSegment?.stats?.killsPerMinute?.value ?? 0) * realKillsRate,
+        2);
+    hsRate =
+        '${overviewSegment?.stats?.headshotPercentage?.value?.toStringAsFixed(2) ?? 0}%';
+    readKillRate = '${(realKillsRate * 100).toStringAsFixed(2)}%';
+    damagePerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.damagePerMatch?.value ?? 0, 2);
+    winRate =
+        '${overviewSegment?.stats?.wlPercentage?.value?.toStringAsFixed(2) ?? 0}%';
+    damagePerMinute = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.dmgPerMin?.value ?? 0, 2);
+    killsPerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.killsPerMatch?.value ?? 0, 2);
+    playedMatches = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.matches?.value ?? 0);
+
+    kills = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.kills?.value ?? 0);
+    deaths = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.deaths?.value ?? 0);
+    assists = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.assists?.value ?? 0);
+    KD = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.kdRatio?.value ?? 0, 2);
+    KPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
+        overviewSegment?.stats?.killsPerMinute?.value ?? 0, 2);
+    damage = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.damageDealt?.value ?? 0);
+    MVP = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.mvps?.value ?? 0);
+    bestSquad = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.bestSquad?.value ?? 0);
+    win = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.wins?.value ?? 0);
+    lose = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.losses?.value ?? 0);
+    killedVehicle = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.vehiclesDestroyed?.value ?? 0);
+    recovery = UtilTools.parseIntAsENUSFormat(
+        overviewSegment?.stats?.revives?.value ?? 0);
+
+    if (weaponInfo.data != null) {
+      weaponInfo.data?.forEach((weapon) {
+        final weaponData = weapon.stats;
+
+        weapons.add(WeaponInfoEnsemble(
+            weapon.metadata?.name ?? '未知',
+            '未知',
+            UtilTools.parseIntAsENUSFormat(weaponData?.kills?.value ?? 0),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                weaponData?.killsPerMinute?.value ?? 0, 2),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                weaponData?.dmgPerMin?.value ?? 0, 2),
+            '${(weaponData?.headshotPercentage?.value ?? 0).toStringAsFixed(2)}%',
+            '${(weaponData?.shotsAccuracy?.value ?? 0).toStringAsFixed(2)}%',
+            UtilTools.parseIntAsENUSFormat(weaponData?.damageDealt?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(weaponData?.multiKills?.value ?? 0),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                (weaponData?.shotsHit?.value ?? 0).toDouble() /
+                    (weaponData?.kills?.value ?? 1),
+                2),
+            '${timeFormat.format((weaponData?.timePlayed?.value ?? 0) / 3600)}小时'));
+      });
+    }
+
+    if (vehicleInfo.data != null) {
+      vehicleInfo.data?.forEach((vehicle) {
+        final vehicleData = vehicle.stats;
+
+        vehicles.add(VehicleInfoEnsemble(
+            vehicle.metadata?.name ?? '未知',
+            '未知',
+            UtilTools.parseIntAsENUSFormat(vehicleData?.kills?.value ?? 0),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                vehicleData?.killsPerMinute?.value ?? 0, 2),
+            UtilTools.parseIntAsENUSFormat(
+                vehicleData?.damageDealt?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(vehicleData?.multiKills?.value ?? 0),
+            '${timeFormat.format((vehicleData?.timePlayed?.value ?? 0) / 3600)}小时',
+            UtilTools.parseIntAsENUSFormat(
+                vehicleData?.destroyedWith?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(vehicleData?.roadKills?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(
+                vehicleData?.driverAssists?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(
+                vehicleData?.passengerAssists?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(
+                vehicleData?.distanceTraveled?.value ?? 0)));
+      });
+    }
+
+    if (gadgetsInfo.data != null) {
+      gadgetsInfo.data?.forEach((gadget) {
+        final gadgetData = gadget.stats;
+
+        gadgets.add(GadgetInfoEnsemble(
+            gadget.metadata?.name ?? '未知',
+            '未知',
+            UtilTools.parseIntAsENUSFormat(gadgetData?.kills?.value ?? 0),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                gadgetData?.killsPerMinute?.value ?? 0, 2),
+            UtilTools.parseIntAsENUSFormat(gadgetData?.damageDealt?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(
+                gadgetData?.vehiclesDestroyed?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(gadgetData?.multiKills?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(gadgetData?.uses?.value ?? 0)));
+      });
+    }
+
+    if (soldierInfo.data != null) {
+      soldierInfo.data?.forEach((soldier) {
+        final soldierData = soldier.stats;
+
+        characters.add(CharacterInfoEnsemble(
+            soldier.metadata?.name ?? '未知',
+            '未知',
+            UtilTools.parseIntAsENUSFormat(soldierData?.kills?.value ?? 0),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                soldierData?.killsPerMinute?.value ?? 0, 2),
+            UtilTools.parseDoubleAsFixedAndENUSFormat(
+                soldierData?.kdRatio?.value ?? 0, 2),
+            UtilTools.parseIntAsENUSFormat(soldierData?.deaths?.value ?? 0),
+            '未知',
+            '${timeFormat.format((soldierData?.timePlayed?.value ?? 0) / 3600)}小时'));
+      });
+    }
+
+    // gamemode is in the playerInfo.data.segments, where the type is 'gamemode'
+    final gameModsSegment = <DataSegmentsItem>[];
+    playerInfo.data?.segments?.forEach((element) {
+      if (element.type == 'gamemode') {
+        gameModsSegment.add(element);
+      }
+    });
+    for (var gamemode in gameModsSegment) {
+      gameModes.add(GameModeInfoEnsemble(
+        gamemode.metadata?.name ?? '未知',
+        '未知',
+        UtilTools.parseIntAsENUSFormat(gamemode.stats?.kills?.value ?? 0),
+        UtilTools.parseDoubleAsFixedAndENUSFormat(
+            gamemode.stats?.killsPerMinute?.value ?? 0, 2),
+        UtilTools.parseIntAsENUSFormat(gamemode.stats?.matches?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(gamemode.stats?.wins?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(gamemode.stats?.losses?.value ?? 0),
+        '${(gamemode.stats?.wlPercentage?.value ?? 0).toStringAsFixed(2)}%',
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.objectiveTime?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.defendedSectors?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.defendedObjectives?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.objectivesCaptured?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.objectivesArmed?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.objectivesDisarmed?.value ?? 0),
+        UtilTools.parseIntAsENUSFormat(
+            gamemode.stats?.objectivesDestroyed?.value ?? 0),
+        '${timeFormat.format((gamemode.stats?.timePlayed?.value ?? 0) / 3600)}小时',
+      ));
+    }
+
+    if (mapInfo.data != null) {
+      mapInfo.data?.forEach((map) {
+        final mapData = map.stats;
+
+        maps.add(MapInfoEnsemble(
+            map.metadata?.name ?? '未知',
+            '未知',
+            UtilTools.parseIntAsENUSFormat(mapData?.wins?.value ?? 0),
+            UtilTools.parseIntAsENUSFormat(mapData?.losses?.value ?? 0),
+            '${(mapData?.wlPercentage?.value ?? 0).toStringAsFixed(2)}%',
+            '${timeFormat.format((mapData?.timePlayed?.value ?? 0) / 3600)}小时',
+            UtilTools.parseIntAsENUSFormat(mapData?.matches?.value ?? 0)));
+      });
     }
   }
 

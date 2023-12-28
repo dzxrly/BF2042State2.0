@@ -1,10 +1,13 @@
 import 'dart:developer';
 
 import 'package:battlefield_2042_state/api/api.dart';
+import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/error_snackbar.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:battlefield_2042_state/screen/player_info_screen.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,10 +16,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../api/version_check.dart';
-import '../model/player_info_model.dart';
-import '../utils/tools.dart';
 
 enum Platform {
   pc('PC', 'pc', FaIcon(FontAwesomeIcons.windows)),
@@ -32,9 +31,9 @@ enum Platform {
 
 enum QueryAPI {
   gametools('GAMETOOLS', 'gametools',
-      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。'),
-  bftracker('BFTRACKER', 'bftracker',
-      '向 battlefieldtracker.com 发起查询请求，其服务器稳定性更高。但是数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
+      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。');
+  // bftracker('BFTRACKER', 'bftracker',
+  //     '向 battlefieldtracker.com 发起非官方的查询请求，其服务器稳定性更高，但请求可能被屏蔽。此外数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
 
   const QueryAPI(this.label, this.value, this.note);
 
@@ -156,6 +155,18 @@ class LoginFormState extends State<LoginForm>
 
   String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
   GametoolsPlayerInfoAPI gametoolsPlayerInfoAPI = GametoolsPlayerInfoAPI();
+  BFTrackerPlayerInfoAPIMain bfTrackerPlayerInfoAPIMain =
+      BFTrackerPlayerInfoAPIMain();
+  BFTrackerPlayerInfoAPIWeapon bfTrackerPlayerInfoAPIWeapon =
+      BFTrackerPlayerInfoAPIWeapon();
+  BFTrackerPlayerInfoAPIVehicle bfTrackerPlayerInfoAPIVehicle =
+      BFTrackerPlayerInfoAPIVehicle();
+  BFTrackerPlayerInfoAPISoldier bfTrackerPlayerInfoAPISoldier =
+      BFTrackerPlayerInfoAPISoldier();
+  BFTrackerPlayerInfoAPIMap bfTrackerPlayerInfoAPIMap =
+      BFTrackerPlayerInfoAPIMap();
+  BFTrackerPlayerInfoAPIGadgets bfTrackerPlayerInfoAPIGadgets =
+      BFTrackerPlayerInfoAPIGadgets();
   GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
 
   void getVersion() async {
@@ -324,6 +335,44 @@ class LoginFormState extends State<LoginForm>
     });
   }
 
+  void queryBFTrackerAPI(
+    BuildContext context,
+  ) async {
+    String bftrackerPlatform = 'origin';
+    if (platformName == 'pc') {
+      bftrackerPlatform = 'origin';
+    } else if (platformName == 'psn') {
+      bftrackerPlatform = 'psn';
+    } else if (platformName == 'xboxseries') {
+      bftrackerPlatform = 'xbl';
+    } else {
+      throw '错误! 未知的游戏平台';
+    }
+    bfTrackerPlayerInfoAPIMain
+        .fetchPlayerInfo(bftrackerPlatform, playerName!.trim())
+        .then((response) {
+      if (response.data != null) {
+        if (response.data?.platformInfo?.platformUserId != null &&
+            response.data?.platformInfo?.platformUserId != '') {
+          // TODO
+        } else {
+          throw '该用户似乎没有玩过战地2042';
+        }
+      } else {
+        throw '受隐私限制无法读取用户数据！';
+      }
+      setState(() {
+        queryBtnLoading = false;
+      });
+    }).catchError((error) {
+      setState(() {
+        queryBtnLoading = false;
+      });
+      ErrorSnackBar.showErrorSnackBar(
+          context, error.toString(), widget.loginScreenWidthScale);
+    });
+  }
+
   void queryBtnOnPressed(
     BuildContext context,
     double playerInfoCardWidthScale,
@@ -344,7 +393,9 @@ class LoginFormState extends State<LoginForm>
       if (queryAPIName == 'gametools') {
         queryByGametoolsAPI(context);
       } else if (queryAPIName == 'bftracker') {
-        // TODO
+        queryBFTrackerAPI(context);
+      } else {
+        throw '错误! 未知的查询 API';
       }
     }
   }
