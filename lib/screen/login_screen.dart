@@ -30,16 +30,23 @@ enum Platform {
 }
 
 enum QueryAPI {
-  gametools('GAMETOOLS', 'gametools',
-      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。');
-  // bftracker('BFTRACKER', 'bftracker',
-  //     '向 battlefieldtracker.com 发起非官方的查询请求，其服务器稳定性更高，但请求可能被屏蔽。此外数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。');
+  gametools(
+      'GAMETOOLS',
+      'gametools',
+      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。',
+      true),
+  bftracker(
+      'BFTRACKER',
+      'bftracker',
+      '[暂未开放] 向 battlefieldtracker.com 发起非官方的查询请求，其服务器稳定性更高，但请求可能被屏蔽。此外数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。',
+      false);
 
-  const QueryAPI(this.label, this.value, this.note);
+  const QueryAPI(this.label, this.value, this.note, this.enable);
 
   final String label;
   final String value;
   final String note;
+  final bool enable;
 }
 
 class LoginScreen extends StatelessWidget {
@@ -217,6 +224,12 @@ class LoginFormState extends State<LoginForm>
               Platform.values[index].label,
               style: Theme.of(context).textTheme.titleMedium,
             ),
+            tileColor: platformName == Platform.values[index].value
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : null,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(19),
+            ),
             onTap: () {
               setState(() {
                 platformName = Platform.values[index].value;
@@ -246,28 +259,33 @@ class LoginFormState extends State<LoginForm>
               QueryAPI.values[index].note,
               style: Theme.of(context).textTheme.titleSmall,
             ),
-            leading: Icon(
-              Icons.check,
-              color: queryAPIName == QueryAPI.values[index].value
-                  ? Theme.of(context).colorScheme.primary
-                  : Colors.transparent,
+            tileColor: queryAPIName == QueryAPI.values[index].value
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : null,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(19),
             ),
             onTap: () {
-              setState(() {
-                queryAPIName = QueryAPI.values[index].value;
-                queryAPIController.text = QueryAPI.values[index].label;
+              if (QueryAPI.values[index].enable) {
+                setState(() {
+                  queryAPIName = QueryAPI.values[index].value;
+                  queryAPIController.text = QueryAPI.values[index].label;
 
-                // if set queryAPI to bftracker, disable playerUid query
-                if (queryAPIName == 'bftracker') {
-                  enablePlayerUidQuery = false;
-                  platformFocusNode.unfocus();
-                  playerNameFocusNode.unfocus();
-                  platformName = null;
-                  platformController.clear();
-                  playerName = null;
-                  playerNameController.clear();
-                }
-              });
+                  // if set queryAPI to bftracker, disable playerUid query
+                  if (queryAPIName == 'bftracker') {
+                    enablePlayerUidQuery = false;
+                    platformFocusNode.unfocus();
+                    playerNameFocusNode.unfocus();
+                    platformName = null;
+                    platformController.clear();
+                    playerName = null;
+                    playerNameController.clear();
+                  }
+                });
+              } else {
+                ErrorSnackBar.showErrorSnackBar(
+                    context, '该查询 API 暂未开放!', widget.loginScreenWidthScale);
+              }
               Navigator.pop(context);
             },
           );
