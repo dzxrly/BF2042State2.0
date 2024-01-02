@@ -23,14 +23,9 @@ class APIBase {
 
   final timeout = const Duration(seconds: 15);
   final header = {
-    'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36 Edg/121.0.0.0',
     'Accept': 'application/json, text/plain, */*',
-    'Accept-Encoding': 'gzip, deflate, br',
     'Accept-Language': 'zh-HK,zh-CN;q=0.9,zh;q=0.8,en-US;q=0.7,en;q=0.6',
     'Cache-Control': 'no-cache',
-    'Host': 'battlefieldtracker.com',
-    'Referer': 'https://battlefieldtracker.com/'
   };
 }
 

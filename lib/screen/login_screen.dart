@@ -280,6 +280,7 @@ class LoginFormState extends State<LoginForm>
                     platformController.clear();
                     playerName = null;
                     playerNameController.clear();
+                    playerUid = null;
                   }
                 });
               } else {
@@ -469,6 +470,15 @@ class LoginFormState extends State<LoginForm>
                                 subtitle: Text(
                                   queryHistory.playerUidHistory[index],
                                   style: Theme.of(context).textTheme.titleSmall,
+                                ),
+                                tileColor: playerUid ==
+                                        queryHistory.playerUidHistory[index]
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer
+                                    : null,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(19),
                                 ),
                                 onTap: () {
                                   setState(() {
@@ -796,6 +806,7 @@ class LoginFormState extends State<LoginForm>
                                         platformController.clear();
                                         playerName = null;
                                         playerNameController.clear();
+                                        playerUid = null;
                                       });
                                     }),
                       Text('增强查询',

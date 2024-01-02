@@ -4,6 +4,7 @@ import 'package:battlefield_2042_state/api/bftracker/bftracker_player_map_info.d
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_soldier_info.dart';
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_vehicle_info.dart';
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_info.dart';
+import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
@@ -37,7 +38,8 @@ class WeaponInfoEnsemble {
 }
 
 class VehicleInfoEnsemble {
-  VehicleInfoEnsemble(this.vehicleName,
+  VehicleInfoEnsemble(
+      this.vehicleName,
       this.vehicleId,
       this.kills,
       this.KPM,
@@ -93,7 +95,8 @@ class CharacterInfoEnsemble {
 }
 
 class GameModeInfoEnsemble {
-  GameModeInfoEnsemble(this.modeName,
+  GameModeInfoEnsemble(
+      this.modeName,
       this.modeId,
       this.kills,
       this.KPM,
@@ -187,7 +190,7 @@ class PlayerInfoEnsemble {
     username = playerInfo.userName ?? '未知';
     personaId = playerInfo.id != null ? playerInfo.id.toString() : '未知';
     playedTime =
-    '${timeFormat.format((playerInfo.secondsPlayed ?? 0) / 3600)}小时';
+        '${timeFormat.format((playerInfo.secondsPlayed ?? 0) / 3600)}小时';
 
     final double realKillsRate =
         double.parse((playerInfo.humanPrecentage ?? '0').replaceAll('%', '')) /
@@ -610,6 +613,7 @@ class PlayerInfoEnsemble {
 
 class PlayerInfoModel extends ChangeNotifier {
   late PlayerInfoEnsemble _playerInfoEnsemble;
+  BFPlayInfo? _bfPlayInfo;
   IconData? _iconData;
   String? _platform;
 
