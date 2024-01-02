@@ -728,6 +728,7 @@ class LoginFormState extends State<LoginForm>
                                       playerName = null;
                                       playerNameController.clear();
                                       playerNameFocusNode.unfocus();
+                                      playerUid = null;
                                     });
                                   },
                           )
