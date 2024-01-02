@@ -30,17 +30,21 @@ class _KeyInfoViewState extends State<KeyInfoView> {
     if (userId != '' || userId.isNotEmpty) {
       try {
         BFBanCheck bfBanCheck = await bfBanCheckAPI.fetchBFBanCheck(userId);
-        setState(() {
-          bfbanStatus = bfBanCheck.status ?? -1;
-          bfbanUrl = bfBanCheck.originPersonaId == null
-              ? bfBanCheck.url
-              : 'https://bfban.gametools.network/player/${bfBanCheck.originPersonaId}';
-        });
+        if (mounted) {
+          setState(() {
+            bfbanStatus = bfBanCheck.status ?? -1;
+            bfbanUrl = bfBanCheck.originPersonaId == null
+                ? bfBanCheck.url
+                : 'https://bfban.gametools.network/player/${bfBanCheck.originPersonaId}';
+          });
+        }
       } catch (e) {
-        setState(() {
-          bfbanStatus = -3;
-          bfbanUrl = null;
-        });
+        if (mounted) {
+          setState(() {
+            bfbanStatus = -3;
+            bfbanUrl = null;
+          });
+        }
       }
     }
   }

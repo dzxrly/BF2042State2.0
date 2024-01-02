@@ -71,7 +71,7 @@ class LoginScreen extends StatelessWidget {
               LoginContainer(
                 loginScreenWidthScale: loginScreenWidthScale,
                 playerInfoCardWidthScale: playerInfoCardWidthScale,
-              )
+              ),
             ],
           ),
         ));
@@ -317,7 +317,8 @@ class LoginFormState extends State<LoginForm>
               platformName!,
               response.userId.toString(),
             )
-            .then((value) => {
+            .then((value) =>
+        {
                   Provider.of<PlayerInfoModel>(context, listen: false)
                       .updatePlayerInfo(
                           PlayerInfoEnsemble.gametoolsAPI(response),
@@ -327,6 +328,15 @@ class LoginFormState extends State<LoginForm>
                               .icon
                               .icon,
                           platformName),
+                  setState(() {
+                    platformFocusNode.unfocus();
+                    playerNameFocusNode.unfocus();
+                    platformName = null;
+                    platformController.clear();
+                    playerName = null;
+                    playerNameController.clear();
+                    playerUid = null;
+                  }),
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
@@ -374,6 +384,16 @@ class LoginFormState extends State<LoginForm>
         if (response.data?.platformInfo?.platformUserId != null &&
             response.data?.platformInfo?.platformUserId != '') {
           // TODO
+
+          setState(() {
+            platformFocusNode.unfocus();
+            playerNameFocusNode.unfocus();
+            platformName = null;
+            platformController.clear();
+            playerName = null;
+            playerNameController.clear();
+            playerUid = null;
+          });
         } else {
           throw '该用户似乎没有玩过战地2042';
         }
@@ -589,6 +609,17 @@ class LoginFormState extends State<LoginForm>
         ));
   }
 
+  void checkInputPlayerNameIsInHistory(String? userInput) {
+    // check input playerName is in history, if not, set playerUID to null,
+    // if in, do nothing
+    if (queryHistory.playerNameHistory.contains(userInput)) {
+    } else {
+      setState(() {
+        playerUid = null;
+      });
+    }
+  }
+
   // load history when initState
   @override
   initState() {
@@ -711,6 +742,7 @@ class LoginFormState extends State<LoginForm>
                                       playerName = null;
                                       playerNameController.clear();
                                       playerNameFocusNode.unfocus();
+                                      playerUid = null;
                                     });
                                   },
                           )
@@ -725,6 +757,7 @@ class LoginFormState extends State<LoginForm>
                   if (enablePlayerUidQuery) {
                     playerUid = value;
                   } else {
+                    checkInputPlayerNameIsInHistory(value);
                     playerName = value;
                   }
                 });
