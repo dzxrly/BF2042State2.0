@@ -195,8 +195,12 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(AppLocalizations.of(context)!.aboutPageTitle,
-              style: Theme.of(context).textTheme.headlineSmall),
+          Text(
+            AppLocalizations.of(context)!.aboutPageTitle,
+            style: Theme.of(context).textTheme.headlineSmall,
+            textAlign: TextAlign.center,
+            softWrap: true,
+          ),
           const Padding(padding: EdgeInsets.only(top: 8)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
