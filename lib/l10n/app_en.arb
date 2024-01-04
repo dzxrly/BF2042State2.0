@@ -12,7 +12,7 @@
   "@aboutPageTitle": {
     "description": "Title of the about page"
   },
-  "aboutPageContent": "This app is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Data API is from gametools.network, and thanks to them for providing it. BFBan history is from bfban.com, the author do not responsible for the accuracy of the data.",
+  "aboutPageContent": "This app is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Player data API is from gametools.network, thanks a lot for providing the API. BFBan history is from bfban.com, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
   "@aboutPageContent": {
     "description": "Content of the about page",
     "placeholders": {
