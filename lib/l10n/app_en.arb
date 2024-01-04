@@ -55,5 +55,67 @@
   "searchResultsTitle": "Search Results",
   "@searchResultsTitle": {
     "description": "Title of the search results"
+  },
+  "requestErrorTip": "{requestError, select, notPlay2042{The player may not played BF2042} notFound{Player not found} serverError{Data API server error, please try again later} networkError{Network error, please check your network} unknownError{Unknown error, please try again later} timeoutError{Request timeout, please try again later} rejectedError{The server rejected the request, please try again later} privateLimitError{Player state is protected by private setting} other{requestError}}",
+  "@requestErrorTip": {
+    "description": "Tip for the request error",
+    "placeholders": {
+      "requestError": {
+        "type": "String"
+      }
+    }
+  },
+  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don't need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{dataAPIDesc}}",
+  "@dataAPIDescription": {
+    "description": "Description of the data API",
+    "placeholders": {
+      "dataAPIDesc": {
+        "type": "String"
+      }
+    }
+  },
+  "dataAPINotOpenErrorTip": "The data API is not open temporarily",
+  "@dataAPINotOpenErrorTip": {
+    "description": "Tip for the data API not open error"
+  },
+  "writeCacheErrorTip": "Failed to write cache",
+  "@writeCacheErrorTip": {
+    "description": "Tip for the write cache error"
+  },
+  "platformUnknownErrorTip": "Error! Unknown platform",
+  "@platformUnknownErrorTip": {
+    "description": "Unknown platform"
+  },
+  "playerNameTextFieldNotNone": "Platform or Player name can not be empty",
+  "@playerNameTextFieldNotNone": {
+    "description": "Tip for the platform or Player name can not be empty"
+  },
+  "playerUIDTextFieldNotNone": "Platform or UID can not be empty",
+  "@playerUIDTextFieldNotNone": {
+    "description": "Tip for the platform or UID can not be empty"
+  },
+  "dataAPIUnknownErrorTip": "Error! Unknown data API",
+  "@dataAPIUnknownErrorTip": {
+    "description": "Unknown data API"
+  },
+  "searchHistoryIsNone": "Search history is empty",
+  "@searchHistoryIsNone": {
+    "description": "Tip for the search history is empty"
+  },
+  "upgradeDiscoveryTip": "New version:",
+  "@upgradeDiscoveryTip": {
+    "description": "Tip for the upgrade discovery"
+  },
+  "upgradeLogTitle": "Upgrade Log",
+  "@upgradeLogTitle": {
+    "description": "Title of the upgrade log"
+  },
+  "upgradeDownloadButtonTitle": "Download",
+  "@upgradeDownloadButtonTitle": {
+    "description": "Title of the upgrade download button"
+  },
+  "upgradeDiscoveryTitle": "Found the new version, click for details",
+  "@upgradeDiscoveryTitle": {
+    "description": "Title of the upgrade discovery"
   }
 }

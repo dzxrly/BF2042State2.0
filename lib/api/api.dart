@@ -14,6 +14,21 @@ import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:http/http.dart' as http;
 
+enum ErrorResponse {
+  notPlay2042('notPlay2042'),
+  notFound('notFound'),
+  serverError('serverError'),
+  networkError('networkError'),
+  unknownError('unknownError'),
+  timeoutError('timeoutError'),
+  privateLimitError('privateLimitError'),
+  rejectedError('rejectedError');
+
+  const ErrorResponse(this.value);
+
+  final String value;
+}
+
 class APIBase {
   final String gametoolsBaseAPI = 'https://api.gametools.network';
   final String bftrackerBaseAPI = 'https://api.tracker.gg/api/v2';
@@ -41,24 +56,24 @@ class GametoolsPlayerInfoAPI extends APIBase {
           GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
           return GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -79,26 +94,26 @@ class BFTrackerPlayerInfoAPIMain extends APIBase {
           BFTrackerPlayerInfo.fromJson(jsonDecode(response.body));
           return BFTrackerPlayerInfo.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -118,26 +133,26 @@ class BFTrackerPlayerInfoAPIWeapon extends APIBase {
           BFTrackerWeapon.fromJson(jsonDecode(response.body));
           return BFTrackerWeapon.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -157,26 +172,26 @@ class BFTrackerPlayerInfoAPIVehicle extends APIBase {
           BFTrackerVehicle.fromJson(jsonDecode(response.body));
           return BFTrackerVehicle.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -196,26 +211,26 @@ class BFTrackerPlayerInfoAPIMap extends APIBase {
           BFTrackerMap.fromJson(jsonDecode(response.body));
           return BFTrackerMap.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -235,26 +250,26 @@ class BFTrackerPlayerInfoAPIGadgets extends APIBase {
           BFTrackerGadgets.fromJson(jsonDecode(response.body));
           return BFTrackerGadgets.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -274,26 +289,26 @@ class BFTrackerPlayerInfoAPISoldier extends APIBase {
           BFTrackerSoldier.fromJson(jsonDecode(response.body));
           return BFTrackerSoldier.fromJson(jsonDecode(response.body));
         } catch (e) {
-          throw '该用户似乎没有玩过战地2042';
+          throw ErrorResponse.notPlay2042.value;
         }
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else if (response.statusCode == 403) {
-        throw '请求被服务器拒绝，请稍后再试';
+        throw ErrorResponse.rejectedError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -322,21 +337,21 @@ class PostPlayerFeslidAPI extends APIBase {
       if (response.statusCode == 200) {
         return PlayerFeslid.fromJson(jsonDecode(response.body));
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else if (response.statusCode == 408 ||
           response.statusCode == 503 ||
           response.statusCode == 504) {
-        throw '服务器错误，请稍后再试';
+        throw ErrorResponse.serverError.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       // if error is http client error, return '似乎发生了网络错误，请重试',
       // else return error message
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -353,15 +368,15 @@ class BFPlayInfoAPI extends APIBase {
       if (response.statusCode == 200) {
         return BFPlayInfo.fromJson(jsonDecode(response.body));
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -379,15 +394,15 @@ class BFBanCheckAPI extends APIBase {
         return BFBanCheck.fromJson(
             jsonDecode(response.body)['userids'][userId]);
       } else if (response.statusCode == 404) {
-        throw '查找的玩家不存在!';
+        throw ErrorResponse.notFound.value;
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }
@@ -406,13 +421,13 @@ class GiteeVersionCheckAPI extends APIBase {
         return GiteeVersionCheck.fromJson(
             jsonDecode(utf8.decode(response.bodyBytes)));
       } else {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.unknownError.value;
       }
     } on TimeoutException catch (_) {
-      throw '请求超时，请稍后再试';
+      throw ErrorResponse.timeoutError.value;
     } catch (e) {
       if (e.toString().contains('ClientException')) {
-        throw '似乎发生了网络错误，请重试';
+        throw ErrorResponse.networkError.value;
       } else {
         rethrow;
       }

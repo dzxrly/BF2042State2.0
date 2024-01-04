@@ -31,22 +31,13 @@ enum Platform {
 }
 
 enum QueryAPI {
-  gametools(
-      'GAMETOOLS',
-      'gametools',
-      '[推荐] 由 gametools.network 提供。可查询到隐藏战绩的玩家，且支持 UID 查询，不需要担心改名问题。但是其服务器性能一般，可能会出现抽风的问题。',
-      true),
-  bftracker(
-      'BFTRACKER',
-      'bftracker',
-      '[暂未开放] 向 battlefieldtracker.com 发起非官方的查询请求，其服务器稳定性更高，但请求可能被屏蔽。此外数据不及 gametools 的详细，并且只能通过昵称查询，不能查询隐藏战绩的玩家，亦受到改名影响。',
-      false);
+  gametools('GAMETOOLS', 'gametools', true),
+  bftracker('BFTRACKER', 'bftracker', false);
 
-  const QueryAPI(this.label, this.value, this.note, this.enable);
+  const QueryAPI(this.label, this.value, this.enable);
 
   final String label;
   final String value;
-  final String note;
   final bool enable;
 }
 
@@ -197,7 +188,7 @@ class LoginFormState extends State<LoginForm>
             });
           }
         } else {
-          throw '错误! 无法获取最新版本信息';
+          throw 'Network Error';
         }
       } catch (error) {
         rethrow;
@@ -207,7 +198,7 @@ class LoginFormState extends State<LoginForm>
 
   Future<void> urlLauncher(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('错误! 无法打开: $url');
+      throw Exception('Error! can not open URL: $url');
     }
   }
 
@@ -256,7 +247,9 @@ class LoginFormState extends State<LoginForm>
               style: Theme.of(context).textTheme.titleMedium,
             ),
             subtitle: Text(
-              QueryAPI.values[index].note,
+              AppLocalizations.of(context)!.dataAPIDescription(
+                QueryAPI.values[index].value,
+              ),
             ),
             tileColor: queryAPIName == QueryAPI.values[index].value
                 ? Theme.of(context).colorScheme.secondaryContainer
@@ -284,7 +277,9 @@ class LoginFormState extends State<LoginForm>
                 });
               } else {
                 ErrorSnackBar.showErrorSnackBar(
-                    context, '该查询 API 暂未开放!', widget.loginScreenWidthScale);
+                    context,
+                    AppLocalizations.of(context)!.dataAPINotOpenErrorTip,
+                    widget.loginScreenWidthScale);
               }
               Navigator.pop(context);
             },
@@ -345,10 +340,13 @@ class LoginFormState extends State<LoginForm>
             .catchError((error) {
           log(error.toString());
           ErrorSnackBar.showErrorSnackBar(
-              context, '写入缓存时发生错误!', widget.loginScreenWidthScale);
+              context,
+              AppLocalizations.of(context)!.writeCacheErrorTip,
+              widget.loginScreenWidthScale);
         });
       } else {
-        throw '该用户似乎没有玩过战地2042';
+        throw AppLocalizations.of(context)!
+            .requestErrorTip(ErrorResponse.notPlay2042.value);
       }
       setState(() {
         queryBtnLoading = false;
@@ -358,7 +356,9 @@ class LoginFormState extends State<LoginForm>
         queryBtnLoading = false;
       });
       ErrorSnackBar.showErrorSnackBar(
-          context, error.toString(), widget.loginScreenWidthScale);
+          context,
+          AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+          widget.loginScreenWidthScale);
     });
   }
 
@@ -373,7 +373,7 @@ class LoginFormState extends State<LoginForm>
     } else if (platformName == 'xboxseries') {
       bftrackerPlatform = 'xbl';
     } else {
-      throw '错误! 未知的游戏平台';
+      throw AppLocalizations.of(context)!.platformUnknownErrorTip;
     }
     bfTrackerPlayerInfoAPIMain
         .fetchPlayerInfo(bftrackerPlatform, playerName!.trim())
@@ -393,10 +393,12 @@ class LoginFormState extends State<LoginForm>
             playerUid = null;
           });
         } else {
-          throw '该用户似乎没有玩过战地2042';
+          throw AppLocalizations.of(context)!
+              .requestErrorTip(ErrorResponse.notPlay2042.value);
         }
       } else {
-        throw '受隐私限制无法读取用户数据！';
+        throw AppLocalizations.of(context)!
+            .requestErrorTip(ErrorResponse.privateLimitError.value);
       }
       setState(() {
         queryBtnLoading = false;
@@ -406,7 +408,9 @@ class LoginFormState extends State<LoginForm>
         queryBtnLoading = false;
       });
       ErrorSnackBar.showErrorSnackBar(
-          context, error.toString(), widget.loginScreenWidthScale);
+          context,
+          AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+          widget.loginScreenWidthScale);
     });
   }
 
@@ -421,7 +425,9 @@ class LoginFormState extends State<LoginForm>
         (!enablePlayerUidQuery && playerName == null)) {
       ErrorSnackBar.showErrorSnackBar(
           context,
-          enablePlayerUidQuery ? '游戏平台或UID不能为空!' : '游戏平台或玩家昵称不能为空!',
+          enablePlayerUidQuery
+              ? AppLocalizations.of(context)!.playerUIDTextFieldNotNone
+              : AppLocalizations.of(context)!.playerNameTextFieldNotNone,
           widget.loginScreenWidthScale);
     } else {
       setState(() {
@@ -432,7 +438,7 @@ class LoginFormState extends State<LoginForm>
       } else if (queryAPIName == 'bftracker') {
         queryBFTrackerAPI(context);
       } else {
-        throw '错误! 未知的查询 API';
+        throw AppLocalizations.of(context)!.dataAPIUnknownErrorTip;
       }
     }
   }
@@ -526,7 +532,7 @@ class LoginFormState extends State<LoginForm>
                       )
                     : Center(
                         child: Text(
-                          '暂无查询历史',
+                          AppLocalizations.of(context)!.searchHistoryIsNone,
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                       ),
@@ -551,7 +557,8 @@ class LoginFormState extends State<LoginForm>
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Text('发现新版本:', style: Theme.of(context).textTheme.titleMedium),
+                Text(AppLocalizations.of(context)!.upgradeDiscoveryTip,
+                    style: Theme.of(context).textTheme.titleMedium),
                 const Padding(padding: EdgeInsets.only(left: 8)),
                 Text(currentVersionName ?? '0.0.0',
                     style: TextStyle(
@@ -577,7 +584,8 @@ class LoginFormState extends State<LoginForm>
             const Padding(padding: EdgeInsets.only(top: 8)),
             const Divider(height: 1),
             const Padding(padding: EdgeInsets.only(top: 8)),
-            Text('更新日志', style: Theme.of(context).textTheme.titleMedium),
+            Text(AppLocalizations.of(context)!.upgradeLogTitle,
+                style: Theme.of(context).textTheme.titleMedium),
             const Padding(padding: EdgeInsets.only(top: 4)),
             Text(updateLog ?? '无',
                 softWrap: true, style: Theme.of(context).textTheme.bodyMedium),
@@ -594,7 +602,8 @@ class LoginFormState extends State<LoginForm>
                 ),
                 onPressed: () => urlLauncher(latestVersionDownloadUrl ??
                     'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
-                child: Text('点击下载',
+                child: Text(
+                    AppLocalizations.of(context)!.upgradeDownloadButtonTitle,
                     style: TextStyle(
                       fontSize:
                           Theme.of(context).textTheme.titleMedium?.fontSize,
@@ -879,7 +888,8 @@ class LoginFormState extends State<LoginForm>
                     foregroundColor: Theme.of(context).colorScheme.error,
                   ),
                   onPressed: () => showVersionUpdateDetail(context),
-                  child: const Text('发现新版本，点击查看详情'))
+                  child:
+                      Text(AppLocalizations.of(context)!.upgradeDiscoveryTitle))
               : Container(),
         ],
       ),
