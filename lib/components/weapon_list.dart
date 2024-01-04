@@ -64,9 +64,9 @@ class WeaponListState extends State<WeaponList> {
                   ]),
               Expanded(
                   child: ListView.builder(
-                    shrinkWrap: true,
-                prototypeItem:
-                    InfoListItem(keyName: 'null', showValueString: 'null'),
+                shrinkWrap: true,
+                prototypeItem: const InfoListItem(
+                    keyName: 'null', showValueString: 'null'),
                 itemCount: weaponDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
@@ -229,8 +229,8 @@ class WeaponListItem extends StatelessWidget {
             weapon.KPM,
         textAlign: TextAlign.center,
         style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.labelLarge?.fontWeight,
-          fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
+          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
           color: Theme.of(context).colorScheme.primary,
         ),
       )),

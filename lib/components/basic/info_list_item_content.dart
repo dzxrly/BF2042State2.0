@@ -12,7 +12,7 @@ class InfoListItem extends StatelessWidget {
   final String? showValueString;
   final Color? textColor;
 
-  InfoListItem(
+  const InfoListItem(
       {required this.keyName, this.showValueString, this.textColor, Key? key})
       : super(key: key);
 

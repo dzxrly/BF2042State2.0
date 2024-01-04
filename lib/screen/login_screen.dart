@@ -257,7 +257,6 @@ class LoginFormState extends State<LoginForm>
             ),
             subtitle: Text(
               QueryAPI.values[index].note,
-              style: Theme.of(context).textTheme.titleSmall,
             ),
             tileColor: queryAPIName == QueryAPI.values[index].value
                 ? Theme.of(context).colorScheme.secondaryContainer
@@ -317,8 +316,7 @@ class LoginFormState extends State<LoginForm>
               platformName!,
               response.userId.toString(),
             )
-            .then((value) =>
-        {
+            .then((value) => {
                   Provider.of<PlayerInfoModel>(context, listen: false)
                       .updatePlayerInfo(
                           PlayerInfoEnsemble.gametoolsAPI(response),
@@ -489,7 +487,6 @@ class LoginFormState extends State<LoginForm>
                                 ),
                                 subtitle: Text(
                                   queryHistory.playerUidHistory[index],
-                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 tileColor: playerUid ==
                                         queryHistory.playerUidHistory[index]

@@ -48,9 +48,9 @@ class MapList extends StatelessWidget {
                   ]),
               Expanded(
                   child: ListView.builder(
-                    shrinkWrap: true,
-                prototypeItem:
-                    InfoListItem(keyName: 'null', showValueString: 'null'),
+                shrinkWrap: true,
+                prototypeItem: const InfoListItem(
+                    keyName: 'null', showValueString: 'null'),
                 itemCount: mapDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(

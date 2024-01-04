@@ -59,9 +59,9 @@ class GadgetListState extends State<GadgetList> {
                   ]),
               Expanded(
                   child: ListView.builder(
-                    shrinkWrap: true,
-                prototypeItem:
-                    InfoListItem(keyName: 'null', showValueString: 'null'),
+                shrinkWrap: true,
+                prototypeItem: const InfoListItem(
+                    keyName: 'null', showValueString: 'null'),
                 itemCount: gadgetDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
