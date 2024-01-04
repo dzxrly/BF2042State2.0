@@ -1,0 +1,59 @@
+{
+  "launchUrlError": "Error! Can not open the URL: {url}",
+  "@launchUrlError": {
+    "description": "Error message when the URL can not be opened",
+    "placeholders": {
+      "url": {
+        "type": "String"
+      }
+    }
+  },
+  "aboutPageTitle": "BF2042 State",
+  "@aboutPageTitle": {
+    "description": "Title of the about page"
+  },
+  "aboutPageContent": "This was developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Data API is from gametools.network, and thanks to them for providing it. BFBan history is from bfban.com, the author do not responsible for the accuracy of the data.",
+  "@aboutPageContent": {
+    "description": "Content of the about page",
+    "placeholders": {
+      "authorSteamName": {
+        "type": "String"
+      },
+      "authorEAID": {
+        "type": "String"
+      }
+    }
+  },
+  "loginScreenLogoTitle": "State",
+  "@loginScreenLogoTitle": {
+    "description": "Title under the BF2042 logo on the login_screen"
+  },
+  "queryAPITextFieldPlaceholder": "Data API",
+  "@queryAPITextFieldPlaceholder": {
+    "description": "Placeholder of the textfield for the data API URL"
+  },
+  "platformTextFieldPlaceholder": "Platform",
+  "@platformTextFieldPlaceholder": {
+    "description": "Placeholder of the textfield for the platform"
+  },
+  "playerNameTextFieldPlaceholder": "Player Name",
+  "@playerNameTextFieldPlaceholder": {
+    "description": "Placeholder of the textfield for the player name"
+  },
+  "playerUIDTextFieldPlaceholder": "UID",
+  "@playerUIDTextFieldPlaceholder": {
+    "description": "Placeholder of the textfield for the player UID"
+  },
+  "searchButtonTitle": "Search",
+  "@searchButtonTitle": {
+    "description": "Title of the search button"
+  },
+  "enhancedSearchButtonTitle": "Enhanced Search",
+  "@enhancedSearchButtonTitle": {
+    "description": "Title of the enhanced search switch"
+  },
+  "searchResultsTitle": "Search Results",
+  "@searchResultsTitle": {
+    "description": "Title of the search results"
+  }
+}

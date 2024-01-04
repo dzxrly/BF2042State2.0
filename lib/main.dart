@@ -5,6 +5,7 @@ import 'package:battlefield_2042_state/theme/color_schemes.g.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'BF2042State',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: const [
+        Locale('en'),
+        Locale('zh'),
+        Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hans'),
+        Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant'),
+      ],
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -166,7 +174,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
 
   Future<void> urlLauncher(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('错误! 无法打开: $url');
+      throw Exception(url);
     }
   }
 
@@ -187,7 +195,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text('战地2042战绩查询助手',
+          Text(AppLocalizations.of(context)!.aboutPageTitle,
               style: Theme.of(context).textTheme.headlineSmall),
           const Padding(padding: EdgeInsets.only(top: 8)),
           Row(
@@ -236,10 +244,8 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
               )),
           const Divider(),
           Text(
-            '本应用由 Egg Targaryen 开发 (橘子 ID: x_Reshiram)。'
-            '玩家数据接口来自 gametools.network ，非常感谢其提供的接口。'
-            'BFBan 数据来自 bfban.com，结果仅供参考，'
-            '本应用及作者不对该结果负责，如有疑问请自行联系 BFBan。',
+            AppLocalizations.of(context)!
+                .aboutPageContent('Egg Targaryen', 'x_Reshiram'),
             softWrap: true,
             style: Theme.of(context).textTheme.bodyMedium,
           )

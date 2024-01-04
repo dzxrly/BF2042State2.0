@@ -10,6 +10,7 @@ import 'package:battlefield_2042_state/screen/player_info_screen.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -107,7 +108,7 @@ class LoginContainer extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
           width: formWidth,
           child: Text(
-            '战绩查询助手',
+            AppLocalizations.of(context)!.loginScreenLogoTitle,
             style: TextStyle(
               color: Theme.of(context).colorScheme.onPrimary,
               fontSize: Theme.of(context).textTheme.labelLarge?.fontSize,
@@ -160,7 +161,6 @@ class LoginFormState extends State<LoginForm>
   FocusNode platformFocusNode = FocusNode();
   FocusNode playerNameFocusNode = FocusNode();
 
-  String get playerNameTextFieldLabel => enablePlayerUidQuery ? 'UID' : '玩家昵称';
   GametoolsPlayerInfoAPI gametoolsPlayerInfoAPI = GametoolsPlayerInfoAPI();
   BFTrackerPlayerInfoAPIMain bfTrackerPlayerInfoAPIMain =
       BFTrackerPlayerInfoAPIMain();
@@ -644,7 +644,8 @@ class LoginFormState extends State<LoginForm>
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
-                labelText: '查询 API',
+                labelText:
+                    AppLocalizations.of(context)!.queryAPITextFieldPlaceholder,
                 prefixIcon: const Icon(Icons.api),
               ),
               controller: queryAPIController,
@@ -672,7 +673,8 @@ class LoginFormState extends State<LoginForm>
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
-                labelText: '游戏平台',
+                labelText:
+                    AppLocalizations.of(context)!.platformTextFieldPlaceholder,
                 prefixIcon: const Icon(Icons.gamepad),
                 // if playerName is not null, show clear button
                 suffixIcon: platformName != null
@@ -711,7 +713,11 @@ class LoginFormState extends State<LoginForm>
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(19),
                 ),
-                labelText: playerNameTextFieldLabel,
+                labelText: enablePlayerUidQuery
+                    ? AppLocalizations.of(context)!
+                        .playerUIDTextFieldPlaceholder
+                    : AppLocalizations.of(context)!
+                        .playerNameTextFieldPlaceholder,
                 prefixIcon: const Icon(Icons.person),
                 // if playerName is not null, show clear button
                 suffixIcon: enablePlayerUidQuery
@@ -795,7 +801,8 @@ class LoginFormState extends State<LoginForm>
                           children: [
                             const Icon(Icons.search),
                             const Padding(padding: EdgeInsets.only(left: 8)),
-                            Text('查询',
+                            Text(
+                                AppLocalizations.of(context)!.searchButtonTitle,
                                 style: TextStyle(
                                   fontSize: Theme.of(context)
                                       .textTheme
@@ -840,7 +847,9 @@ class LoginFormState extends State<LoginForm>
                                         playerUid = null;
                                       });
                                     }),
-                      Text('增强查询',
+                      Text(
+                          AppLocalizations.of(context)!
+                              .enhancedSearchButtonTitle,
                           style: Theme.of(context).textTheme.titleSmall),
                     ],
                   ),
@@ -848,18 +857,19 @@ class LoginFormState extends State<LoginForm>
                       onPressed: queryBtnLoading
                           ? null
                           : () => queryHistoryBtnOnPressed(context),
-                      child: Text('查询历史',
-                          style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.fontSize,
-                            fontWeight: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.fontWeight,
-                            color: Theme.of(context).colorScheme.primary,
-                          )))
+                      child:
+                          Text(AppLocalizations.of(context)!.searchResultsTitle,
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.fontSize,
+                                fontWeight: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall
+                                    ?.fontWeight,
+                                color: Theme.of(context).colorScheme.primary,
+                              )))
                 ]),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
