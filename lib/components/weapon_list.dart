@@ -86,15 +86,22 @@ class WeaponListState extends State<WeaponList> {
           shrinkWrap: true,
           itemCount: DataType.values.length,
           itemBuilder: (context, index) {
-            return RadioListTile(
-              title: Text(DataType.values[index].label),
-              value: DataType.values[index].value,
-              groupValue: dataTypeValue,
-              onChanged: (value) {
+            return ListTile(
+              title: Text(
+                DataType.values[index].label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(19),
+              ),
+              tileColor: dataTypeValue == DataType.values[index].value
+                  ? Theme.of(context).colorScheme.secondaryContainer
+                  : null,
+              onTap: () => {
                 setState(() {
-                  dataTypeValue = value.toString();
-                });
-                Navigator.pop(context);
+                  dataTypeValue = DataType.values[index].value;
+                }),
+                Navigator.pop(context)
               },
             );
           },

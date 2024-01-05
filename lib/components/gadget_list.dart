@@ -8,7 +8,7 @@ import 'basic/info_list_item_content.dart';
 
 enum DataType {
   kpm('KPM', 'killsPerMinute'),
-  uses('使用', 'uses'),
+  uses('使用次数', 'uses'),
   destroyCount('摧毁载具', 'destroyCount');
 
   const DataType(this.label, this.value);
@@ -81,15 +81,22 @@ class GadgetListState extends State<GadgetList> {
           shrinkWrap: true,
           itemCount: DataType.values.length,
           itemBuilder: (context, index) {
-            return RadioListTile(
-              title: Text(DataType.values[index].label),
-              value: DataType.values[index].value,
-              groupValue: dataTypeValue,
-              onChanged: (value) {
+            return ListTile(
+              title: Text(
+                DataType.values[index].label,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(19),
+              ),
+              tileColor: dataTypeValue == DataType.values[index].value
+                  ? Theme.of(context).colorScheme.secondaryContainer
+                  : null,
+              onTap: () => {
                 setState(() {
-                  dataTypeValue = value.toString();
-                });
-                Navigator.pop(context);
+                  dataTypeValue = DataType.values[index].value;
+                }),
+                Navigator.pop(context)
               },
             );
           },
