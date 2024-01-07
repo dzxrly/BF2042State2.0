@@ -151,17 +151,17 @@ class PlayerInfoEnsemble {
         username = '未知',
         personaId = '未知',
         playedTime = '未知',
-        realKD = '未知',
-        realKPM = '未知',
+        realKD = 0.0,
+        realKPM = 0.0,
         hsRate = '未知',
-        realKills = '未知',
+        realKills = 0,
         readKillRate = '未知',
-        damagePerMatch = '未知',
+        damagePerMatch = 0.0,
         winRate = '未知',
-        damagePerMinute = '未知',
+        damagePerMinute = 0.0,
         accuracy = '未知',
-        killsPerMatch = '未知',
-        playedMatches = '未知',
+        killsPerMatch = 0.0,
+        playedMatches = 0,
         kills = '未知',
         deaths = '未知',
         assists = '未知',
@@ -195,24 +195,17 @@ class PlayerInfoEnsemble {
     final double realKillsRate =
         double.parse((playerInfo.humanPrecentage ?? '0').replaceAll('%', '')) /
             100;
-    realKills = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.kills ?? 0) * realKillsRate, 0);
-    realKD = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.killDeath ?? 0) * realKillsRate, 2);
-    realKPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.killsPerMinute ?? 0) * realKillsRate, 2);
+    realKills = ((playerInfo.kills ?? 0) * realKillsRate).toInt();
+    realKD = (playerInfo.killDeath ?? 0) * realKillsRate;
+    realKPM = (playerInfo.killsPerMinute ?? 0) * realKillsRate;
     hsRate = playerInfo.headshots ?? '0.0%';
     readKillRate = playerInfo.humanPrecentage ?? '0.0%';
-    damagePerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.damagePerMatch ?? 0), 2);
+    damagePerMatch = playerInfo.damagePerMatch ?? 0;
     winRate = playerInfo.winPercent ?? '0.0%';
-    damagePerMinute = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.damagePerMinute ?? 0), 2);
+    damagePerMinute = playerInfo.damagePerMinute ?? 0;
     accuracy = playerInfo.accuracy ?? '0.0%';
-    killsPerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.killsPerMatch ?? 0), 2);
-    playedMatches =
-        UtilTools.parseIntAsENUSFormat(playerInfo.matchesPlayed ?? 0);
+    killsPerMatch = playerInfo.killsPerMatch ?? 0;
+    playedMatches = playerInfo.matchesPlayed ?? 0;
 
     kills = UtilTools.parseIntAsENUSFormat(playerInfo.kills ?? 0);
     deaths = UtilTools.parseIntAsENUSFormat(playerInfo.deaths ?? 0);
@@ -335,22 +328,23 @@ class PlayerInfoEnsemble {
     BFTrackerGadgets gadgetsInfo,
     BFTrackerSoldier soldierInfo,
     BFTrackerMap mapInfo,
-  )   : avatar = '#',
+  )
+      : avatar = '#',
         nucleusId = '未知',
         username = '未知',
         personaId = '未知',
         playedTime = '未知',
-        realKD = '未知',
-        realKPM = '未知',
+        realKD = 0.0,
+        realKPM = 0.0,
         hsRate = '未知',
-        realKills = '未知',
+        realKills = 0,
         readKillRate = '未知',
-        damagePerMatch = '未知',
+        damagePerMatch = 0.0,
         winRate = '未知',
-        damagePerMinute = '未知',
+        damagePerMinute = 0.0,
         accuracy = '未知',
-        killsPerMatch = '未知',
-        playedMatches = '未知',
+        killsPerMatch = 0.0,
+        playedMatches = 0,
         kills = '未知',
         deaths = '未知',
         assists = '未知',
@@ -385,26 +379,19 @@ class PlayerInfoEnsemble {
     final double realKillsRate =
         (overviewSegment?.stats?.humanKills?.value ?? 0).toDouble() /
             (overviewSegment?.stats?.kills?.value ?? 1).toDouble();
-    realKills = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.humanKills?.value ?? 0);
-    realKD = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.humanKdRatio?.value ?? 0, 2);
-    realKPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (overviewSegment?.stats?.killsPerMinute?.value ?? 0) * realKillsRate,
-        2);
+    realKills = overviewSegment?.stats?.humanKills?.value ?? 0;
+    realKD = overviewSegment?.stats?.humanKdRatio?.value ?? 0;
+    realKPM =
+        (overviewSegment?.stats?.killsPerMinute?.value ?? 0) * realKillsRate;
     hsRate =
         '${overviewSegment?.stats?.headshotPercentage?.value?.toStringAsFixed(2) ?? 0}%';
     readKillRate = '${(realKillsRate * 100).toStringAsFixed(2)}%';
-    damagePerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.damagePerMatch?.value ?? 0, 2);
+    damagePerMatch = overviewSegment?.stats?.damagePerMatch?.value ?? 0;
     winRate =
         '${overviewSegment?.stats?.wlPercentage?.value?.toStringAsFixed(2) ?? 0}%';
-    damagePerMinute = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.dmgPerMin?.value ?? 0, 2);
-    killsPerMatch = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.killsPerMatch?.value ?? 0, 2);
-    playedMatches = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.matches?.value ?? 0);
+    damagePerMinute = overviewSegment?.stats?.dmgPerMin?.value ?? 0;
+    killsPerMatch = overviewSegment?.stats?.killsPerMatch?.value ?? 0;
+    playedMatches = overviewSegment?.stats?.matches?.value ?? 0;
 
     kills = UtilTools.parseIntAsENUSFormat(
         overviewSegment?.stats?.kills?.value ?? 0);
@@ -575,17 +562,17 @@ class PlayerInfoEnsemble {
   String personaId;
   String playedTime;
 
-  String realKD;
-  String realKPM;
+  double realKD;
+  double realKPM;
   String hsRate;
-  String realKills;
+  int realKills;
   String readKillRate;
-  String damagePerMatch;
+  double damagePerMatch;
   String winRate;
-  String damagePerMinute;
+  double damagePerMinute;
   String accuracy;
-  String killsPerMatch;
-  String playedMatches;
+  double killsPerMatch;
+  int playedMatches;
 
   String kills;
   String deaths;

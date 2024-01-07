@@ -734,10 +734,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_platform_interface
-      sha256: f099b552bd331eacd69affed7ff2f23bfa6b0cb825b629edf3d844375a7501ad
+      sha256: "4aca1e060978e19b2998ee28503f40b5ba6226819c2b5e3e4d1821e8ccd92198"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.1"
+    version: "2.3.0"
   url_launcher_web:
     dependency: transitive
     description:

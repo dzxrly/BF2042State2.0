@@ -1,6 +1,7 @@
 import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -51,7 +52,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
 
   Future<void> urlLauncher(String url) async {
     if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('错误! 无法打开: $url');
+      throw Exception('Error! Can not open URL: $url');
     }
   }
 
@@ -76,15 +77,17 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '真实K/D',
-                    showValueString: playerInfo.playerInfoEnsemble.realKD,
+                    keyName: AppLocalizations.of(context)!.realKD,
+                    showValueString: AppLocalizations.of(context)!
+                        .realKDDisplay(playerInfo.playerInfoEnsemble.realKD),
                   ),
                   KeyInfoWidget(
-                    keyName: '真实KPM',
-                    showValueString: playerInfo.playerInfoEnsemble.realKPM,
+                    keyName: AppLocalizations.of(context)!.realKPM,
+                    showValueString: AppLocalizations.of(context)!
+                        .realKPMDisplay(playerInfo.playerInfoEnsemble.realKPM),
                   ),
                   KeyInfoWidget(
-                      keyName: '爆头率',
+                      keyName: AppLocalizations.of(context)!.headshotRate,
                       showValueString: playerInfo.playerInfoEnsemble.hsRate),
                 ]),
             Flex(
@@ -93,17 +96,20 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '真实击杀数',
-                    showValueString: playerInfo.playerInfoEnsemble.realKills,
+                    keyName: AppLocalizations.of(context)!.realKills,
+                    showValueString: AppLocalizations.of(context)!
+                        .realKillsDisplay(
+                            playerInfo.playerInfoEnsemble.realKills),
                   ),
                   KeyInfoWidget(
-                    keyName: '真实击杀比',
+                    keyName: AppLocalizations.of(context)!.realKillsRate,
                     showValueString: playerInfo.playerInfoEnsemble.readKillRate,
                   ),
                   KeyInfoWidget(
-                    keyName: '场均伤害',
-                    showValueString:
-                        playerInfo.playerInfoEnsemble.damagePerMatch,
+                    keyName: AppLocalizations.of(context)!.damagePerMatch,
+                    showValueString: AppLocalizations.of(context)!
+                        .damagePerMatchDisplay(
+                            playerInfo.playerInfoEnsemble.damagePerMatch),
                   ),
                 ]),
             Flex(
@@ -112,16 +118,17 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '胜率',
+                    keyName: AppLocalizations.of(context)!.winRate,
                     showValueString: playerInfo.playerInfoEnsemble.winRate,
                   ),
                   KeyInfoWidget(
-                    keyName: 'DPM',
-                    showValueString:
-                        playerInfo.playerInfoEnsemble.damagePerMinute,
+                    keyName: AppLocalizations.of(context)!.damagePerMinute,
+                    showValueString: AppLocalizations.of(context)!
+                        .damagePerMinuteDisplay(
+                            playerInfo.playerInfoEnsemble.damagePerMinute),
                   ),
                   KeyInfoWidget(
-                    keyName: '命中率',
+                    keyName: AppLocalizations.of(context)!.accuracy,
                     showValueString: playerInfo.playerInfoEnsemble.accuracy,
                   ),
                 ]),
@@ -131,14 +138,16 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: '场均击杀',
-                    showValueString:
-                        playerInfo.playerInfoEnsemble.killsPerMatch,
+                    keyName: AppLocalizations.of(context)!.killsPerMatch,
+                    showValueString: AppLocalizations.of(context)!
+                        .killsPerMatchDisplay(
+                            playerInfo.playerInfoEnsemble.killsPerMatch),
                   ),
                   KeyInfoWidget(
-                    keyName: '游玩场次',
-                    showValueString:
-                        playerInfo.playerInfoEnsemble.playedMatches,
+                    keyName: AppLocalizations.of(context)!.matches,
+                    showValueString: AppLocalizations.of(context)!
+                        .playedMatchesDisplay(
+                            playerInfo.playerInfoEnsemble.playedMatches),
                   ),
                   Expanded(
                       flex: 1,
@@ -157,7 +166,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Text(
-                                'BFBan',
+                                AppLocalizations.of(context)!.bfban,
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8)),
@@ -205,8 +214,10 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                       const Padding(
                                           padding: EdgeInsets.only(left: 2)),
                                       Text(
-                                        Translator.bfbanStatusTranslate(
-                                            bfbanStatus),
+                                        AppLocalizations.of(context)!
+                                            .bfbanStatus(
+                                                Translator.bfbanStatusTranslate(
+                                                    bfbanStatus)),
                                         style: TextStyle(
                                           fontWeight: Theme.of(context)
                                               .textTheme
@@ -243,7 +254,7 @@ class KeyInfoWidget extends StatelessWidget {
   final String keyName;
   final String? showValueString;
 
-  KeyInfoWidget({required this.keyName, this.showValueString, super.key});
+  const KeyInfoWidget({required this.keyName, this.showValueString, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +274,7 @@ class KeyInfoWidget extends StatelessWidget {
               FittedBox(
                 fit: BoxFit.fitWidth,
                 child: Text(
-                  showValueString ?? '未知',
+                  showValueString ?? 'Unknown',
                   style: TextStyle(
                     fontWeight:
                         Theme.of(context).textTheme.bodyMedium?.fontWeight,

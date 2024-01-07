@@ -25,7 +25,7 @@ class InfoListItem extends StatelessWidget {
         children: [
           Text(keyName, style: Theme.of(context).textTheme.bodyMedium),
           Text(
-            showValueString ?? '未知',
+            showValueString ?? 'Unknown',
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
               fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,

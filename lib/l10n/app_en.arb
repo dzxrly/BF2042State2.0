@@ -117,5 +117,181 @@
   "upgradeDiscoveryTitle": "Found the new version, click for details",
   "@upgradeDiscoveryTitle": {
     "description": "Title of the upgrade discovery"
+  },
+  "playerInfoScreenTabItem": "{tabs, select, overview{Overview} weapons{Weapons} vehicles{Vehicles} gadgets{Gadgets} classes{Characters} gamemodes{Gamemodes} maps{Maps} other{tabs}}",
+  "@playerInfoScreenTabItem": {
+    "description": "Tab item of the player info screen",
+    "placeholders": {
+      "tabs": {
+        "type": "String"
+      }
+    }
+  },
+  "playerBFHistorySearching": "Looking for more info on previous generations of Battlefield games...",
+  "@playerBFHistorySearching": {
+    "description": "Tip for the player BF history searching"
+  },
+  "playerBFHistorySearchingError": "Error! Failed to get the player BF history",
+  "@playerBFHistorySearchingError": {
+    "description": "Tip for the player BF history searching error"
+  },
+  "playerBFHistoryTitle": "Battlefield History",
+  "@playerBFHistoryTitle": {
+    "description": "Title of the player BF history"
+  },
+  "battlefield3": "Battlefield 3",
+  "@battlefield3": {
+    "description": "Battlefield 3"
+  },
+  "battlefield4": "Battlefield 4",
+  "@battlefield4": {
+    "description": "Battlefield 4"
+  },
+  "battlefieldH": "Battlefield Hardline",
+  "@battlefieldH": {
+    "description": "Battlefield Hardline"
+  },
+  "battlefield1": "Battlefield 1",
+  "@battlefield1": {
+    "description": "Battlefield 1"
+  },
+  "battlefieldV": "Battlefield V",
+  "@battlefieldV": {
+    "description": "Battlefield V"
+  },
+  "playerBFHistoryPlayed": "Played",
+  "@playerBFHistoryPlayed": {
+    "description": "Tip for the player BF history played"
+  },
+  "playerBFHistoryNotPlayed": "Not Played",
+  "@playerBFHistoryNotPlayed": {
+    "description": "Tip for the player BF history not played"
+  },
+  "realKD": "Human K/D",
+  "@realKD": {
+    "description": "Tip for the real K/D"
+  },
+  "realKPM": "Human KPM",
+  "@realKPM": {
+    "description": "Tip for the real KPM"
+  },
+  "headshotRate": "HS Rate",
+  "@headshotRate": {
+    "description": "Tip for the headshot rate"
+  },
+  "realKills": "Human Kills",
+  "@realKills": {
+    "description": "Tip for the real kills"
+  },
+  "realKillsRate": "Human Kills Rate",
+  "@realKillsRate": {
+    "description": "Tip for the real kills rate"
+  },
+  "damagePerMatch": "DMG/Match",
+  "@damagePerMatch": {
+    "description": "Tip for the damage per match"
+  },
+  "winRate": "Win Rate",
+  "@winRate": {
+    "description": "Tip for the win rate"
+  },
+  "damagePerMinute": "DPM",
+  "@damagePerMinute": {
+    "description": "Tip for the damage per minute"
+  },
+  "accuracy": "Accuracy",
+  "@accuracy": {
+    "description": "Tip for the accuracy"
+  },
+  "killsPerMatch": "Kills/Match",
+  "@killsPerMatch": {
+    "description": "Tip for the kills per match"
+  },
+  "matches": "Matches",
+  "@matches": {
+    "description": "Tip for the matches"
+  },
+  "bfban": "BFBan",
+  "@bfban": {
+    "description": "Tip for the BFBan"
+  },
+  "realKDDisplay": "{realKD}",
+  "@realKDDisplay": {
+    "description": "Display value for the real KD",
+    "placeholders": {
+      "realKD": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "realKPMDisplay": "{realKPM}",
+  "@realKPMDisplay": {
+    "description": "Display value for the real KPM",
+    "placeholders": {
+      "realKPM": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "realKillsDisplay": "{realKills}",
+  "@realKillsDisplay": {
+    "description": "Display value for the real kills",
+    "placeholders": {
+      "realKills": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "damagePerMatchDisplay": "{damagePerMatch}",
+  "@damagePerMatchDisplay": {
+    "description": "Display value for the damage per match",
+    "placeholders": {
+      "damagePerMatch": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "damagePerMinuteDisplay": "{damagePerMinute}",
+  "@damagePerMinuteDisplay": {
+    "description": "Display value for the damage per minute",
+    "placeholders": {
+      "damagePerMinute": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "killsPerMatchDisplay": "{killsPerMatch}",
+  "@killsPerMatchDisplay": {
+    "description": "Display value for the kills per match",
+    "placeholders": {
+      "killsPerMatch": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "playedMatchesDisplay": "{playedMatches}",
+  "@playedMatchesDisplay": {
+    "description": "Display value for the played matches",
+    "placeholders": {
+      "playedMatches": {
+        "type": "int",
+        "format": "decimalPattern"
+      }
+    }
+  },
+  "bfbanStatus": "{bfbanStatus, select, neterr{Network Error} searching{Searching...} norecord{No record} waiting{Waiting for checking} hacker{Confirmed Hacker} needprovidingproof{need to provide} moss{Innocence By MOSS} invalid{Invalid reports} checking{Waiting for confirming} vote{Need more proof} null{null} pve{Not Hacker} other{Unknown}}",
+  "@bfbanStatus": {
+    "description": "Status of the BFBan",
+    "placeholders": {
+      "bfbanStatus": {
+        "type": "String"
+      }
+    }
   }
 }

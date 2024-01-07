@@ -63,18 +63,18 @@ class Translator {
   };
 
   static Map<int, String> bfbanStatusMap = {
-    -3: '网络错误',
-    -2: '正在查询',
-    -1: '无记录',
-    0: '未处理',
-    1: '挂逼',
-    2: '待自证',
-    3: 'MOSS自证',
-    4: '无效举报',
-    5: '讨论中',
-    6: '需要更多管理投票',
+    -3: 'neterr',
+    -2: 'searching',
+    -1: 'norecord',
+    0: 'waiting',
+    1: 'hacker',
+    2: 'needprovidingproof',
+    3: 'moss',
+    4: 'invalid',
+    5: 'checking',
+    6: 'vote',
     7: 'null',
-    8: '刷枪',
+    8: 'pve',
   };
 
   static classesTranslate(String className) {

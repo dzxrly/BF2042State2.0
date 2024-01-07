@@ -12,6 +12,7 @@ import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -21,13 +22,13 @@ import '../components/key_info_view.dart';
 import '../utils/tools.dart';
 
 enum TabList {
-  overview('总览'),
-  weapon('武器'),
-  vehicle('载具'),
-  equipment('装备'),
-  classes('专家'),
-  mode('模式'),
-  map('地图');
+  overview('overview'),
+  weapon('weapons'),
+  vehicle('vehicles'),
+  equipment('gadgets'),
+  classes('classes'),
+  mode('gamemodes'),
+  map('maps');
 
   const TabList(this.name, {this.icon});
 
@@ -107,8 +108,11 @@ class PlayerInfoScreen extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(top: 8)),
                         Text(
-                          '正在查询历代游玩信息...',
+                          AppLocalizations.of(context)!
+                              .playerBFHistorySearching,
                           style: Theme.of(context).textTheme.bodyMedium,
+                          softWrap: true,
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     )
@@ -122,8 +126,11 @@ class PlayerInfoScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            '出现错误! 暂时无法获取历代战地游玩信息',
+                            AppLocalizations.of(context)!
+                                .playerBFHistorySearchingError,
                             style: Theme.of(context).textTheme.bodyMedium,
+                            softWrap: true,
+                            textAlign: TextAlign.center,
                           ),
                         ],
                       )
@@ -133,41 +140,61 @@ class PlayerInfoScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            '历代战地游玩信息',
+                            AppLocalizations.of(context)!.playerBFHistoryTitle,
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           const Padding(padding: EdgeInsets.only(top: 8)),
                           InfoListItem(
-                            keyName: '战地 3',
-                            showValueString: snapshot.data!.bf3 ? '已游玩' : '未游玩',
+                            keyName: AppLocalizations.of(context)!.battlefield3,
+                            showValueString: snapshot.data!.bf3
+                                ? AppLocalizations.of(context)!
+                                    .playerBFHistoryPlayed
+                                : AppLocalizations.of(context)!
+                                    .playerBFHistoryNotPlayed,
                             textColor: snapshot.data!.bf3
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.error,
                           ),
                           InfoListItem(
-                            keyName: '战地 4',
-                            showValueString: snapshot.data!.bf4 ? '已游玩' : '未游玩',
+                            keyName: AppLocalizations.of(context)!.battlefield4,
+                            showValueString: snapshot.data!.bf4
+                                ? AppLocalizations.of(context)!
+                                    .playerBFHistoryPlayed
+                                : AppLocalizations.of(context)!
+                                    .playerBFHistoryNotPlayed,
                             textColor: snapshot.data!.bf4
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.error,
                           ),
                           InfoListItem(
-                            keyName: '战地: 硬仗',
-                            showValueString: snapshot.data!.bfh ? '已游玩' : '未游玩',
+                            keyName: AppLocalizations.of(context)!.battlefieldH,
+                            showValueString: snapshot.data!.bfh
+                                ? AppLocalizations.of(context)!
+                                    .playerBFHistoryPlayed
+                                : AppLocalizations.of(context)!
+                                    .playerBFHistoryNotPlayed,
                             textColor: snapshot.data!.bfh
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.error,
                           ),
                           InfoListItem(
-                            keyName: '战地 1',
-                            showValueString: snapshot.data!.bf1 ? '已游玩' : '未游玩',
+                            keyName: AppLocalizations.of(context)!.battlefield1,
+                            showValueString: snapshot.data!.bf1
+                                ? AppLocalizations.of(context)!
+                                    .playerBFHistoryPlayed
+                                : AppLocalizations.of(context)!
+                                    .playerBFHistoryNotPlayed,
                             textColor: snapshot.data!.bf1
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.error,
                           ),
                           InfoListItem(
-                            keyName: '战地 V',
-                            showValueString: snapshot.data!.bfv ? '已游玩' : '未游玩',
+                            keyName: AppLocalizations.of(context)!.battlefieldV,
+                            showValueString: snapshot.data!.bfv
+                                ? AppLocalizations.of(context)!
+                                    .playerBFHistoryPlayed
+                                : AppLocalizations.of(context)!
+                                    .playerBFHistoryNotPlayed,
                             textColor: snapshot.data!.bfv
                                 ? Theme.of(context).colorScheme.primary
                                 : Theme.of(context).colorScheme.error,
@@ -181,8 +208,10 @@ class PlayerInfoScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Text(
-                      '出现错误! 暂时无法获取历代游玩信息',
+                      AppLocalizations.of(context)!
+                          .playerBFHistorySearchingError,
                       softWrap: true,
+                      textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
                   ],
@@ -463,9 +492,10 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           tabs: TabList.values
                               .map((e) => Tab(
                                       child: Container(
-                                    padding: const EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                         left: 8, right: 8),
-                                    child: Text(e.name),
+                                    child: Text(AppLocalizations.of(context)!
+                                        .playerInfoScreenTabItem(e.name)),
                                   )))
                               .toList(),
                         ),
