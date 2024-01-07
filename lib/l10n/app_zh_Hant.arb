@@ -53,5 +53,6 @@
   "damagePerMinuteDisplay": "{damagePerMinute}",
   "killsPerMatchDisplay": "{killsPerMatch}",
   "playedMatchesDisplay": "{playedMatches}",
-  "bfbanStatus": "{bfbanStatus, select, neterr{網路錯誤} searching{查詢中...} norecord{無記錄} waiting{未處理} hacker{確認作弊} needprovidingproof{待自證} moss{MOSS自證} invalid{無效檢舉} checking{討論中} vote{需要更多管理員投票} null{null} pve{刷槍} other{未知}}"
+  "bfbanStatus": "{bfbanStatus, select, neterr{網路錯誤} searching{查詢中...} norecord{無記錄} waiting{未處理} hacker{確認作弊} needprovidingproof{待自證} moss{MOSS自證} invalid{無效檢舉} checking{討論中} vote{需要更多管理員投票} null{null} pve{刷槍} other{未知}}",
+  "playedTime": "{playedTime}小時"
 }

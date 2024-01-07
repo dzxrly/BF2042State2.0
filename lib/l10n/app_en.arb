@@ -293,5 +293,15 @@
         "type": "String"
       }
     }
+  },
+  "playedTime": "{playedTime} Hours",
+  "@playedTime": {
+    "description": "Hours played",
+    "placeholders": {
+      "playedTime": {
+        "type": "double",
+        "format": "decimalPattern"
+      }
+    }
   }
 }

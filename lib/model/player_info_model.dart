@@ -150,7 +150,7 @@ class PlayerInfoEnsemble {
         nucleusId = '未知',
         username = '未知',
         personaId = '未知',
-        playedTime = '未知',
+        playedTime = 0.0,
         realKD = 0.0,
         realKPM = 0.0,
         hsRate = '未知',
@@ -189,8 +189,7 @@ class PlayerInfoEnsemble {
     nucleusId = playerInfo.userId != null ? playerInfo.userId.toString() : '未知';
     username = playerInfo.userName ?? '未知';
     personaId = playerInfo.id != null ? playerInfo.id.toString() : '未知';
-    playedTime =
-        '${timeFormat.format((playerInfo.secondsPlayed ?? 0) / 3600)}小时';
+    playedTime = (playerInfo.secondsPlayed ?? 0) / 3600;
 
     final double realKillsRate =
         double.parse((playerInfo.humanPrecentage ?? '0').replaceAll('%', '')) /
@@ -328,12 +327,11 @@ class PlayerInfoEnsemble {
     BFTrackerGadgets gadgetsInfo,
     BFTrackerSoldier soldierInfo,
     BFTrackerMap mapInfo,
-  )
-      : avatar = '#',
+  )   : avatar = '#',
         nucleusId = '未知',
         username = '未知',
         personaId = '未知',
-        playedTime = '未知',
+        playedTime = 0.0,
         realKD = 0.0,
         realKPM = 0.0,
         hsRate = '未知',
@@ -373,8 +371,7 @@ class PlayerInfoEnsemble {
     username = playerInfo.data?.platformInfo?.platformUserIdentifier ?? '未知';
     final overviewSegment = playerInfo.data?.segments
         ?.firstWhere((element) => element.type == 'overview');
-    playedTime =
-        '${timeFormat.format((overviewSegment?.stats?.timePlayed?.value ?? 0) / 3600)}小时';
+    playedTime = (overviewSegment?.stats?.timePlayed?.value ?? 0) / 3600;
 
     final double realKillsRate =
         (overviewSegment?.stats?.humanKills?.value ?? 0).toDouble() /
@@ -560,7 +557,7 @@ class PlayerInfoEnsemble {
   String nucleusId;
   String username;
   String personaId;
-  String playedTime;
+  double playedTime;
 
   double realKD;
   double realKPM;

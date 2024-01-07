@@ -345,7 +345,8 @@ class PlayerInfoScreen extends StatelessWidget {
                         ),
                         const Padding(padding: EdgeInsets.only(left: 10)),
                         Text(
-                          playerInfo.playerInfoEnsemble.playedTime,
+                          AppLocalizations.of(context)!.playedTime(
+                              playerInfo.playerInfoEnsemble.playedTime),
                           style: TextStyle(
                             fontSize: Theme.of(context)
                                 .textTheme
