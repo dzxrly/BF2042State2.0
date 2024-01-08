@@ -49,5 +49,20 @@
   "universalDoubleDisplay": "{inputDouble}",
   "universalIntDisplay": "{inputInt}",
   "bfbanStatus": "{bfbanStatus, select, neterr{网络错误} searching{查询中...} norecord{无记录} waiting{未处理} hacker{挂逼} needprovidingproof{待自证} moss{MOSS自证} invalid{无效举报} checking{讨论中} vote{需要更多管理员投票} null{null} pve{刷枪} other{未知}}",
-  "playedTime": "{playedTime}小时"
+  "playedTime": "{playedTime}小时",
+  "kills": "击杀数 （含AI）",
+  "deaths": "死亡次数",
+  "kd": "K/D （含AI）",
+  "kpm": "KPM （含AI）",
+  "damage": "造成伤害 （含AI）",
+  "mvp": "MVP",
+  "bestSquad": "最佳小队",
+  "assists": "助攻次数",
+  "wins": "获胜场数",
+  "losses": "失败场数",
+  "vehiclesDestroyed": "摧毁载具",
+  "spotEnemies": "索敌次数",
+  "revives": "急救次数",
+  "resupplies": "补给次数",
+  "repairs": "维修次数"
 }

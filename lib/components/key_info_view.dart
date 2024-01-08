@@ -170,6 +170,8 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                               Text(
                                 AppLocalizations.of(context)!.bfban,
                                 style: Theme.of(context).textTheme.bodyMedium,
+                                softWrap: true,
+                                textAlign: TextAlign.center,
                               ),
                               const Padding(padding: EdgeInsets.only(top: 8)),
                               FittedBox(
@@ -220,6 +222,8 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                             .bfbanStatus(
                                                 Translator.bfbanStatusTranslate(
                                                     bfbanStatus)),
+                                        softWrap: true,
+                                        textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontWeight: Theme.of(context)
                                               .textTheme
@@ -271,6 +275,8 @@ class KeyInfoWidget extends StatelessWidget {
               Text(
                 keyName,
                 style: Theme.of(context).textTheme.bodyMedium,
+                softWrap: true,
+                textAlign: TextAlign.center,
               ),
               const Padding(padding: EdgeInsets.only(top: 8)),
               FittedBox(
@@ -283,6 +289,8 @@ class KeyInfoWidget extends StatelessWidget {
                     fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                     color: Theme.of(context).colorScheme.primary,
                   ),
+                  softWrap: true,
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],

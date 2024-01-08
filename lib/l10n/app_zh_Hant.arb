@@ -49,5 +49,20 @@
   "universalDoubleDisplay": "{inputDouble}",
   "universalIntDisplay": "{inputInt}",
   "bfbanStatus": "{bfbanStatus, select, neterr{網路錯誤} searching{查詢中...} norecord{無記錄} waiting{未處理} hacker{確認作弊} needprovidingproof{待自證} moss{MOSS自證} invalid{無效檢舉} checking{討論中} vote{需要更多管理員投票} null{null} pve{刷槍} other{未知}}",
-  "playedTime": "{playedTime}小時"
+  "playedTime": "{playedTime}小時",
+  "kills": "擊殺數 （含AI）",
+  "deaths": "死亡次數",
+  "kd": "K/D （含AI）",
+  "kpm": "KPM （含AI）",
+  "damage": "造成傷害 （含AI）",
+  "mvp": "MVP",
+  "bestSquad": "最佳小隊",
+  "assists": "助攻次數",
+  "wins": "獲勝場數",
+  "losses": "失敗場數",
+  "vehiclesDestroyed": "摧毀載具",
+  "spotEnemies": "索敵次數",
+  "revives": "急救次數",
+  "resupplies": "補給次數",
+  "repairs": "維修次數"
 }

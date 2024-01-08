@@ -162,21 +162,21 @@ class PlayerInfoEnsemble {
         accuracy = '未知',
         killsPerMatch = 0.0,
         playedMatches = 0,
-        kills = '未知',
-        deaths = '未知',
-        assists = '未知',
-        KD = '未知',
-        KPM = '未知',
-        damage = '未知',
-        MVP = '未知',
-        bestSquad = '未知',
-        win = '未知',
-        lose = '未知',
-        killedVehicle = '未知',
-        spotEnemy = '未知',
-        recovery = '未知',
-        supply = '未知',
-        repair = '未知',
+        kills = 0,
+        deaths = 0,
+        assists = 0,
+        KD = 0.0,
+        KPM = 0.0,
+        damage = 0,
+        MVP = 0,
+        bestSquad = 0,
+        win = 0,
+        lose = 0,
+        killedVehicle = 0,
+        spotEnemy = 0,
+        recovery = 0,
+        supply = 0,
+        repair = 0,
         weapons = [],
         vehicles = [],
         gadgets = [],
@@ -206,24 +206,21 @@ class PlayerInfoEnsemble {
     killsPerMatch = playerInfo.killsPerMatch ?? 0;
     playedMatches = playerInfo.matchesPlayed ?? 0;
 
-    kills = UtilTools.parseIntAsENUSFormat(playerInfo.kills ?? 0);
-    deaths = UtilTools.parseIntAsENUSFormat(playerInfo.deaths ?? 0);
-    assists = UtilTools.parseIntAsENUSFormat(playerInfo.killAssists ?? 0);
-    KD = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.killDeath ?? 0), 2);
-    KPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        (playerInfo.killsPerMinute ?? 0), 2);
-    damage = UtilTools.parseIntAsENUSFormat(playerInfo.damage ?? 0);
-    MVP = UtilTools.parseIntAsENUSFormat(playerInfo.mvp ?? 0);
-    bestSquad = UtilTools.parseIntAsENUSFormat(playerInfo.bestSquad ?? 0);
-    win = UtilTools.parseIntAsENUSFormat(playerInfo.wins ?? 0);
-    lose = UtilTools.parseIntAsENUSFormat(playerInfo.loses ?? 0);
-    killedVehicle =
-        UtilTools.parseIntAsENUSFormat(playerInfo.vehiclesDestroyed ?? 0);
-    spotEnemy = UtilTools.parseIntAsENUSFormat(playerInfo.enemiesSpotted ?? 0);
-    recovery = UtilTools.parseIntAsENUSFormat(playerInfo.heals ?? 0);
-    supply = UtilTools.parseIntAsENUSFormat(playerInfo.resupplies ?? 0);
-    repair = UtilTools.parseIntAsENUSFormat(playerInfo.repairs ?? 0);
+    kills = playerInfo.kills ?? 0;
+    deaths = playerInfo.deaths ?? 0;
+    assists = playerInfo.killAssists ?? 0;
+    KD = playerInfo.killDeath ?? 0;
+    KPM = playerInfo.killsPerMinute ?? 0;
+    damage = playerInfo.damage ?? 0;
+    MVP = playerInfo.mvp ?? 0;
+    bestSquad = playerInfo.bestSquad ?? 0;
+    win = playerInfo.wins ?? 0;
+    lose = playerInfo.loses ?? 0;
+    killedVehicle = playerInfo.vehiclesDestroyed ?? 0;
+    spotEnemy = playerInfo.enemiesSpotted ?? 0;
+    recovery = playerInfo.heals ?? 0;
+    supply = playerInfo.resupplies ?? 0;
+    repair = playerInfo.repairs ?? 0;
 
     if (playerInfo.weapons != null) {
       playerInfo.weapons?.forEach((weapon) => weapons.add(WeaponInfoEnsemble(
@@ -343,21 +340,21 @@ class PlayerInfoEnsemble {
         accuracy = '未知',
         killsPerMatch = 0.0,
         playedMatches = 0,
-        kills = '未知',
-        deaths = '未知',
-        assists = '未知',
-        KD = '未知',
-        KPM = '未知',
-        damage = '未知',
-        MVP = '未知',
-        bestSquad = '未知',
-        win = '未知',
-        lose = '未知',
-        killedVehicle = '未知',
-        spotEnemy = '未知',
-        recovery = '未知',
-        supply = '未知',
-        repair = '未知',
+        kills = 0,
+        deaths = 0,
+        assists = 0,
+        KD = 0.0,
+        KPM = 0.0,
+        damage = 0,
+        MVP = 0,
+        bestSquad = 0,
+        win = 0,
+        lose = 0,
+        killedVehicle = 0,
+        spotEnemy = 0,
+        recovery = 0,
+        supply = 0,
+        repair = 0,
         weapons = [],
         vehicles = [],
         gadgets = [],
@@ -390,30 +387,18 @@ class PlayerInfoEnsemble {
     killsPerMatch = overviewSegment?.stats?.killsPerMatch?.value ?? 0;
     playedMatches = overviewSegment?.stats?.matches?.value ?? 0;
 
-    kills = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.kills?.value ?? 0);
-    deaths = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.deaths?.value ?? 0);
-    assists = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.assists?.value ?? 0);
-    KD = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.kdRatio?.value ?? 0, 2);
-    KPM = UtilTools.parseDoubleAsFixedAndENUSFormat(
-        overviewSegment?.stats?.killsPerMinute?.value ?? 0, 2);
-    damage = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.damageDealt?.value ?? 0);
-    MVP = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.mvps?.value ?? 0);
-    bestSquad = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.bestSquad?.value ?? 0);
-    win = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.wins?.value ?? 0);
-    lose = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.losses?.value ?? 0);
-    killedVehicle = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.vehiclesDestroyed?.value ?? 0);
-    recovery = UtilTools.parseIntAsENUSFormat(
-        overviewSegment?.stats?.revives?.value ?? 0);
+    kills = overviewSegment?.stats?.kills?.value ?? 0;
+    deaths = overviewSegment?.stats?.deaths?.value ?? 0;
+    assists = overviewSegment?.stats?.assists?.value ?? 0;
+    KD = overviewSegment?.stats?.kdRatio?.value ?? 0;
+    KPM = overviewSegment?.stats?.killsPerMinute?.value ?? 0;
+    damage = overviewSegment?.stats?.damageDealt?.value ?? 0;
+    MVP = overviewSegment?.stats?.mvps?.value ?? 0;
+    bestSquad = overviewSegment?.stats?.bestSquad?.value ?? 0;
+    win = overviewSegment?.stats?.wins?.value ?? 0;
+    lose = overviewSegment?.stats?.losses?.value ?? 0;
+    killedVehicle = overviewSegment?.stats?.vehiclesDestroyed?.value ?? 0;
+    recovery = overviewSegment?.stats?.revives?.value ?? 0;
 
     if (weaponInfo.data != null) {
       weaponInfo.data?.forEach((weapon) {
@@ -571,21 +556,21 @@ class PlayerInfoEnsemble {
   double killsPerMatch;
   int playedMatches;
 
-  String kills;
-  String deaths;
-  String assists;
-  String KD;
-  String KPM;
-  String damage;
-  String MVP;
-  String bestSquad;
-  String win;
-  String lose;
-  String killedVehicle;
-  String spotEnemy;
-  String recovery;
-  String supply;
-  String repair;
+  int kills;
+  int deaths;
+  int assists;
+  double KD;
+  double KPM;
+  int damage;
+  int MVP;
+  int bestSquad;
+  int win;
+  int lose;
+  int killedVehicle;
+  int spotEnemy;
+  int recovery;
+  int supply;
+  int repair;
 
   List<WeaponInfoEnsemble> weapons;
   List<VehicleInfoEnsemble> vehicles;

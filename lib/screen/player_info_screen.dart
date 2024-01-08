@@ -487,13 +487,14 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TabBar(
+                          tabAlignment: TabAlignment.start,
                           splashBorderRadius:
                               const BorderRadius.all(Radius.circular(19)),
                           isScrollable: true,
                           tabs: TabList.values
                               .map((e) => Tab(
                                       child: Container(
-                                        padding: const EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 8, right: 8),
                                     child: Text(AppLocalizations.of(context)!
                                         .playerInfoScreenTabItem(e.name)),

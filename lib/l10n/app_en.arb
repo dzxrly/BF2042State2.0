@@ -48,11 +48,11 @@
   "@searchButtonTitle": {
     "description": "Title of the search button"
   },
-  "enhancedSearchButtonTitle": "Enhanced Search",
+  "enhancedSearchButtonTitle": "UID Search",
   "@enhancedSearchButtonTitle": {
     "description": "Title of the enhanced search switch"
   },
-  "searchResultsTitle": "Search Results",
+  "searchResultsTitle": "Search History",
   "@searchResultsTitle": {
     "description": "Title of the search results"
   },
@@ -118,7 +118,7 @@
   "@upgradeDiscoveryTitle": {
     "description": "Title of the upgrade discovery"
   },
-  "playerInfoScreenTabItem": "{tabs, select, overview{Overview} weapons{Weapons} vehicles{Vehicles} gadgets{Gadgets} classes{Characters} gamemodes{Gamemodes} maps{Maps} other{tabs}}",
+  "playerInfoScreenTabItem": "{tabs, select, overview{Overview} weapons{Weapons} vehicles{Vehicles} gadgets{Gadgets} classes{Characters} gamemodes{Game Modes} maps{Maps} other{tabs}}",
   "@playerInfoScreenTabItem": {
     "description": "Tab item of the player info screen",
     "placeholders": {
@@ -253,5 +253,65 @@
         "format": "decimalPattern"
       }
     }
+  },
+  "kills": "Kills (with AI)",
+  "@kills": {
+    "description": "Kills (with AI)"
+  },
+  "deaths": "Deaths",
+  "@deaths": {
+    "description": "Deaths"
+  },
+  "kd": "K/D (with AI)",
+  "@kd": {
+    "description": "K/D (with AI)"
+  },
+  "kpm": "KPM (with AI)",
+  "@kpm": {
+    "description": "KPM (with AI)"
+  },
+  "damage": "Damage (with AI)",
+  "@damage": {
+    "description": "Damage (with AI)"
+  },
+  "mvp": "MVP",
+  "@mvp": {
+    "description": "MVP"
+  },
+  "bestSquad": "Best Squad",
+  "@bestSquad": {
+    "description": "Best Squad"
+  },
+  "assists": "Assists",
+  "@assists": {
+    "description": "Assists"
+  },
+  "wins": "Wins",
+  "@wins": {
+    "description": "Wins"
+  },
+  "losses": "Losses",
+  "@losses": {
+    "description": "Losses"
+  },
+  "vehiclesDestroyed": "Vehicles Destroyed",
+  "@vehiclesDestroyed": {
+    "description": "Vehicles Destroyed"
+  },
+  "spotEnemies": "Spot Enemies",
+  "@spotEnemies": {
+    "description": "Spot Enemies"
+  },
+  "revives": "Revives",
+  "@revives": {
+    "description": "Revives"
+  },
+  "resupplies": "Resupplies",
+  "@resupplies": {
+    "description": "Resupplies"
+  },
+  "repairs": "Repairs",
+  "@repairs": {
+    "description": "Repairs"
   }
 }
