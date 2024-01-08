@@ -79,12 +79,14 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKD,
                     showValueString: AppLocalizations.of(context)!
-                        .realKDDisplay(playerInfo.playerInfoEnsemble.realKD),
+                        .universalDoubleDisplay(
+                            playerInfo.playerInfoEnsemble.realKD),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKPM,
                     showValueString: AppLocalizations.of(context)!
-                        .realKPMDisplay(playerInfo.playerInfoEnsemble.realKPM),
+                        .universalDoubleDisplay(
+                            playerInfo.playerInfoEnsemble.realKPM),
                   ),
                   KeyInfoWidget(
                       keyName: AppLocalizations.of(context)!.headshotRate,
@@ -98,7 +100,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKills,
                     showValueString: AppLocalizations.of(context)!
-                        .realKillsDisplay(
+                        .universalIntDisplay(
                             playerInfo.playerInfoEnsemble.realKills),
                   ),
                   KeyInfoWidget(
@@ -108,7 +110,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.damagePerMatch,
                     showValueString: AppLocalizations.of(context)!
-                        .damagePerMatchDisplay(
+                        .universalDoubleDisplay(
                             playerInfo.playerInfoEnsemble.damagePerMatch),
                   ),
                 ]),
@@ -124,7 +126,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.damagePerMinute,
                     showValueString: AppLocalizations.of(context)!
-                        .damagePerMinuteDisplay(
+                        .universalDoubleDisplay(
                             playerInfo.playerInfoEnsemble.damagePerMinute),
                   ),
                   KeyInfoWidget(
@@ -140,13 +142,13 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.killsPerMatch,
                     showValueString: AppLocalizations.of(context)!
-                        .killsPerMatchDisplay(
+                        .universalDoubleDisplay(
                             playerInfo.playerInfoEnsemble.killsPerMatch),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.matches,
                     showValueString: AppLocalizations.of(context)!
-                        .playedMatchesDisplay(
+                        .universalIntDisplay(
                             playerInfo.playerInfoEnsemble.playedMatches),
                   ),
                   Expanded(

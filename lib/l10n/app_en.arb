@@ -215,71 +215,21 @@
   "@bfban": {
     "description": "Tip for the BFBan"
   },
-  "realKDDisplay": "{realKD}",
-  "@realKDDisplay": {
-    "description": "Display value for the real KD",
+  "universalDoubleDisplay": "{inputDouble}",
+  "@universalDoubleDisplay": {
+    "description": "Display value for the universal double",
     "placeholders": {
-      "realKD": {
+      "inputDouble": {
         "type": "double",
         "format": "decimalPattern"
       }
     }
   },
-  "realKPMDisplay": "{realKPM}",
-  "@realKPMDisplay": {
-    "description": "Display value for the real KPM",
+  "universalIntDisplay": "{inputInt}",
+  "@universalIntDisplay": {
+    "description": "Display value for the universal int",
     "placeholders": {
-      "realKPM": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "realKillsDisplay": "{realKills}",
-  "@realKillsDisplay": {
-    "description": "Display value for the real kills",
-    "placeholders": {
-      "realKills": {
-        "type": "int",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "damagePerMatchDisplay": "{damagePerMatch}",
-  "@damagePerMatchDisplay": {
-    "description": "Display value for the damage per match",
-    "placeholders": {
-      "damagePerMatch": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "damagePerMinuteDisplay": "{damagePerMinute}",
-  "@damagePerMinuteDisplay": {
-    "description": "Display value for the damage per minute",
-    "placeholders": {
-      "damagePerMinute": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "killsPerMatchDisplay": "{killsPerMatch}",
-  "@killsPerMatchDisplay": {
-    "description": "Display value for the kills per match",
-    "placeholders": {
-      "killsPerMatch": {
-        "type": "double",
-        "format": "decimalPattern"
-      }
-    }
-  },
-  "playedMatchesDisplay": "{playedMatches}",
-  "@playedMatchesDisplay": {
-    "description": "Display value for the played matches",
-    "placeholders": {
-      "playedMatches": {
+      "inputInt": {
         "type": "int",
         "format": "decimalPattern"
       }

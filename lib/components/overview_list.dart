@@ -77,7 +77,7 @@ class OverviewList extends StatelessWidget {
           padding: const EdgeInsets.all(8),
           child: ListView.builder(
             shrinkWrap: true,
-            prototypeItem: InfoListItem(
+            prototypeItem: const InfoListItem(
               keyName: '击杀数 (含AI)',
               showValueString: '9999',
             ),

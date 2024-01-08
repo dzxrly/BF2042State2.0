@@ -46,13 +46,8 @@
   "killsPerMatch": "场均击杀",
   "matches": "游玩场次",
   "bfban": "BFBan",
-  "realKDDisplay": "{realKD}",
-  "realKPMDisplay": "{realKPM}",
-  "realKillsDisplay": "{realKills}",
-  "damagePerMatchDisplay": "{damagePerMatch}",
-  "damagePerMinuteDisplay": "{damagePerMinute}",
-  "killsPerMatchDisplay": "{killsPerMatch}",
-  "playedMatchesDisplay": "{playedMatches}",
+  "universalDoubleDisplay": "{inputDouble}",
+  "universalIntDisplay": "{inputInt}",
   "bfbanStatus": "{bfbanStatus, select, neterr{网络错误} searching{查询中...} norecord{无记录} waiting{未处理} hacker{挂逼} needprovidingproof{待自证} moss{MOSS自证} invalid{无效举报} checking{讨论中} vote{需要更多管理员投票} null{null} pve{刷枪} other{未知}}",
   "playedTime": "{playedTime}小时"
 }
