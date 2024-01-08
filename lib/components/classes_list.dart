@@ -1,6 +1,6 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
-import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../model/player_info_model.dart';
@@ -8,7 +8,7 @@ import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 class ClassesList extends StatelessWidget {
-  const ClassesList({Key? key}) : super(key: key);
+  const ClassesList({super.key});
 
   void showVehicleDetails(BuildContext context, CharacterInfoEnsemble classes) {
     final List<InfoListItemContent> classesDetailList = [
@@ -34,8 +34,8 @@ class ClassesList extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                          Translator.classesTranslate(
-                              classes.characterName ?? '未知专家'),
+                          AppLocalizations.of(context)!
+                              .characterName(classes.characterName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
@@ -123,8 +123,7 @@ class ClassesListItem extends StatelessWidget {
   final CharacterInfoEnsemble classes;
   final Function? onTap;
 
-  const ClassesListItem({Key? key, required this.classes, this.onTap})
-      : super(key: key);
+  const ClassesListItem({super.key, required this.classes, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +132,9 @@ class ClassesListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(Translator.classesTranslate(classes.characterName),
+            child: Text(
+                AppLocalizations.of(context)!
+                    .characterName(classes.characterName),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),

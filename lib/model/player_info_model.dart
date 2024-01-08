@@ -26,15 +26,15 @@ class WeaponInfoEnsemble {
 
   final String weaponName;
   final String weaponId;
-  final String kills;
-  final String KPM;
-  final String DPM;
-  final String hsRate;
-  final String accuracy;
-  final String damage;
-  final String multiKills;
-  final String efficiency;
-  final String playedTime;
+  final int kills;
+  final double KPM;
+  final double DPM;
+  final double hsRate;
+  final double accuracy;
+  final int damage;
+  final int multiKills;
+  final double efficiency;
+  final double playedTime;
 }
 
 class VehicleInfoEnsemble {
@@ -226,17 +226,15 @@ class PlayerInfoEnsemble {
       playerInfo.weapons?.forEach((weapon) => weapons.add(WeaponInfoEnsemble(
           weapon.weaponName ?? '未知',
           weapon.id ?? '未知',
-          UtilTools.parseIntAsENUSFormat(weapon.kills ?? 0),
-          UtilTools.parseDoubleAsFixedAndENUSFormat(
-              weapon.killsPerMinute ?? 0, 2),
-          UtilTools.parseDoubleAsFixedAndENUSFormat(
-              weapon.damagePerMinute ?? 0, 2),
-          '${((weapon.headshotKills ?? 0) / (weapon.kills ?? 1) * 100).toStringAsFixed(2)}%',
-          '${((weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1) * 100).toStringAsFixed(2)}%',
-          UtilTools.parseIntAsENUSFormat(weapon.damage ?? 0),
-          UtilTools.parseIntAsENUSFormat(weapon.multiKills ?? 0),
-          (weapon.hitVKills ?? 0.0).toStringAsFixed(2),
-          '${timeFormat.format((weapon.timeEquipped ?? 0) / 3600)}小时')));
+          weapon.kills ?? 0,
+          weapon.killsPerMinute ?? 0,
+          weapon.damagePerMinute ?? 0,
+          (weapon.headshotKills ?? 0) / (weapon.kills ?? 1),
+          (weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1),
+          weapon.damage ?? 0,
+          weapon.multiKills ?? 0,
+          weapon.hitVKills ?? 0.0,
+          (weapon.timeEquipped ?? 0) / 3600)));
     }
 
     if (playerInfo.vehicles != null) {
@@ -273,7 +271,9 @@ class PlayerInfoEnsemble {
     if (playerInfo.classes != null) {
       playerInfo.classes?.forEach((character) => characters.add(
           CharacterInfoEnsemble(
-              character.characterName ?? '未知',
+              (character.characterName ?? '未知')
+                  .replaceAll('1942', 'BF1942')
+                  .replaceAll(RegExp('[-\\s]'), ''),
               character.id ?? '未知',
               UtilTools.parseIntAsENUSFormat(character.kills ?? 0),
               UtilTools.parseDoubleAsFixedAndENUSFormat(character.kpm ?? 0, 2),
@@ -407,20 +407,16 @@ class PlayerInfoEnsemble {
         weapons.add(WeaponInfoEnsemble(
             weapon.metadata?.name ?? '未知',
             '未知',
-            UtilTools.parseIntAsENUSFormat(weaponData?.kills?.value ?? 0),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                weaponData?.killsPerMinute?.value ?? 0, 2),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                weaponData?.dmgPerMin?.value ?? 0, 2),
-            '${(weaponData?.headshotPercentage?.value ?? 0).toStringAsFixed(2)}%',
-            '${(weaponData?.shotsAccuracy?.value ?? 0).toStringAsFixed(2)}%',
-            UtilTools.parseIntAsENUSFormat(weaponData?.damageDealt?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(weaponData?.multiKills?.value ?? 0),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                (weaponData?.shotsHit?.value ?? 0).toDouble() /
-                    (weaponData?.kills?.value ?? 1),
-                2),
-            '${timeFormat.format((weaponData?.timePlayed?.value ?? 0) / 3600)}小时'));
+            weaponData?.kills?.value ?? 0,
+            weaponData?.killsPerMinute?.value ?? 0,
+            weaponData?.dmgPerMin?.value ?? 0,
+            weaponData?.headshotPercentage?.value ?? 0,
+            weaponData?.shotsAccuracy?.value ?? 0,
+            weaponData?.damageDealt?.value ?? 0,
+            weaponData?.multiKills?.value ?? 0,
+            (weaponData?.shotsHit?.value ?? 0).toDouble() /
+                (weaponData?.kills?.value ?? 1),
+            (weaponData?.timePlayed?.value ?? 0) / 3600));
       });
     }
 
@@ -473,7 +469,9 @@ class PlayerInfoEnsemble {
         final soldierData = soldier.stats;
 
         characters.add(CharacterInfoEnsemble(
-            soldier.metadata?.name ?? '未知',
+            (soldier.metadata?.name ?? '未知')
+                .replaceAll('1942', 'BF1942')
+                .replaceAll(RegExp('[-\\s]'), ''),
             '未知',
             UtilTools.parseIntAsENUSFormat(soldierData?.kills?.value ?? 0),
             UtilTools.parseDoubleAsFixedAndENUSFormat(

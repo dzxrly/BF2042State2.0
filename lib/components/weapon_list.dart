@@ -2,24 +2,24 @@ import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
 import '../model/player_info_model.dart';
 
 enum DataType {
-  secondsPlayed('时长', 'timePlayed'),
-  headshotRate('爆头率', 'headshotRate'),
-  accuracy('命中率', 'accuracy'),
-  efficiency('效率', 'efficiency');
+  secondsPlayed('timePlayed'),
+  headshotRate('headshotRate'),
+  accuracy('accuracy'),
+  efficiency('efficiency');
 
-  const DataType(this.label, this.value);
+  const DataType(this.value);
 
-  final String label;
   final String value;
 }
 
 class WeaponList extends StatefulWidget {
-  const WeaponList({Key? key}) : super(key: key);
+  const WeaponList({super.key});
 
   @override
   WeaponListState createState() => WeaponListState();
@@ -30,14 +30,38 @@ class WeaponListState extends State<WeaponList> {
 
   void showWeaponDetails(BuildContext context, WeaponInfoEnsemble weapon) {
     final List<InfoListItemContent> weaponDetailList = [
-      InfoListItemContent(keyName: '击杀数', showValueString: weapon.kills),
-      InfoListItemContent(keyName: 'KPM', showValueString: weapon.KPM),
-      InfoListItemContent(keyName: 'DPM', showValueString: weapon.DPM),
-      InfoListItemContent(keyName: '爆头率', showValueString: weapon.hsRate),
-      InfoListItemContent(keyName: '命中率', showValueString: weapon.accuracy),
-      InfoListItemContent(keyName: '总伤害', showValueString: weapon.damage),
-      InfoListItemContent(keyName: '连杀次数', showValueString: weapon.multiKills),
-      InfoListItemContent(keyName: '效率', showValueString: weapon.efficiency),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.killsTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(weapon.kills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalDoubleDisplay(weapon.KPM)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.dpmTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalDoubleDisplay(weapon.DPM)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.headshotRate,
+          showValueString: AppLocalizations.of(context)!
+              .universalPercentDisplay(weapon.hsRate)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.accuracy,
+          showValueString: AppLocalizations.of(context)!
+              .universalPercentDisplay(weapon.accuracy)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.damage,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(weapon.damage)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.multiKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(weapon.multiKills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.efficiencyTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalDoubleDisplay(weapon.efficiency)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -60,7 +84,8 @@ class WeaponListState extends State<WeaponList> {
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(weapon.playedTime))
+                        label: Text(AppLocalizations.of(context)!
+                            .playedTime(weapon.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -88,7 +113,8 @@ class WeaponListState extends State<WeaponList> {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
-                DataType.values[index].label,
+                AppLocalizations.of(context)!
+                    .weaponDataType(DataType.values[index].value),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               shape: RoundedRectangleBorder(
@@ -112,21 +138,19 @@ class WeaponListState extends State<WeaponList> {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final weaponList = playerInfo.playerInfoEnsemble.weapons;
-      weaponList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
-          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
-
+      weaponList.sort((a, b) => (b.kills - a.kills));
       return TouchableList(
           listTitle: [
             Expanded(
-                child: Text('武器名称',
+                child: Text(AppLocalizations.of(context)!.weaponNameTitle,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                child: Text('击杀数',
+                child: Text(AppLocalizations.of(context)!.killsTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                child: Text('KPM',
+                child: Text(AppLocalizations.of(context)!.kpmTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
@@ -138,10 +162,8 @@ class WeaponListState extends State<WeaponList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          DataType.values
-                              .firstWhere(
-                                  (element) => element.value == dataTypeValue)
-                              .label,
+                          AppLocalizations.of(context)!
+                              .weaponDataType(dataTypeValue),
                           textAlign: TextAlign.right,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
@@ -157,15 +179,15 @@ class WeaponListState extends State<WeaponList> {
               weapon: WeaponInfoEnsemble(
                 '未知',
                 '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
               ),
               dataTypeValue: dataTypeValue,
             ),
@@ -191,22 +213,27 @@ class WeaponListItem extends StatelessWidget {
   final Function? onTap;
 
   const WeaponListItem(
-      {Key? key, required this.weapon, required this.dataTypeValue, this.onTap})
-      : super(key: key);
+      {super.key,
+      required this.weapon,
+      required this.dataTypeValue,
+      this.onTap});
 
   String filterWeaponDataByDataTypeValue(
-      WeaponInfoEnsemble weapon, String value) {
+      BuildContext context, WeaponInfoEnsemble weapon, String value) {
     switch (value) {
       case 'timePlayed':
-        return weapon.playedTime;
+        return AppLocalizations.of(context)!.playedTime(weapon.playedTime);
       case 'headshotRate':
-        return weapon.hsRate;
+        return AppLocalizations.of(context)!
+            .universalPercentDisplay(weapon.hsRate);
       case 'accuracy':
-        return weapon.accuracy;
+        return AppLocalizations.of(context)!
+            .universalPercentDisplay(weapon.accuracy);
       case 'efficiency':
-        return weapon.efficiency;
+        return AppLocalizations.of(context)!
+            .universalDoubleDisplay(weapon.efficiency);
       default:
-        return weapon.playedTime;
+        return AppLocalizations.of(context)!.playedTime(weapon.playedTime);
     }
   }
 
@@ -223,7 +250,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-            weapon.kills,
+            AppLocalizations.of(context)!.universalIntDisplay(weapon.kills),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -233,7 +260,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-            weapon.KPM,
+            AppLocalizations.of(context)!.universalDoubleDisplay(weapon.KPM),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -243,7 +270,7 @@ class WeaponListItem extends StatelessWidget {
       )),
       Expanded(
           child: Text(
-        filterWeaponDataByDataTypeValue(weapon, dataTypeValue),
+            filterWeaponDataByDataTypeValue(context, weapon, dataTypeValue),
         textAlign: TextAlign.right,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

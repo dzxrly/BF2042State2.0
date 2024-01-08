@@ -65,7 +65,7 @@
       }
     }
   },
-  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don't need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{dataAPIDesc}}",
+  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don''t need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{dataAPIDesc}}",
   "@dataAPIDescription": {
     "description": "Description of the data API",
     "placeholders": {
@@ -313,5 +313,129 @@
   "repairs": "Repairs",
   "@repairs": {
     "description": "Repairs"
+  },
+  "characterName": "{characterName, select, Mackay{Mackay} Irish{Irish} Sundance{Sundance} Dozer{Dozer} Paik{Paik} Falck{Falck} Angel{Angel} Boris{Boris} Casper{Casper} Rao{Rao} Lis{Lis} Crawford{Crawford} Zain{Zain} Blasco{Blasco} BF3Support{BF3 Support} BF3Engineer{BF3 Engineer} BF3Recon{BF3 Recon} BF3Assault{BF3 Assault} BC2Assault{BC2 Assault} BC2Medic{BC2 Medic} BC2Engineer{BC2 Engineer} BC2Recon{BC2 Recon} BF1942Assault{1942 Assault} BF1942Medic{1942 Medic} BF1942Engineer{1942 Engineer} BF1942Scout{1942 Scout} BF1942Antitank{1942 Anti-tank} other{characterName}}",
+  "@characterName": {
+    "description": "Character name",
+    "placeholders": {
+      "characterName": {
+        "type": "String"
+      }
+    }
+  },
+  "weaponNameTitle": "Name",
+  "@weaponNameTitle": {
+    "description": "Title of the weapon name"
+  },
+  "vehicleNameTitle": "Name",
+  "@vehicleNameTitle": {
+    "description": "Title of the vehicle name"
+  },
+  "characterNameTitle": "Name",
+  "@characterNameTitle": {
+    "description": "Title of the character name"
+  },
+  "gadgetNameTitle": "Name",
+  "@gadgetNameTitle": {
+    "description": "Title of the gadget name"
+  },
+  "gamemodeNameTitle": "Name",
+  "@gamemodeNameTitle": {
+    "description": "Title of the gamemode name"
+  },
+  "mapNameTitle": "Name",
+  "@mapNameTitle": {
+    "description": "Title of the map name"
+  },
+  "killsTitle": "Kills",
+  "@killsTitle": {
+    "description": "Title of the kills"
+  },
+  "kpmTitle": "KPM",
+  "@kpmTitle": {
+    "description": "Title of the KPM"
+  },
+  "dpmTitle": "DPM",
+  "@dpmTitle": {
+    "description": "Title of the DPM"
+  },
+  "timePlayedTitle": "Time Played",
+  "@timePlayedTitle": {
+    "description": "Title of the time played"
+  },
+  "efficiencyTitle": "Efficiency",
+  "@efficiencyTitle": {
+    "description": "Title of the efficiency"
+  },
+  "multiKillsTitle": "Multi Kills",
+  "@multiKillsTitle": {
+    "description": "Title of the multi kills"
+  },
+  "roadKillsTitle": "Road Kills",
+  "@roadKillsTitle": {
+    "description": "Title of the road kills"
+  },
+  "driverAssistsTitle": "Driver Assists",
+  "@driverAssistsTitle": {
+    "description": "Title of the driver assists"
+  },
+  "passengerAssistsTitle": "Passenger Assists",
+  "@passengerAssistsTitle": {
+    "description": "Title of the passenger assists"
+  },
+  "distanceTraveledTitle": "Distance Traveled",
+  "@distanceTraveledTitle": {
+    "description": "Title of the distance traveled"
+  },
+  "usesTitle": "Uses",
+  "@usesTitle": {
+    "description": "Title of the uses"
+  },
+  "objectTimeTitle": "Object Time",
+  "@objectTimeTitle": {
+    "description": "Title of the object time"
+  },
+  "sectorDefendsTitle": "Sector Defends",
+  "@sectorDefendsTitle": {
+    "description": "Title of the sector defends"
+  },
+  "objectDefendsTitle": "Object Defends",
+  "@objectDefendsTitle": {
+    "description": "Title of the object defends"
+  },
+  "objectTakenTitle": "Object Taken",
+  "@objectTakenTitle": {
+    "description": "Title of the object taken"
+  },
+  "objectArmedTitle": "Object Armed",
+  "@objectArmedTitle": {
+    "description": "Title of the object armed"
+  },
+  "objectDisarmedTitle": "Object Disarmed",
+  "@objectDisarmedTitle": {
+    "description": "Title of the object disarmed"
+  },
+  "objectDestroyedTitle": "Object Destroyed",
+  "@objectDestroyedTitle": {
+    "description": "Title of the object destroyed"
+  },
+  "weaponDataType": "{weaponDataType, select, timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{weaponDataType}}",
+  "@weaponDataType": {
+    "description": "Data type of the weapon",
+    "placeholders": {
+      "weaponDataType": {
+        "type": "String"
+      }
+    }
+  },
+  "universalPercentDisplay": "{inputPercent}",
+  "@universalPercentDisplay": {
+    "description": "Display value for the universal percent",
+    "placeholders": {
+      "inputPercent": {
+        "type": "double",
+        "format": "percentPattern"
+      }
+    }
   }
 }
