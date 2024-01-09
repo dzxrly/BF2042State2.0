@@ -437,5 +437,14 @@
         "format": "percentPattern"
       }
     }
+  },
+  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{Time} destroyCount{Destroyed Vehicles} other{vehicleDataType}}",
+  "@vehicleDataType": {
+    "description": "Data type of the vehicle",
+    "placeholders": {
+      "vehicleDataType": {
+        "type": "String"
+      }
+    }
   }
 }

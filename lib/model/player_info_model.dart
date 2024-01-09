@@ -54,16 +54,16 @@ class VehicleInfoEnsemble {
 
   final String vehicleName;
   final String vehicleId;
-  final String kills;
-  final String KPM;
-  final String killedVehicle;
-  final String roadKills;
-  final String damage;
-  final String multiKills;
-  final String driverAssists;
-  final String passengerAssists;
-  final String distanceTraveled;
-  final String playedTime;
+  final int kills;
+  final double KPM;
+  final int killedVehicle;
+  final int roadKills;
+  final int damage;
+  final int multiKills;
+  final int driverAssists;
+  final int passengerAssists;
+  final int distanceTraveled;
+  final double playedTime;
 }
 
 class GadgetInfoEnsemble {
@@ -242,18 +242,16 @@ class PlayerInfoEnsemble {
           VehicleInfoEnsemble(
               vehicle.vehicleName ?? '未知',
               vehicle.id ?? '未知',
-              UtilTools.parseIntAsENUSFormat(vehicle.kills ?? 0),
-              UtilTools.parseDoubleAsFixedAndENUSFormat(
-                  vehicle.killsPerMinute ?? 0, 2),
-              UtilTools.parseIntAsENUSFormat(vehicle.damage ?? 0),
-              UtilTools.parseIntAsENUSFormat(vehicle.multiKills ?? 0),
-              '${timeFormat.format((vehicle.timeIn ?? 0) / 3600)}小时',
-              UtilTools.parseIntAsENUSFormat(
-                  vehicle.vehiclesDestroyedWith ?? 0),
-              UtilTools.parseIntAsENUSFormat(vehicle.roadKills ?? 0),
-              UtilTools.parseIntAsENUSFormat(vehicle.driverAssists ?? 0),
-              UtilTools.parseIntAsENUSFormat(vehicle.passengerAssists ?? 0),
-              UtilTools.parseIntAsENUSFormat(vehicle.distanceTraveled ?? 0))));
+              vehicle.kills ?? 0,
+              vehicle.killsPerMinute ?? 0,
+              vehicle.damage ?? 0,
+              vehicle.multiKills ?? 0,
+              (vehicle.timeIn ?? 0) / 3600,
+              vehicle.vehiclesDestroyedWith ?? 0,
+              vehicle.roadKills ?? 0,
+              vehicle.driverAssists ?? 0,
+              vehicle.passengerAssists ?? 0,
+              vehicle.distanceTraveled ?? 0)));
     }
 
     if (playerInfo.gadgets != null) {
@@ -427,22 +425,16 @@ class PlayerInfoEnsemble {
         vehicles.add(VehicleInfoEnsemble(
             vehicle.metadata?.name ?? '未知',
             '未知',
-            UtilTools.parseIntAsENUSFormat(vehicleData?.kills?.value ?? 0),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                vehicleData?.killsPerMinute?.value ?? 0, 2),
-            UtilTools.parseIntAsENUSFormat(
-                vehicleData?.damageDealt?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(vehicleData?.multiKills?.value ?? 0),
-            '${timeFormat.format((vehicleData?.timePlayed?.value ?? 0) / 3600)}小时',
-            UtilTools.parseIntAsENUSFormat(
-                vehicleData?.destroyedWith?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(vehicleData?.roadKills?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(
-                vehicleData?.driverAssists?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(
-                vehicleData?.passengerAssists?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(
-                vehicleData?.distanceTraveled?.value ?? 0)));
+            vehicleData?.kills?.value ?? 0,
+            vehicleData?.killsPerMinute?.value ?? 0,
+            vehicleData?.damageDealt?.value ?? 0,
+            vehicleData?.multiKills?.value ?? 0,
+            (vehicleData?.timePlayed?.value ?? 0) / 3600,
+            vehicleData?.destroyedWith?.value ?? 0,
+            vehicleData?.roadKills?.value ?? 0,
+            vehicleData?.driverAssists?.value ?? 0,
+            vehicleData?.passengerAssists?.value ?? 0,
+            vehicleData?.distanceTraveled?.value ?? 0));
       });
     }
 

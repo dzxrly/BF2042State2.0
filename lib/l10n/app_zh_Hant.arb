@@ -89,5 +89,6 @@
   "objectArmedTitle": "炸彈安放 (次)",
   "objectDisarmedTitle": "炸彈拆除 (次)",
   "objectDestroyedTitle": "目標摧毀 (次)",
-  "weaponDataType": "{weaponDataType, select, timePlayed{使用時長} headshotRate{爆頭率} accuracy{命中率} efficiency{效率} other{weaponDataType}}"
+  "weaponDataType": "{weaponDataType, select, timePlayed{使用時長} headshotRate{爆頭率} accuracy{命中率} efficiency{效率} other{weaponDataType}}",
+  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{遊玩時長} destroyCount{摧毀載具} other{vehicleDataType}}"
 }

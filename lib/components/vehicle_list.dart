@@ -1,24 +1,24 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 enum DataType {
-  kpm('KPM', 'killsPerMinute'),
-  secondsPlayed('时长', 'timePlayed'),
-  destroyCount('摧毁载具', 'destroyCount');
+  kpm('killsPerMinute'),
+  secondsPlayed('timePlayed'),
+  destroyCount('destroyCount');
 
-  const DataType(this.label, this.value);
+  const DataType(this.value);
 
-  final String label;
   final String value;
 }
 
 class VehicleList extends StatefulWidget {
-  const VehicleList({Key? key}) : super(key: key);
+  const VehicleList({super.key});
 
   @override
   VehicleListState createState() => VehicleListState();
@@ -29,19 +29,42 @@ class VehicleListState extends State<VehicleList> {
 
   void showVehicleDetails(BuildContext context, VehicleInfoEnsemble vehicle) {
     final List<InfoListItemContent> vehicleDetailList = [
-      InfoListItemContent(keyName: '击杀数', showValueString: vehicle.kills),
-      InfoListItemContent(keyName: 'KPM', showValueString: vehicle.KPM),
       InfoListItemContent(
-          keyName: '摧毁载具', showValueString: vehicle.killedVehicle),
-      InfoListItemContent(keyName: '撞死人数', showValueString: vehicle.roadKills),
-      InfoListItemContent(keyName: '总伤害', showValueString: vehicle.damage),
-      InfoListItemContent(keyName: '连杀次数', showValueString: vehicle.multiKills),
+          keyName: AppLocalizations.of(context)!.killsTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(vehicle.kills)),
       InfoListItemContent(
-          keyName: '驾驶助攻', showValueString: vehicle.driverAssists),
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalDoubleDisplay(vehicle.KPM)),
       InfoListItemContent(
-          keyName: '乘客助攻', showValueString: vehicle.passengerAssists),
+          keyName: AppLocalizations.of(context)!.vehiclesDestroyed,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.killedVehicle)),
       InfoListItemContent(
-          keyName: '行驶距离 (KM)', showValueString: vehicle.distanceTraveled),
+          keyName: AppLocalizations.of(context)!.roadKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.roadKills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.damage,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.damage)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.multiKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.multiKills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.driverAssistsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.driverAssists)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.passengerAssistsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.passengerAssists)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.distanceTraveledTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(vehicle.distanceTraveled)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -65,7 +88,8 @@ class VehicleListState extends State<VehicleList> {
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(vehicle.playedTime))
+                        label: Text(AppLocalizations.of(context)!
+                            .playedTime(vehicle.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -94,7 +118,8 @@ class VehicleListState extends State<VehicleList> {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
-                DataType.values[index].label,
+                AppLocalizations.of(context)!
+                    .vehicleDataType(DataType.values[index].value),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               shape: RoundedRectangleBorder(
@@ -117,20 +142,19 @@ class VehicleListState extends State<VehicleList> {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final vehicleList = playerInfo.playerInfoEnsemble.vehicles;
-      vehicleList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
-          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
+      vehicleList.sort((a, b) => (b.kills - a.kills));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text('载具名称',
+                child: Text(AppLocalizations.of(context)!.vehicleNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('击杀数',
+                child: Text(AppLocalizations.of(context)!.killsTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
@@ -143,10 +167,8 @@ class VehicleListState extends State<VehicleList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                            DataType.values
-                                .firstWhere(
-                                    (element) => element.value == dataTypeValue)
-                                .label,
+                            AppLocalizations.of(context)!
+                                .vehicleDataType(dataTypeValue),
                             textAlign: TextAlign.right,
                             style: Theme.of(context).textTheme.bodyLarge),
                         Icon(
@@ -163,16 +185,16 @@ class VehicleListState extends State<VehicleList> {
                 vehicle: VehicleInfoEnsemble(
                   '未知',
                   '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
-                  '未知',
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
                 ),
                 dataTypeValue: dataTypeValue,
               ),
@@ -197,23 +219,25 @@ class VehicleListItem extends StatelessWidget {
   final Function? onTap;
 
   const VehicleListItem(
-      {Key? key,
+      {super.key,
       required this.vehicle,
       required this.dataTypeValue,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   String filterVehicleDataByDataTypeValue(
-      VehicleInfoEnsemble vehicle, String value) {
+      BuildContext context, VehicleInfoEnsemble vehicle, String value) {
     switch (value) {
       case 'killsPerMinute':
-        return vehicle.KPM;
+        return AppLocalizations.of(context)!
+            .universalDoubleDisplay(vehicle.KPM);
       case 'timePlayed':
-        return vehicle.playedTime;
+        return AppLocalizations.of(context)!.playedTime(vehicle.playedTime);
       case 'destroyCount':
-        return vehicle.killedVehicle;
+        return AppLocalizations.of(context)!
+            .universalIntDisplay(vehicle.killedVehicle);
       default:
-        return vehicle.KPM;
+        return AppLocalizations.of(context)!
+            .universalDoubleDisplay(vehicle.KPM);
     }
   }
 
@@ -231,7 +255,7 @@ class VehicleListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            vehicle.kills,
+            AppLocalizations.of(context)!.universalIntDisplay(vehicle.kills),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -242,7 +266,7 @@ class VehicleListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            filterVehicleDataByDataTypeValue(vehicle, dataTypeValue),
+            filterVehicleDataByDataTypeValue(context, vehicle, dataTypeValue),
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
