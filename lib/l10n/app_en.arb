@@ -468,5 +468,14 @@
         "type": "String"
       }
     }
+  },
+  "mapName": "{mapName, select, Discarded{Discarded} Hourglass{Hourglass} Breakaway{Breakaway} Kaleidescope{Kaleidescope} Manifest{Manifest} Orbital{Orbital} Renewal{Renewal} BattleoftheBulge{Battle of the Bulge} AricaHarbor{Arica Harbor} Valparaiso{Valparaiso} ElAlamein{El Alamein} NoshahrCanals{Noshahr Canals} CaspianBorder{Caspian Border} Exposure{Exposure} Stranded{Stranded} Spearhead{Spearhead} Flashpoint{Flashpoint} Reclaimed{Reclaimed} Redacted{Redacted} other{mapName}}",
+  "@mapName": {
+    "description": "Name of the map",
+    "placeholders": {
+      "mapName": {
+        "type": "String"
+      }
+    }
   }
 }

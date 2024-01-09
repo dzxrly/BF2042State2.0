@@ -304,7 +304,7 @@ class PlayerInfoEnsemble {
 
     if (playerInfo.maps != null) {
       playerInfo.maps?.forEach((map) => maps.add(MapInfoEnsemble(
-          map.mapName ?? 'null',
+          (map.mapName ?? 'null').replaceAll(' ', ''),
           map.id ?? 'null',
           map.wins ?? 0,
           map.losses ?? 0,
@@ -504,7 +504,7 @@ class PlayerInfoEnsemble {
         final mapData = map.stats;
 
         maps.add(MapInfoEnsemble(
-            map.metadata?.name ?? 'null',
+            (map.metadata?.name ?? 'null').replaceAll(' ', ''),
             'null',
             mapData?.wins?.value ?? 0,
             mapData?.losses?.value ?? 0,
