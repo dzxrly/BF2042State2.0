@@ -147,19 +147,19 @@ class MapInfoEnsemble {
 class PlayerInfoEnsemble {
   PlayerInfoEnsemble.gametoolsAPI(GametoolsPlayerInfo playerInfo)
       : avatar = '#',
-        nucleusId = '未知',
-        username = '未知',
-        personaId = '未知',
+        nucleusId = 'null',
+        username = 'null',
+        personaId = 'null',
         playedTime = 0.0,
         realKD = 0.0,
         realKPM = 0.0,
-        hsRate = '未知',
+        hsRate = 'null',
         realKills = 0,
-        readKillRate = '未知',
+        readKillRate = 'null',
         damagePerMatch = 0.0,
-        winRate = '未知',
+        winRate = 'null',
         damagePerMinute = 0.0,
-        accuracy = '未知',
+        accuracy = 'null',
         killsPerMatch = 0.0,
         playedMatches = 0,
         kills = 0,
@@ -186,9 +186,10 @@ class PlayerInfoEnsemble {
     final NumberFormat timeFormat = NumberFormat('#,###.00');
 
     avatar = playerInfo.avatar ?? '#';
-    nucleusId = playerInfo.userId != null ? playerInfo.userId.toString() : '未知';
-    username = playerInfo.userName ?? '未知';
-    personaId = playerInfo.id != null ? playerInfo.id.toString() : '未知';
+    nucleusId =
+        playerInfo.userId != null ? playerInfo.userId.toString() : 'null';
+    username = playerInfo.userName ?? 'null';
+    personaId = playerInfo.id != null ? playerInfo.id.toString() : 'null';
     playedTime = (playerInfo.secondsPlayed ?? 0) / 3600;
 
     final double realKillsRate =
@@ -224,8 +225,8 @@ class PlayerInfoEnsemble {
 
     if (playerInfo.weapons != null) {
       playerInfo.weapons?.forEach((weapon) => weapons.add(WeaponInfoEnsemble(
-          weapon.weaponName ?? '未知',
-          weapon.id ?? '未知',
+          weapon.weaponName ?? 'null',
+          weapon.id ?? 'null',
           weapon.kills ?? 0,
           weapon.killsPerMinute ?? 0,
           weapon.damagePerMinute ?? 0,
@@ -240,8 +241,8 @@ class PlayerInfoEnsemble {
     if (playerInfo.vehicles != null) {
       playerInfo.vehicles?.forEach((vehicle) => vehicles.add(
           VehicleInfoEnsemble(
-              vehicle.vehicleName ?? '未知',
-              vehicle.id ?? '未知',
+              vehicle.vehicleName ?? 'null',
+              vehicle.id ?? 'null',
               vehicle.kills ?? 0,
               vehicle.killsPerMinute ?? 0,
               vehicle.damage ?? 0,
@@ -256,8 +257,8 @@ class PlayerInfoEnsemble {
 
     if (playerInfo.gadgets != null) {
       playerInfo.gadgets?.forEach((gadget) => gadgets.add(GadgetInfoEnsemble(
-          gadget.gadgetName ?? '未知',
-          gadget.id ?? '未知',
+          gadget.gadgetName ?? 'null',
+          gadget.id ?? 'null',
           UtilTools.parseIntAsENUSFormat(gadget.kills ?? 0),
           UtilTools.parseDoubleAsFixedAndENUSFormat(gadget.kpm ?? 0, 2),
           UtilTools.parseIntAsENUSFormat(gadget.damage ?? 0),
@@ -269,24 +270,24 @@ class PlayerInfoEnsemble {
     if (playerInfo.classes != null) {
       playerInfo.classes?.forEach((character) => characters.add(
           CharacterInfoEnsemble(
-              (character.characterName ?? '未知')
+              (character.characterName ?? 'null')
                   .replaceAll('1942', 'BF1942')
                   .replaceAll(RegExp('[-\\s]'), ''),
-              character.id ?? '未知',
+              character.id ?? 'null',
               UtilTools.parseIntAsENUSFormat(character.kills ?? 0),
               UtilTools.parseDoubleAsFixedAndENUSFormat(character.kpm ?? 0, 2),
               UtilTools.parseDoubleAsFixedAndENUSFormat(
                   character.killDeath ?? 0, 2),
               UtilTools.parseIntAsENUSFormat(character.deaths ?? 0),
-              character.className ?? '未知',
+              character.className ?? 'null',
               '${timeFormat.format((character.secondsPlayed ?? 0) / 3600)}小时')));
     }
 
     if (playerInfo.gamemodes != null) {
       playerInfo.gamemodes?.forEach((gameMode) => gameModes.add(
           GameModeInfoEnsemble(
-              gameMode.gamemodeName ?? '未知',
-              gameMode.id ?? '未知',
+              gameMode.gamemodeName ?? 'null',
+              gameMode.id ?? 'null',
               UtilTools.parseIntAsENUSFormat(gameMode.kills ?? 0),
               UtilTools.parseDoubleAsFixedAndENUSFormat(gameMode.kpm ?? 0, 2),
               UtilTools.parseIntAsENUSFormat(gameMode.matches ?? 0),
@@ -305,8 +306,8 @@ class PlayerInfoEnsemble {
 
     if (playerInfo.maps != null) {
       playerInfo.maps?.forEach((map) => maps.add(MapInfoEnsemble(
-          map.mapName ?? '未知',
-          map.id ?? '未知',
+          map.mapName ?? 'null',
+          map.id ?? 'null',
           UtilTools.parseIntAsENUSFormat(map.wins ?? 0),
           UtilTools.parseIntAsENUSFormat(map.losses ?? 0),
           map.winPercent ?? '0.0%',
@@ -322,20 +323,21 @@ class PlayerInfoEnsemble {
     BFTrackerGadgets gadgetsInfo,
     BFTrackerSoldier soldierInfo,
     BFTrackerMap mapInfo,
-  )   : avatar = '#',
-        nucleusId = '未知',
-        username = '未知',
-        personaId = '未知',
+  )
+      : avatar = '#',
+        nucleusId = 'null',
+        username = 'null',
+        personaId = 'null',
         playedTime = 0.0,
         realKD = 0.0,
         realKPM = 0.0,
-        hsRate = '未知',
+        hsRate = 'null',
         realKills = 0,
-        readKillRate = '未知',
+        readKillRate = 'null',
         damagePerMatch = 0.0,
-        winRate = '未知',
+        winRate = 'null',
         damagePerMinute = 0.0,
-        accuracy = '未知',
+        accuracy = 'null',
         killsPerMatch = 0.0,
         playedMatches = 0,
         kills = 0,
@@ -362,8 +364,8 @@ class PlayerInfoEnsemble {
     final NumberFormat timeFormat = NumberFormat('#,###.00');
 
     avatar = playerInfo.data?.platformInfo?.avatarUrl ?? '#';
-    nucleusId = playerInfo.data?.platformInfo?.platformUserId ?? '未知';
-    username = playerInfo.data?.platformInfo?.platformUserIdentifier ?? '未知';
+    nucleusId = playerInfo.data?.platformInfo?.platformUserId ?? 'null';
+    username = playerInfo.data?.platformInfo?.platformUserIdentifier ?? 'null';
     final overviewSegment = playerInfo.data?.segments
         ?.firstWhere((element) => element.type == 'overview');
     playedTime = (overviewSegment?.stats?.timePlayed?.value ?? 0) / 3600;
@@ -403,8 +405,8 @@ class PlayerInfoEnsemble {
         final weaponData = weapon.stats;
 
         weapons.add(WeaponInfoEnsemble(
-            weapon.metadata?.name ?? '未知',
-            '未知',
+            weapon.metadata?.name ?? 'null',
+            'null',
             weaponData?.kills?.value ?? 0,
             weaponData?.killsPerMinute?.value ?? 0,
             weaponData?.dmgPerMin?.value ?? 0,
@@ -423,8 +425,8 @@ class PlayerInfoEnsemble {
         final vehicleData = vehicle.stats;
 
         vehicles.add(VehicleInfoEnsemble(
-            vehicle.metadata?.name ?? '未知',
-            '未知',
+            vehicle.metadata?.name ?? 'null',
+            'null',
             vehicleData?.kills?.value ?? 0,
             vehicleData?.killsPerMinute?.value ?? 0,
             vehicleData?.damageDealt?.value ?? 0,
@@ -443,8 +445,8 @@ class PlayerInfoEnsemble {
         final gadgetData = gadget.stats;
 
         gadgets.add(GadgetInfoEnsemble(
-            gadget.metadata?.name ?? '未知',
-            '未知',
+            gadget.metadata?.name ?? 'null',
+            'null',
             UtilTools.parseIntAsENUSFormat(gadgetData?.kills?.value ?? 0),
             UtilTools.parseDoubleAsFixedAndENUSFormat(
                 gadgetData?.killsPerMinute?.value ?? 0, 2),
@@ -461,17 +463,17 @@ class PlayerInfoEnsemble {
         final soldierData = soldier.stats;
 
         characters.add(CharacterInfoEnsemble(
-            (soldier.metadata?.name ?? '未知')
+            (soldier.metadata?.name ?? 'null')
                 .replaceAll('1942', 'BF1942')
                 .replaceAll(RegExp('[-\\s]'), ''),
-            '未知',
+            'null',
             UtilTools.parseIntAsENUSFormat(soldierData?.kills?.value ?? 0),
             UtilTools.parseDoubleAsFixedAndENUSFormat(
                 soldierData?.killsPerMinute?.value ?? 0, 2),
             UtilTools.parseDoubleAsFixedAndENUSFormat(
                 soldierData?.kdRatio?.value ?? 0, 2),
             UtilTools.parseIntAsENUSFormat(soldierData?.deaths?.value ?? 0),
-            '未知',
+            'null',
             '${timeFormat.format((soldierData?.timePlayed?.value ?? 0) / 3600)}小时'));
       });
     }
@@ -485,8 +487,8 @@ class PlayerInfoEnsemble {
     });
     for (var gamemode in gameModsSegment) {
       gameModes.add(GameModeInfoEnsemble(
-        gamemode.metadata?.name ?? '未知',
-        '未知',
+        gamemode.metadata?.name ?? 'null',
+        'null',
         UtilTools.parseIntAsENUSFormat(gamemode.stats?.kills?.value ?? 0),
         UtilTools.parseDoubleAsFixedAndENUSFormat(
             gamemode.stats?.killsPerMinute?.value ?? 0, 2),
@@ -517,8 +519,8 @@ class PlayerInfoEnsemble {
         final mapData = map.stats;
 
         maps.add(MapInfoEnsemble(
-            map.metadata?.name ?? '未知',
-            '未知',
+            map.metadata?.name ?? 'null',
+            'null',
             UtilTools.parseIntAsENUSFormat(mapData?.wins?.value ?? 0),
             UtilTools.parseIntAsENUSFormat(mapData?.losses?.value ?? 0),
             '${(mapData?.wlPercentage?.value ?? 0).toStringAsFixed(2)}%',

@@ -79,7 +79,7 @@ class WeaponListState extends State<WeaponList> {
                   children: [
                     FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text(weapon.weaponName ?? '未知武器',
+                        child: Text(weapon.weaponName ?? 'null',
                             style: Theme.of(context).textTheme.titleLarge)),
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
@@ -177,8 +177,8 @@ class WeaponListState extends State<WeaponList> {
             shrinkWrap: true,
             prototypeItem: WeaponListItem(
               weapon: WeaponInfoEnsemble(
-                '未知',
-                '未知',
+                'null',
+                'null',
                 0,
                 0,
                 0,

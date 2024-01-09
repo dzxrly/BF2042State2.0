@@ -183,8 +183,8 @@ class VehicleListState extends State<VehicleList> {
               shrinkWrap: true,
               prototypeItem: VehicleListItem(
                 vehicle: VehicleInfoEnsemble(
-                  '未知',
-                  '未知',
+                  'null',
+                  'null',
                   0,
                   0,
                   0,
