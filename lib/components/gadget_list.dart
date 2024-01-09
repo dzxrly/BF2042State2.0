@@ -150,10 +150,12 @@ class GadgetListState extends State<GadgetList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                            AppLocalizations.of(context)!
-                                .gadgetDataType(dataTypeValue),
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context).textTheme.bodyLarge),
+                          AppLocalizations.of(context)!
+                              .gadgetDataType(dataTypeValue),
+                          textAlign: TextAlign.right,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         Icon(
                           Icons.arrow_drop_down,
                           color: Theme.of(context).colorScheme.primary,

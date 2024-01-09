@@ -167,10 +167,12 @@ class VehicleListState extends State<VehicleList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                            AppLocalizations.of(context)!
-                                .vehicleDataType(dataTypeValue),
-                            textAlign: TextAlign.right,
-                            style: Theme.of(context).textTheme.bodyLarge),
+                          AppLocalizations.of(context)!
+                              .vehicleDataType(dataTypeValue),
+                          textAlign: TextAlign.right,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                         Icon(
                           Icons.arrow_drop_down,
                           color: Theme.of(context).colorScheme.primary,

@@ -1,21 +1,13 @@
+import 'dart:developer';
+
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
-enum DataType {
-  secondsPlayed('timePlayed'),
-  headshotRate('headshotRate'),
-  accuracy('accuracy'),
-  efficiency('efficiency');
-
-  const DataType(this.value);
-
-  final String value;
-}
 
 class WeaponList extends StatefulWidget {
   const WeaponList({super.key});
@@ -26,6 +18,12 @@ class WeaponList extends StatefulWidget {
 
 class WeaponListState extends State<WeaponList> {
   String dataTypeValue = 'timePlayed';
+  List<String> dataType = [
+    'timePlayed',
+    'headshotRate',
+    'accuracy',
+    'efficiency'
+  ];
 
   void showWeaponDetails(BuildContext context, WeaponInfoEnsemble weapon) {
     final List<InfoListItemContent> weaponDetailList = [
@@ -40,7 +38,7 @@ class WeaponListState extends State<WeaponList> {
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.dpmTitle,
           showValueString:
-              AppLocalizations.of(context)!.universalDoubleDisplay(weapon.DPM)),
+          AppLocalizations.of(context)!.universalDoubleDisplay(weapon.DPM)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.headshotRate,
           showValueString: AppLocalizations.of(context)!
@@ -52,7 +50,7 @@ class WeaponListState extends State<WeaponList> {
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
           showValueString:
-              AppLocalizations.of(context)!.universalIntDisplay(weapon.damage)),
+          AppLocalizations.of(context)!.universalIntDisplay(weapon.damage)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.multiKillsTitle,
           showValueString: AppLocalizations.of(context)!
@@ -78,7 +76,7 @@ class WeaponListState extends State<WeaponList> {
                   children: [
                     FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: Text(weapon.weaponName ?? 'null',
+                        child: Text(weapon.weaponName,
                             style: Theme.of(context).textTheme.titleLarge)),
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Badge(
@@ -88,16 +86,16 @@ class WeaponListState extends State<WeaponList> {
                   ]),
               Expanded(
                   child: ListView.builder(
-                shrinkWrap: true,
-                prototypeItem: const InfoListItem(
-                    keyName: 'null', showValueString: 'null'),
-                itemCount: weaponDetailList.length,
-                itemBuilder: (context, index) {
-                  return InfoListItem(
-                      keyName: weaponDetailList[index].keyName,
-                      showValueString: weaponDetailList[index].showValueString);
-                },
-              ))
+                    shrinkWrap: true,
+                    prototypeItem: const InfoListItem(
+                        keyName: 'null', showValueString: 'null'),
+                    itemCount: weaponDetailList.length,
+                    itemBuilder: (context, index) {
+                      return InfoListItem(
+                          keyName: weaponDetailList[index].keyName,
+                          showValueString: weaponDetailList[index].showValueString);
+                    },
+                  ))
             ],
           ),
         ));
@@ -108,23 +106,22 @@ class WeaponListState extends State<WeaponList> {
         context,
         ListView.builder(
           shrinkWrap: true,
-          itemCount: DataType.values.length,
+          itemCount: dataType.length,
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
-                AppLocalizations.of(context)!
-                    .weaponDataType(DataType.values[index].value),
+                AppLocalizations.of(context)!.weaponDataType(dataType[index]),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(19),
               ),
-              tileColor: dataTypeValue == DataType.values[index].value
+              tileColor: dataTypeValue == dataType[index]
                   ? Theme.of(context).colorScheme.secondaryContainer
                   : null,
               onTap: () => {
                 setState(() {
-                  dataTypeValue = DataType.values[index].value;
+                  dataTypeValue = dataType[index];
                 }),
                 Navigator.pop(context)
               },
@@ -138,70 +135,88 @@ class WeaponListState extends State<WeaponList> {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final weaponList = playerInfo.playerInfoEnsemble.weapons;
       weaponList.sort((a, b) => (b.kills - a.kills));
-      return TouchableList(
-          listTitle: [
-            Expanded(
-                child: Text(AppLocalizations.of(context)!.weaponNameTitle,
-                    textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.bodyLarge)),
-            Expanded(
-                child: Text(AppLocalizations.of(context)!.killsTitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge)),
-            Expanded(
-                child: Text(AppLocalizations.of(context)!.kpmTitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge)),
-            Expanded(
-                child: InkWell(
-                    borderRadius: BorderRadius.circular(19),
-                    onTap: () => {setDataTypeValue(context, dataTypeValue)},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!
-                              .weaponDataType(dataTypeValue),
-                          textAlign: TextAlign.right,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        Icon(Icons.arrow_drop_down,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 16)
-                      ],
-                    ))),
-          ],
-          listChild: ListView.builder(
-            shrinkWrap: true,
-            prototypeItem: WeaponListItem(
-              weapon: WeaponInfoEnsemble(
-                'null',
-                'null',
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-              ),
-              dataTypeValue: dataTypeValue,
-            ),
-            itemCount: playerInfo.playerInfoEnsemble.weapons.length,
-            itemBuilder: (context, index) {
-              return WeaponListItem(
-                onTap: () => {
-                  showWeaponDetails(
-                      context, playerInfo.playerInfoEnsemble.weapons[index])
-                },
-                weapon: playerInfo.playerInfoEnsemble.weapons[index],
+      return LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        final bool showKPM =
+            constraints.maxWidth > WidthBreakpoints.minFoldedScreen;
+        if (!showKPM) {
+          if (!dataType.contains('killsPerMinute')) {
+            dataType.add('killsPerMinute');
+          }
+        } else {
+          if (dataType.contains('killsPerMinute')) {
+            dataType.remove('killsPerMinute');
+          }
+        }
+        log(constraints.maxWidth.toString());
+        return TouchableList(
+            listTitle: [
+              Expanded(
+                  child: Text(AppLocalizations.of(context)!.weaponNameTitle,
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.bodyLarge)),
+              Expanded(
+                  child: Text(AppLocalizations.of(context)!.killsTitle,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge)),
+              if (showKPM)
+                Expanded(
+                    child: Text(AppLocalizations.of(context)!.kpmTitle,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodyLarge)),
+              Expanded(
+                  child: InkWell(
+                      borderRadius: BorderRadius.circular(19),
+                      onTap: () => {setDataTypeValue(context, dataTypeValue)},
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .weaponDataType(dataTypeValue),
+                            textAlign: TextAlign.right,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Icon(Icons.arrow_drop_down,
+                              color: Theme.of(context).colorScheme.primary,
+                              size: 16)
+                        ],
+                      ))),
+            ],
+            listChild: ListView.builder(
+              shrinkWrap: true,
+              prototypeItem: WeaponListItem(
+                weapon: WeaponInfoEnsemble(
+                  'null',
+                  'null',
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0,
+                ),
                 dataTypeValue: dataTypeValue,
-              );
-            },
-          ));
+              ),
+              itemCount: playerInfo.playerInfoEnsemble.weapons.length,
+              itemBuilder: (context, index) {
+                return WeaponListItem(
+                  onTap: () => {
+                    showWeaponDetails(
+                        context, playerInfo.playerInfoEnsemble.weapons[index])
+                  },
+                  weapon: playerInfo.playerInfoEnsemble.weapons[index],
+                  dataTypeValue: dataTypeValue,
+                  showKPM: showKPM,
+                );
+              },
+            ));
+      });
     });
   }
 }
@@ -209,16 +224,16 @@ class WeaponListState extends State<WeaponList> {
 class WeaponListItem extends StatelessWidget {
   final WeaponInfoEnsemble weapon;
   final String dataTypeValue;
+  final bool showKPM;
   final Function? onTap;
 
-  const WeaponListItem(
-      {super.key,
-      required this.weapon,
-      required this.dataTypeValue,
-      this.onTap});
+  const WeaponListItem({super.key,
+    required this.weapon,
+    required this.dataTypeValue,
+    this.showKPM = true,
+    this.onTap});
 
-  String filterWeaponDataByDataTypeValue(
-      BuildContext context, WeaponInfoEnsemble weapon, String value) {
+  String filterWeaponDataByDataTypeValue(BuildContext context, WeaponInfoEnsemble weapon, String value) {
     switch (value) {
       case 'timePlayed':
         return AppLocalizations.of(context)!.playedTime(weapon.playedTime);
@@ -243,15 +258,15 @@ class WeaponListItem extends StatelessWidget {
     final List<Widget> expandChildren = [
       Expanded(
           child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
+            scrollDirection: Axis.horizontal,
             child: Text(weapon.weaponName,
             softWrap: true,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium),
-      )),
+          )),
       Expanded(
           child: Text(
-            AppLocalizations.of(context)!.universalIntDisplay(weapon.kills),
+        AppLocalizations.of(context)!.universalIntDisplay(weapon.kills),
         textAlign: TextAlign.center,
         style: TextStyle(
           fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -259,19 +274,18 @@ class WeaponListItem extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
         ),
       )),
+      if (showKPM)
+        Expanded(
+            child: Text(
+          AppLocalizations.of(context)!.universalDoubleDisplay(weapon.KPM),
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+            fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        )),
       Expanded(
-          child: Text(
-            AppLocalizations.of(context)!.universalDoubleDisplay(weapon.KPM),
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
-          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
-          color: Theme.of(context).colorScheme.primary,
-        ),
-      )),
-      Expanded(
-          child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
         child: Text(
           filterWeaponDataByDataTypeValue(context, weapon, dataTypeValue),
           textAlign: TextAlign.right,
@@ -281,7 +295,7 @@ class WeaponListItem extends StatelessWidget {
             color: Theme.of(context).colorScheme.primary,
           ),
         ),
-      ))
+      )
     ];
 
     return TouchableListItem(
