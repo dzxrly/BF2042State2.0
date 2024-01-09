@@ -45,3 +45,5 @@ app.*.map.json
 
 # remove key files
 /android/key.properties
+
+untranslated_messages.json
