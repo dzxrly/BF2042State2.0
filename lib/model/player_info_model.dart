@@ -6,7 +6,6 @@ import 'package:battlefield_2042_state/api/bftracker/bftracker_player_vehicle_in
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_info.dart';
 import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
-import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
@@ -72,12 +71,12 @@ class GadgetInfoEnsemble {
 
   final String gadgetName;
   final String gadgetId;
-  final String kills;
-  final String KPM;
-  final String damage;
-  final String killedVehicle;
-  final String multiKills;
-  final String used;
+  final int kills;
+  final double KPM;
+  final int damage;
+  final int killedVehicle;
+  final int multiKills;
+  final int used;
 }
 
 class CharacterInfoEnsemble {
@@ -86,12 +85,12 @@ class CharacterInfoEnsemble {
 
   final String characterName;
   final String characterId;
-  final String kills;
-  final String KPM;
-  final String KD;
-  final String deaths;
+  final int kills;
+  final double KPM;
+  final double KD;
+  final int deaths;
   final String className;
-  final String playedTime;
+  final double playedTime;
 }
 
 class GameModeInfoEnsemble {
@@ -115,20 +114,20 @@ class GameModeInfoEnsemble {
 
   final String modeName;
   final String modeId;
-  final String kills;
-  final String KPM;
-  final String playedMatches;
-  final String playedTime;
-  final String win;
-  final String lose;
+  final int kills;
+  final double KPM;
+  final int playedMatches;
+  final double playedTime;
+  final int win;
+  final int lose;
   final String winRate;
-  final String objectTime;
-  final String sectorDefend;
-  final String objectDefend;
-  final String objectCapture;
-  final String boomPlant;
-  final String boomDefuse;
-  final String boomDestroy;
+  final int objectTime;
+  final int sectorDefend;
+  final int objectDefend;
+  final int objectCapture;
+  final int boomPlant;
+  final int boomDefuse;
+  final int boomDestroy;
 }
 
 class MapInfoEnsemble {
@@ -137,11 +136,11 @@ class MapInfoEnsemble {
 
   final String mapName;
   final String mapId;
-  final String playedMatches;
-  final String win;
-  final String lose;
+  final int playedMatches;
+  final int win;
+  final int lose;
   final String winRate;
-  final String playedTime;
+  final double playedTime;
 }
 
 class PlayerInfoEnsemble {
@@ -259,12 +258,12 @@ class PlayerInfoEnsemble {
       playerInfo.gadgets?.forEach((gadget) => gadgets.add(GadgetInfoEnsemble(
           gadget.gadgetName ?? 'null',
           gadget.id ?? 'null',
-          UtilTools.parseIntAsENUSFormat(gadget.kills ?? 0),
-          UtilTools.parseDoubleAsFixedAndENUSFormat(gadget.kpm ?? 0, 2),
-          UtilTools.parseIntAsENUSFormat(gadget.damage ?? 0),
-          UtilTools.parseIntAsENUSFormat(gadget.vehiclesDestroyedWith ?? 0),
-          UtilTools.parseIntAsENUSFormat(gadget.multiKills ?? 0),
-          UtilTools.parseIntAsENUSFormat(gadget.uses ?? 0))));
+          gadget.kills ?? 0,
+          gadget.kpm ?? 0,
+          gadget.damage ?? 0,
+          gadget.vehiclesDestroyedWith ?? 0,
+          gadget.multiKills ?? 0,
+          gadget.uses ?? 0)));
     }
 
     if (playerInfo.classes != null) {
@@ -274,45 +273,44 @@ class PlayerInfoEnsemble {
                   .replaceAll('1942', 'BF1942')
                   .replaceAll(RegExp('[-\\s]'), ''),
               character.id ?? 'null',
-              UtilTools.parseIntAsENUSFormat(character.kills ?? 0),
-              UtilTools.parseDoubleAsFixedAndENUSFormat(character.kpm ?? 0, 2),
-              UtilTools.parseDoubleAsFixedAndENUSFormat(
-                  character.killDeath ?? 0, 2),
-              UtilTools.parseIntAsENUSFormat(character.deaths ?? 0),
+              character.kills ?? 0,
+              character.kpm ?? 0,
+              character.killDeath ?? 0,
+              character.deaths ?? 0,
               character.className ?? 'null',
-              '${timeFormat.format((character.secondsPlayed ?? 0) / 3600)}小时')));
+              (character.secondsPlayed ?? 0) / 3600)));
     }
 
     if (playerInfo.gamemodes != null) {
       playerInfo.gamemodes?.forEach((gameMode) => gameModes.add(
           GameModeInfoEnsemble(
-              gameMode.gamemodeName ?? 'null',
+              (gameMode.gamemodeName ?? 'null').replaceAll(' ', ''),
               gameMode.id ?? 'null',
-              UtilTools.parseIntAsENUSFormat(gameMode.kills ?? 0),
-              UtilTools.parseDoubleAsFixedAndENUSFormat(gameMode.kpm ?? 0, 2),
-              UtilTools.parseIntAsENUSFormat(gameMode.matches ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.wins ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.losses ?? 0),
+              gameMode.kills ?? 0,
+              gameMode.kpm ?? 0,
+              gameMode.matches ?? 0,
+              gameMode.wins ?? 0,
+              gameMode.losses ?? 0,
               gameMode.winPercent ?? '0.0%',
-              UtilTools.parseIntAsENUSFormat(gameMode.objetiveTime ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.sectorDefend ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.objectivesDefended ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.objectivesCaptured ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.objectivesArmed ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.objectivesDisarmed ?? 0),
-              UtilTools.parseIntAsENUSFormat(gameMode.objectivesDestroyed ?? 0),
-              '${timeFormat.format((gameMode.secondsPlayed ?? 0) / 3600)}小时')));
+              gameMode.objetiveTime ?? 0,
+              gameMode.sectorDefend ?? 0,
+              gameMode.objectivesDefended ?? 0,
+              gameMode.objectivesCaptured ?? 0,
+              gameMode.objectivesArmed ?? 0,
+              gameMode.objectivesDisarmed ?? 0,
+              gameMode.objectivesDestroyed ?? 0,
+              (gameMode.secondsPlayed ?? 0) / 3600)));
     }
 
     if (playerInfo.maps != null) {
       playerInfo.maps?.forEach((map) => maps.add(MapInfoEnsemble(
           map.mapName ?? 'null',
           map.id ?? 'null',
-          UtilTools.parseIntAsENUSFormat(map.wins ?? 0),
-          UtilTools.parseIntAsENUSFormat(map.losses ?? 0),
+          map.wins ?? 0,
+          map.losses ?? 0,
           map.winPercent ?? '0.0%',
-          '${timeFormat.format((map.secondsPlayed ?? 0) / 3600)}小时',
-          UtilTools.parseIntAsENUSFormat(map.matches ?? 0))));
+          (map.secondsPlayed ?? 0) / 3600,
+          map.matches ?? 0)));
     }
   }
 
@@ -323,8 +321,7 @@ class PlayerInfoEnsemble {
     BFTrackerGadgets gadgetsInfo,
     BFTrackerSoldier soldierInfo,
     BFTrackerMap mapInfo,
-  )
-      : avatar = '#',
+  )   : avatar = '#',
         nucleusId = 'null',
         username = 'null',
         personaId = 'null',
@@ -447,14 +444,12 @@ class PlayerInfoEnsemble {
         gadgets.add(GadgetInfoEnsemble(
             gadget.metadata?.name ?? 'null',
             'null',
-            UtilTools.parseIntAsENUSFormat(gadgetData?.kills?.value ?? 0),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                gadgetData?.killsPerMinute?.value ?? 0, 2),
-            UtilTools.parseIntAsENUSFormat(gadgetData?.damageDealt?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(
-                gadgetData?.vehiclesDestroyed?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(gadgetData?.multiKills?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(gadgetData?.uses?.value ?? 0)));
+            gadgetData?.kills?.value ?? 0,
+            gadgetData?.killsPerMinute?.value ?? 0,
+            gadgetData?.damageDealt?.value ?? 0,
+            gadgetData?.vehiclesDestroyed?.value ?? 0,
+            gadgetData?.multiKills?.value ?? 0,
+            gadgetData?.uses?.value ?? 0));
       });
     }
 
@@ -467,14 +462,12 @@ class PlayerInfoEnsemble {
                 .replaceAll('1942', 'BF1942')
                 .replaceAll(RegExp('[-\\s]'), ''),
             'null',
-            UtilTools.parseIntAsENUSFormat(soldierData?.kills?.value ?? 0),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                soldierData?.killsPerMinute?.value ?? 0, 2),
-            UtilTools.parseDoubleAsFixedAndENUSFormat(
-                soldierData?.kdRatio?.value ?? 0, 2),
-            UtilTools.parseIntAsENUSFormat(soldierData?.deaths?.value ?? 0),
+            soldierData?.kills?.value ?? 0,
+            soldierData?.killsPerMinute?.value ?? 0,
+            soldierData?.kdRatio?.value ?? 0,
+            soldierData?.deaths?.value ?? 0,
             'null',
-            '${timeFormat.format((soldierData?.timePlayed?.value ?? 0) / 3600)}小时'));
+            (soldierData?.timePlayed?.value ?? 0) / 3600));
       });
     }
 
@@ -487,30 +480,22 @@ class PlayerInfoEnsemble {
     });
     for (var gamemode in gameModsSegment) {
       gameModes.add(GameModeInfoEnsemble(
-        gamemode.metadata?.name ?? 'null',
+        (gamemode.metadata?.name ?? 'null').replaceAll(' ', ''),
         'null',
-        UtilTools.parseIntAsENUSFormat(gamemode.stats?.kills?.value ?? 0),
-        UtilTools.parseDoubleAsFixedAndENUSFormat(
-            gamemode.stats?.killsPerMinute?.value ?? 0, 2),
-        UtilTools.parseIntAsENUSFormat(gamemode.stats?.matches?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(gamemode.stats?.wins?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(gamemode.stats?.losses?.value ?? 0),
+        gamemode.stats?.kills?.value ?? 0,
+        gamemode.stats?.killsPerMinute?.value ?? 0,
+        gamemode.stats?.matches?.value ?? 0,
+        gamemode.stats?.wins?.value ?? 0,
+        gamemode.stats?.losses?.value ?? 0,
         '${(gamemode.stats?.wlPercentage?.value ?? 0).toStringAsFixed(2)}%',
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.objectiveTime?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.defendedSectors?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.defendedObjectives?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.objectivesCaptured?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.objectivesArmed?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.objectivesDisarmed?.value ?? 0),
-        UtilTools.parseIntAsENUSFormat(
-            gamemode.stats?.objectivesDestroyed?.value ?? 0),
-        '${timeFormat.format((gamemode.stats?.timePlayed?.value ?? 0) / 3600)}小时',
+        gamemode.stats?.objectiveTime?.value ?? 0,
+        gamemode.stats?.defendedSectors?.value ?? 0,
+        gamemode.stats?.defendedObjectives?.value ?? 0,
+        gamemode.stats?.objectivesCaptured?.value ?? 0,
+        gamemode.stats?.objectivesArmed?.value ?? 0,
+        gamemode.stats?.objectivesDisarmed?.value ?? 0,
+        gamemode.stats?.objectivesDestroyed?.value ?? 0,
+        (gamemode.stats?.timePlayed?.value ?? 0) / 3600,
       ));
     }
 
@@ -521,11 +506,11 @@ class PlayerInfoEnsemble {
         maps.add(MapInfoEnsemble(
             map.metadata?.name ?? 'null',
             'null',
-            UtilTools.parseIntAsENUSFormat(mapData?.wins?.value ?? 0),
-            UtilTools.parseIntAsENUSFormat(mapData?.losses?.value ?? 0),
+            mapData?.wins?.value ?? 0,
+            mapData?.losses?.value ?? 0,
             '${(mapData?.wlPercentage?.value ?? 0).toStringAsFixed(2)}%',
-            '${timeFormat.format((mapData?.timePlayed?.value ?? 0) / 3600)}小时',
-            UtilTools.parseIntAsENUSFormat(mapData?.matches?.value ?? 0)));
+            (mapData?.timePlayed?.value ?? 0) / 3600,
+            mapData?.matches?.value ?? 0));
       });
     }
   }
@@ -594,7 +579,8 @@ class PlayerInfoModel extends ChangeNotifier {
 
   void clearPlayerInfo() {
     _iconData = null;
-    _playerInfoEnsemble = null as PlayerInfoEnsemble;
+    _playerInfoEnsemble =
+        PlayerInfoEnsemble.gametoolsAPI(GametoolsPlayerInfo());
     _platform = null;
     notifyListeners();
   }

@@ -1,11 +1,10 @@
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-
-import '../model/player_info_model.dart';
 
 enum DataType {
   secondsPlayed('timePlayed'),
@@ -232,6 +231,8 @@ class WeaponListItem extends StatelessWidget {
       case 'efficiency':
         return AppLocalizations.of(context)!
             .universalDoubleDisplay(weapon.efficiency);
+      case 'killsPerMinute':
+        return AppLocalizations.of(context)!.universalDoubleDisplay(weapon.KPM);
       default:
         return AppLocalizations.of(context)!.playedTime(weapon.playedTime);
     }
@@ -269,13 +270,16 @@ class WeaponListItem extends StatelessWidget {
         ),
       )),
       Expanded(
-          child: Text(
-            filterWeaponDataByDataTypeValue(context, weapon, dataTypeValue),
-        textAlign: TextAlign.right,
-        style: TextStyle(
-          fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
-          fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
-          color: Theme.of(context).colorScheme.primary,
+          child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(
+          filterWeaponDataByDataTypeValue(context, weapon, dataTypeValue),
+          textAlign: TextAlign.right,
+          style: TextStyle(
+            fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
+            fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+            color: Theme.of(context).colorScheme.primary,
+          ),
         ),
       ))
     ];

@@ -1,41 +1,69 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
-import 'package:battlefield_2042_state/utils/lang.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 class GameModeList extends StatelessWidget {
-  const GameModeList({Key? key}) : super(key: key);
+  const GameModeList({super.key});
 
   void showVehicleDetails(BuildContext context, GameModeInfoEnsemble gamemode) {
     final List<InfoListItemContent> gameModeDetailList = [
-      InfoListItemContent(keyName: '击杀数', showValueString: gamemode.kills),
-      InfoListItemContent(keyName: 'KPM', showValueString: gamemode.KPM),
       InfoListItemContent(
-          keyName: '游玩场数', showValueString: gamemode.playedMatches),
-      InfoListItemContent(keyName: '获胜次数', showValueString: gamemode.win),
-      InfoListItemContent(keyName: '失败次数', showValueString: gamemode.lose),
+          keyName: AppLocalizations.of(context)!.kills,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.kills)),
       InfoListItemContent(
-        keyName: '胜率',
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalDoubleDisplay(gamemode.KPM)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.matches,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.playedMatches)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.wins,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gamemode.win)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.losses,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gamemode.lose)),
+      InfoListItemContent(
+        keyName: AppLocalizations.of(context)!.winRate,
         showValueString: gamemode.winRate,
       ),
       InfoListItemContent(
-          keyName: '占点时长 (小时)', showValueString: gamemode.objectTime),
+          keyName: AppLocalizations.of(context)!.objectTimeTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectTime)),
       InfoListItemContent(
-          keyName: '区域防守 (次)', showValueString: gamemode.sectorDefend),
+          keyName: AppLocalizations.of(context)!.sectorDefendsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.sectorDefend)),
       InfoListItemContent(
-          keyName: '目标防守 (次)', showValueString: gamemode.objectDefend),
+          keyName: AppLocalizations.of(context)!.objectDefendsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectDefend)),
       InfoListItemContent(
-          keyName: '目标占领 (次)', showValueString: gamemode.objectCapture),
+          keyName: AppLocalizations.of(context)!.objectTakenTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectCapture)),
       InfoListItemContent(
-          keyName: '炸弹安放 (次)', showValueString: gamemode.boomPlant),
+          keyName: AppLocalizations.of(context)!.objectArmedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomPlant)),
       InfoListItemContent(
-          keyName: '炸弹拆除 (次)', showValueString: gamemode.boomDefuse),
+          keyName: AppLocalizations.of(context)!.objectDisarmedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomDefuse)),
       InfoListItemContent(
-          keyName: '炸弹摧毁 (次)', showValueString: gamemode.boomDestroy),
+          keyName: AppLocalizations.of(context)!.objectDestroyedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomDestroy)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -54,13 +82,15 @@ class GameModeList extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                          Translator.gamemodeTranslate(gamemode.modeName),
+                          AppLocalizations.of(context)!
+                              .gameModeName(gamemode.modeName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(gamemode.playedTime))
+                        label: Text(AppLocalizations.of(context)!
+                            .playedTime(gamemode.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -84,26 +114,24 @@ class GameModeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final gameModeList = playerInfo.playerInfoEnsemble.gameModes;
-      gameModeList.sort((a, b) =>
-          (int.parse(b.playedMatches.replaceAll(',', '')))
-              .compareTo(int.parse(a.playedMatches.replaceAll(',', ''))));
+      gameModeList.sort((a, b) => (b.playedMatches - a.playedMatches));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text('模式名称',
+                child: Text(AppLocalizations.of(context)!.gamemodeNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('游玩场数',
+                child: Text(AppLocalizations.of(context)!.matches,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('胜率',
+                child: Text(AppLocalizations.of(context)!.winRate,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.bodyLarge)),
           ],
@@ -111,22 +139,22 @@ class GameModeList extends StatelessWidget {
               shrinkWrap: true,
               prototypeItem: GameModeListItem(
                   gamemode: GameModeInfoEnsemble(
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
+                'null',
+                'null',
+                0,
+                0,
+                0,
+                0,
+                0,
+                'null',
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
               )),
               itemCount: playerInfo.playerInfoEnsemble.gameModes.length,
               itemBuilder: (context, index) {
@@ -146,8 +174,7 @@ class GameModeListItem extends StatelessWidget {
   final GameModeInfoEnsemble gamemode;
   final Function? onTap;
 
-  const GameModeListItem({Key? key, required this.gamemode, this.onTap})
-      : super(key: key);
+  const GameModeListItem({super.key, required this.gamemode, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -156,13 +183,15 @@ class GameModeListItem extends StatelessWidget {
           flex: 2,
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            child: Text(Translator.gamemodeTranslate(gamemode.modeName),
+            child: Text(
+                AppLocalizations.of(context)!.gameModeName(gamemode.modeName),
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
-            gamemode.playedMatches,
+            AppLocalizations.of(context)!
+                .universalIntDisplay(gamemode.playedMatches),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

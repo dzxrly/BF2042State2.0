@@ -21,17 +21,6 @@ class Translator {
     'Redacted': '删隐地区',
   };
 
-  static Map<String, String> gamemodeMap = {
-    'Breakthrough': '突破',
-    'Breakthrough Large': '突破 (大型)',
-    'Conquest': '征服',
-    'Conquest Large': '征服 (大型)',
-    'Hazard Zone': '危险地带',
-    'Hazard Zone Large': '危险地带 (大型)',
-    'Rush': '突袭',
-    'Custom': '门户自定义',
-  };
-
   static Map<int, String> bfbanStatusMap = {
     -3: 'neterr',
     -2: 'searching',
@@ -49,10 +38,6 @@ class Translator {
 
   static gameMapTranslate(String gameMap) {
     return gameMapMap[gameMap] ?? gameMap;
-  }
-
-  static gamemodeTranslate(String gamemode) {
-    return gamemodeMap[gamemode] ?? gamemode;
   }
 
   static bfbanStatusTranslate(int bfbanStatus) {

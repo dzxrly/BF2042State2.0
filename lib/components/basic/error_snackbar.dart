@@ -30,6 +30,7 @@ class ErrorSnackBar {
       backgroundColor: Theme.of(context).colorScheme.error,
       width: MediaQuery.of(context).size.width * widthScale,
       clipBehavior: Clip.antiAlias,
+      duration: const Duration(seconds: 1),
     ));
   }
 }

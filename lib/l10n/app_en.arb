@@ -347,6 +347,10 @@
   "@mapNameTitle": {
     "description": "Title of the map name"
   },
+  "kdTitle": "K/D",
+  "@kdTitle": {
+    "description": "Title of the K/D"
+  },
   "killsTitle": "Kills",
   "@killsTitle": {
     "description": "Title of the kills"
@@ -391,35 +395,35 @@
   "@usesTitle": {
     "description": "Title of the uses"
   },
-  "objectTimeTitle": "Object Time",
+  "objectTimeTitle": "Object Time (Seconds)",
   "@objectTimeTitle": {
     "description": "Title of the object time"
   },
-  "sectorDefendsTitle": "Sector Defends",
+  "sectorDefendsTitle": "Sector Defends (Times)",
   "@sectorDefendsTitle": {
     "description": "Title of the sector defends"
   },
-  "objectDefendsTitle": "Object Defends",
+  "objectDefendsTitle": "Object Defends (Times)",
   "@objectDefendsTitle": {
     "description": "Title of the object defends"
   },
-  "objectTakenTitle": "Object Taken",
+  "objectTakenTitle": "Object Taken (Times)",
   "@objectTakenTitle": {
     "description": "Title of the object taken"
   },
-  "objectArmedTitle": "Object Armed",
+  "objectArmedTitle": "Object Armed (Times)",
   "@objectArmedTitle": {
     "description": "Title of the object armed"
   },
-  "objectDisarmedTitle": "Object Disarmed",
+  "objectDisarmedTitle": "Object Disarmed (Times)",
   "@objectDisarmedTitle": {
     "description": "Title of the object disarmed"
   },
-  "objectDestroyedTitle": "Object Destroyed",
+  "objectDestroyedTitle": "Object Destroyed (Times)",
   "@objectDestroyedTitle": {
     "description": "Title of the object destroyed"
   },
-  "weaponDataType": "{weaponDataType, select, timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{weaponDataType}}",
+  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{weaponDataType}}",
   "@weaponDataType": {
     "description": "Data type of the weapon",
     "placeholders": {
@@ -443,6 +447,24 @@
     "description": "Data type of the vehicle",
     "placeholders": {
       "vehicleDataType": {
+        "type": "String"
+      }
+    }
+  },
+  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{Uses} destroyCount{Destroyed Vehicles} other{gadgetDataType}}",
+  "@gadgetDataType": {
+    "description": "Data type of the gadget",
+    "placeholders": {
+      "gadgetDataType": {
+        "type": "String"
+      }
+    }
+  },
+  "gameModeName": "{gameModeName, select, Breakthrough{Breakthrough} BreakthroughLarge{Breakthrough Large} Conquest{Conquest} ConquestLarge{Conquest Large} HazardZone{Hazard Zone} HazardZoneLarge{Hazard Zone Large} Rush{Rush} Custom{Custom} other{gameModeName}}",
+  "@gameModeName": {
+    "description": "Name of the game mode",
+    "placeholders": {
+      "gameModeName": {
         "type": "String"
       }
     }

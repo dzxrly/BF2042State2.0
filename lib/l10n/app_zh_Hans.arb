@@ -52,6 +52,7 @@
   "playedTime": "{playedTime}小时",
   "kills": "击杀数 （含AI）",
   "deaths": "死亡次数",
+  "kdTitle": "K/D",
   "kd": "K/D （含AI）",
   "kpm": "KPM （含AI）",
   "damage": "造成伤害 （含AI）",
@@ -82,7 +83,7 @@
   "passengerAssistsTitle": "乘客助攻",
   "distanceTraveledTitle": "行驶里程",
   "usesTitle": "使用次数",
-  "objectTimeTitle": "占点时长 (小时)",
+  "objectTimeTitle": "占点时长 (秒)",
   "sectorDefendsTitle": "区域防守 (次)",
   "objectDefendsTitle": "目标防守 (次)",
   "objectTakenTitle": "目标占领 (次)",
@@ -90,6 +91,8 @@
   "objectDisarmedTitle": "炸弹拆除 (次)",
   "objectDestroyedTitle": "目标摧毁 (次)",
   "characterName": "{characterName, select, Mackay{麦凯} Irish{爱尔兰佬} Sundance{日舞} Dozer{推土机} Paik{白智秀} Falck{法尔克} Angel{天使} Boris{鲍里斯} Casper{卡斯帕} Rao{拉奥} Lis{莉丝} Crawford{克劳福德} Zain{扎因} Blasco{布拉斯科} BF3Support{BF3 支援兵} BF3Engineer{BF3 工程兵} BF3Recon{BF3 侦察兵} BF3Assault{BF3 突击兵} BC2Assault{BC2 突击兵} BC2Medic{BC2 医疗兵} BC2Engineer{BC2 工程兵} BC2Recon{BC2 侦察兵} BF1942Assault{1942 突击兵} BF1942Medic{1942 医疗兵} BF1942Engineer{1942 工程兵} BF1942Scout{1942 侦察兵} BF1942Antitank{1942 反坦克兵} other{characterName}}",
-  "weaponDataType": "{weaponDataType, select, timePlayed{使用时长} headshotRate{爆头率} accuracy{命中率} efficiency{效率} other{weaponDataType}}",
-  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{游玩时长} destroyCount{摧毁载具} other{vehicleDataType}}"
+  "gameModeName": "{gameModeName, select, Breakthrough{突破} BreakthroughLarge{突破 (大型)} Conquest{征服} ConquestLarge{征服 (大型)} HazardZone{危险地带} HazardZoneLarge{危险地带 (大型)} Rush{突袭} Custom{门户自定义} other{gameModeName}}",
+  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{使用时长} headshotRate{爆头率} accuracy{命中率} efficiency{效率} other{weaponDataType}}",
+  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{游玩时长} destroyCount{摧毁载具} other{vehicleDataType}}",
+  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{使用次数} destroyCount{摧毁载具} other{gadgetDataType}}"
 }

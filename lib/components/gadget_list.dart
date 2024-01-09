@@ -1,24 +1,24 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
 enum DataType {
-  kpm('KPM', 'killsPerMinute'),
-  uses('使用次数', 'uses'),
-  destroyCount('摧毁载具', 'destroyCount');
+  kpm('killsPerMinute'),
+  uses('uses'),
+  destroyCount('destroyCount');
 
-  const DataType(this.label, this.value);
+  const DataType(this.value);
 
-  final String label;
   final String value;
 }
 
 class GadgetList extends StatefulWidget {
-  const GadgetList({Key? key}) : super(key: key);
+  const GadgetList({super.key});
 
   @override
   GadgetListState createState() => GadgetListState();
@@ -29,13 +29,30 @@ class GadgetListState extends State<GadgetList> {
 
   void showVehicleDetails(BuildContext context, GadgetInfoEnsemble gadget) {
     final List<InfoListItemContent> gadgetDetailList = [
-      InfoListItemContent(keyName: '击杀数', showValueString: gadget.kills),
-      InfoListItemContent(keyName: 'KPM', showValueString: gadget.KPM),
       InfoListItemContent(
-          keyName: '摧毁载具', showValueString: gadget.killedVehicle),
-      InfoListItemContent(keyName: '总伤害', showValueString: gadget.damage),
-      InfoListItemContent(keyName: '连杀次数', showValueString: gadget.multiKills),
-      InfoListItemContent(keyName: '使用次数', showValueString: gadget.used),
+          keyName: AppLocalizations.of(context)!.kills,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gadget.kills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalDoubleDisplay(gadget.KPM)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.vehiclesDestroyed,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gadget.killedVehicle)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.damage,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gadget.damage)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.multiKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gadget.multiKills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.usesTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gadget.used)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -83,7 +100,8 @@ class GadgetListState extends State<GadgetList> {
           itemBuilder: (context, index) {
             return ListTile(
               title: Text(
-                DataType.values[index].label,
+                AppLocalizations.of(context)!
+                    .gadgetDataType(DataType.values[index].value),
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               shape: RoundedRectangleBorder(
@@ -107,20 +125,19 @@ class GadgetListState extends State<GadgetList> {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final gadgetList = playerInfo.playerInfoEnsemble.gadgets;
-      gadgetList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
-          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
+      gadgetList.sort((a, b) => (b.kills - a.kills));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text('装备名称',
+                child: Text(AppLocalizations.of(context)!.gadgetNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('击杀数',
+                child: Text(AppLocalizations.of(context)!.killsTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
@@ -133,10 +150,8 @@ class GadgetListState extends State<GadgetList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                            DataType.values
-                                .firstWhere(
-                                    (element) => element.value == dataTypeValue)
-                                .label,
+                            AppLocalizations.of(context)!
+                                .gadgetDataType(dataTypeValue),
                             textAlign: TextAlign.right,
                             style: Theme.of(context).textTheme.bodyLarge),
                         Icon(
@@ -152,14 +167,14 @@ class GadgetListState extends State<GadgetList> {
               prototypeItem: GadgetListItem(
                   dataTypeValue: dataTypeValue,
                   gadget: GadgetInfoEnsemble(
-                    '未知',
-                    '未知',
-                    '未知',
-                    '未知',
-                    '未知',
-                    '未知',
-                    '未知',
-                    '未知',
+                    'null',
+                    'null',
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
                   )),
               itemCount: playerInfo.playerInfoEnsemble.vehicles.length,
               itemBuilder: (context, index) {
@@ -182,20 +197,23 @@ class GadgetListItem extends StatelessWidget {
   final Function? onTap;
 
   const GadgetListItem(
-      {Key? key, required this.gadget, required this.dataTypeValue, this.onTap})
-      : super(key: key);
+      {super.key,
+      required this.gadget,
+      required this.dataTypeValue,
+      this.onTap});
 
   String filterGadgetDataByDataTypeValue(
-      GadgetInfoEnsemble gadget, String value) {
+      BuildContext context, GadgetInfoEnsemble gadget, String value) {
     switch (value) {
       case 'killsPerMinute':
-        return gadget.KPM;
+        return AppLocalizations.of(context)!.universalDoubleDisplay(gadget.KPM);
       case 'uses':
-        return gadget.used;
+        return AppLocalizations.of(context)!.universalIntDisplay(gadget.used);
       case 'destroyCount':
-        return gadget.killedVehicle;
+        return AppLocalizations.of(context)!
+            .universalIntDisplay(gadget.killedVehicle);
       default:
-        return gadget.KPM;
+        return AppLocalizations.of(context)!.universalDoubleDisplay(gadget.KPM);
     }
   }
 
@@ -213,7 +231,7 @@ class GadgetListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            gadget.kills,
+            AppLocalizations.of(context)!.universalIntDisplay(gadget.kills),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -224,7 +242,7 @@ class GadgetListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            filterGadgetDataByDataTypeValue(gadget, dataTypeValue),
+            filterGadgetDataByDataTypeValue(context, gadget, dataTypeValue),
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

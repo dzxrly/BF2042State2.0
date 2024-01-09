@@ -1,9 +1,9 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../model/player_info_model.dart';
 import 'basic/constraints_modal_bottom_sheet.dart';
 import 'basic/info_list_item_content.dart';
 
@@ -12,10 +12,22 @@ class ClassesList extends StatelessWidget {
 
   void showVehicleDetails(BuildContext context, CharacterInfoEnsemble classes) {
     final List<InfoListItemContent> classesDetailList = [
-      InfoListItemContent(keyName: 'K/D', showValueString: classes.KD),
-      InfoListItemContent(keyName: 'KPM', showValueString: classes.KPM),
-      InfoListItemContent(keyName: '击杀数', showValueString: classes.kills),
-      InfoListItemContent(keyName: '死亡数', showValueString: classes.deaths),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kdTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalDoubleDisplay(classes.KD)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalDoubleDisplay(classes.KPM)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.killsTitle,
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(classes.kills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.deaths,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(classes.deaths)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -41,7 +53,8 @@ class ClassesList extends StatelessWidget {
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        label: Text(classes.playedTime))
+                        label: Text(AppLocalizations.of(context)!
+                            .playedTime(classes.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -65,30 +78,29 @@ class ClassesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final classesList = playerInfo.playerInfoEnsemble.characters;
-      classesList.sort((a, b) => (int.parse(b.kills.replaceAll(',', '')))
-          .compareTo(int.parse(a.kills.replaceAll(',', ''))));
+      classesList.sort((a, b) => (b.kills - a.kills));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text('专家名称',
+                child: Text(AppLocalizations.of(context)!.characterNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 2,
-                child: Text('击杀数',
+                child: Text(AppLocalizations.of(context)!.killsTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('K/D',
+                child: Text(AppLocalizations.of(context)!.kdTitle,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text('KPM',
+                child: Text(AppLocalizations.of(context)!.kpmTitle,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.bodyLarge)),
           ],
@@ -96,14 +108,14 @@ class ClassesList extends StatelessWidget {
               shrinkWrap: true,
               prototypeItem: ClassesListItem(
                   classes: CharacterInfoEnsemble(
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
-                '未知',
+                'null',
+                'null',
+                0,
+                0,
+                0,
+                0,
+                'null',
+                0,
               )),
               itemCount: playerInfo.playerInfoEnsemble.characters.length,
               itemBuilder: (context, index) {
@@ -141,7 +153,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 2,
           child: Text(
-            classes.kills,
+            AppLocalizations.of(context)!.universalIntDisplay(classes.kills),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -152,7 +164,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            classes.KD,
+            AppLocalizations.of(context)!.universalDoubleDisplay(classes.KD),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -163,7 +175,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            classes.KPM,
+            AppLocalizations.of(context)!.universalDoubleDisplay(classes.KPM),
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
