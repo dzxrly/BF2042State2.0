@@ -490,6 +490,16 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           tabAlignment: TabAlignment.start,
                           splashBorderRadius:
                               const BorderRadius.all(Radius.circular(19)),
+                          indicator: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(19)),
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          indicatorPadding: const EdgeInsets.only(
+                            top: 45,
+                          ),
+                          indicatorSize: TabBarIndicatorSize.label,
+                          dividerHeight: 0,
                           isScrollable: true,
                           tabs: TabList.values
                               .map((e) => Tab(
