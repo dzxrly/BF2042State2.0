@@ -1,5 +1,5 @@
 <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-    <img style="display: inline-block;" src="../img/banner_EN.png"></img>
+    <img style="display: inline-block;" src="../img/banner_EN.svg"></img>
 </div>
 
 
@@ -87,5 +87,5 @@
 ---
 
 <p align="center">
-	<a href="https://ko-fi.com/F1F0PZH7X"><img src="../img/kofi_EN.png" alt="KO-FI" /></a>
+	<a href="https://ko-fi.com/F1F0PZH7X"><img src="../img/kofi_EN.svg" alt="KO-FI" /></a>
 </p>
