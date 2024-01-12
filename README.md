@@ -1,10 +1,17 @@
 <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;">
-    <img style="display: inline-block;" src="./img/banner.png"></img>
+    <img style="display: inline-block;" src="./img/banner_ZH_CN.png"></img>
 </div>
+
 
 <div align="center">
 
 ![RELEASE](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge&label=RELEASE) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdzxrly%2FBF2042State2.0%2Fmain%2Fpubspec.yaml&query=%24.dependencies.flutter.sdk&style=for-the-badge&label=SDK) ![Static Badge](https://img.shields.io/badge/Platform-Android_%7C_Web_PWA-4BFCDD?style=for-the-badge)
+
+</div>
+
+<div align="center">
+
+[English Introduction](./docs/README_EN.md) | [繁體中文介紹](./docs/README_ZH_TW.md)
 
 </div>
 
