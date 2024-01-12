@@ -11,7 +11,7 @@
 
 <div align="center">
 
-[English Introduction](./README_EN.md) | [简体中文](../README.md)
+[English Introduction](./README_EN.md) | [简体中文介绍](../README.md)
 
 </div>
 
