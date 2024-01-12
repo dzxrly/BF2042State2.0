@@ -80,5 +80,5 @@
 ---
 
 <p align="center">
-	<a href="https://ko-fi.com/F1F0PZH7X"><img src="./img/coffee.svg" alt="KO-FI" /></a>
+	<a href="https://ko-fi.com/F1F0PZH7X"><img src="./img/kofi_ZH_CN.png" alt="KO-FI" /></a>
 </p>
