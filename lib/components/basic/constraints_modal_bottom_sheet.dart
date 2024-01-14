@@ -25,7 +25,10 @@ class ConstraintsModalBottomSheet {
                 minHeight: 50,
                 maxHeight: MediaQuery.of(context).size.height * 0.5,
               ),
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.only(
+                left: 8,
+                right: 8,
+              ),
               child: child,
             ),
           ));
