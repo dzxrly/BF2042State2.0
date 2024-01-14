@@ -7,11 +7,12 @@ class ConstraintsModalBottomSheet {
         context: context,
         isScrollControlled: true,
         useSafeArea: true,
+        showDragHandle: true,
         shape: const RoundedRectangleBorder(
           // only top left and top right corner
           borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(16),
-            topRight: Radius.circular(16),
+            topLeft: Radius.circular(19),
+            topRight: Radius.circular(19),
           ),
         ),
         builder: (BuildContext context) {
