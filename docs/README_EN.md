@@ -24,6 +24,9 @@
 
 - Android 64bit: [Click to download](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
+- Google Play (Internal
+  Test): [Google Play Internal Test](https://play.google.com/apps/internaltest/4701368484862393507)
+
 - Web (Support PWA): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
 - iOS: No iOS version is available at this time because the developer does not have an Apple device.
