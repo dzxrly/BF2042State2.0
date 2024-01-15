@@ -24,8 +24,9 @@
 
 - Android 64bit: [Click to download](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
-- Google Play (Internal
-  Test): [Google Play Internal Test](https://play.google.com/apps/internaltest/4701368484862393507)
+- Google Play (Internal Test, because internal test is a whitelist mechanism, please send the email
+  about your personal Google account to
+  aegonhe993@gmail.com): [Google Play Internal Test](https://play.google.com/apps/internaltest/4701368484862393507)
 
 - Web (Support PWA): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
