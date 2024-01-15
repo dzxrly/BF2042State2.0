@@ -166,6 +166,8 @@ class LoginFormState extends State<LoginForm>
   BFTrackerPlayerInfoAPIGadgets bfTrackerPlayerInfoAPIGadgets =
       BFTrackerPlayerInfoAPIGadgets();
   GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
+  String channelName =
+      const String.fromEnvironment('CHANNEL', defaultValue: 'github');
 
   void getVersion() async {
     if (!PlatformUtils.isWeb) {
@@ -629,7 +631,9 @@ class LoginFormState extends State<LoginForm>
   // load history when initState
   @override
   initState() {
-    getVersion();
+    if (!PlatformUtils.isWeb && channelName == 'github') {
+      getVersion();
+    }
     queryAPIController.text = QueryAPI.gametools.label;
     super.initState();
   }
@@ -882,7 +886,7 @@ class LoginFormState extends State<LoginForm>
                 ]),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          isVersionOutdated && !PlatformUtils.isWeb
+          isVersionOutdated && !PlatformUtils.isWeb && channelName == 'github'
               ? TextButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Theme.of(context).colorScheme.error,

@@ -131,25 +131,25 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         ),
         body: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-          if (constraints.maxWidth < WidthBreakpoints.minS) {
-            return const LoginScreen(
-              loginScreenWidthScale: 0.85,
-              playerInfoCardWidthScale: 0.95,
-            );
-          } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
-          } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
-          } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
-          } else {
-            return const LoginScreen(
-                loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
-          }
-        }));
+              if (constraints.maxWidth < WidthBreakpoints.minS) {
+                return const LoginScreen(
+                  loginScreenWidthScale: 0.85,
+                  playerInfoCardWidthScale: 0.95,
+                );
+              } else if (constraints.maxWidth < WidthBreakpoints.minM) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.6, playerInfoCardWidthScale: 0.6);
+              } else if (constraints.maxWidth < WidthBreakpoints.minL) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.4, playerInfoCardWidthScale: 0.4);
+              } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.3, playerInfoCardWidthScale: 0.3);
+              } else {
+                return const LoginScreen(
+                    loginScreenWidthScale: 0.2, playerInfoCardWidthScale: 0.2);
+              }
+            }));
   }
 }
 
@@ -210,7 +210,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
-                        Theme.of(context).textTheme.bodySmall?.fontWeight,
+                    Theme.of(context).textTheme.bodySmall?.fontWeight,
                     color: Theme.of(context).colorScheme.primary,
                   )),
               const Padding(padding: EdgeInsets.only(left: 8)),
@@ -218,7 +218,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
-                        Theme.of(context).textTheme.bodySmall?.fontWeight,
+                    Theme.of(context).textTheme.bodySmall?.fontWeight,
                     color: Theme.of(context).colorScheme.primary,
                   )),
             ],
@@ -239,9 +239,9 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   Text('Github',
                       style: TextStyle(
                         fontSize:
-                            Theme.of(context).textTheme.bodySmall?.fontSize,
+                        Theme.of(context).textTheme.bodySmall?.fontSize,
                         fontWeight:
-                            Theme.of(context).textTheme.bodySmall?.fontWeight,
+                        Theme.of(context).textTheme.bodySmall?.fontWeight,
                         color: Theme.of(context).colorScheme.primary,
                       )),
                 ],
