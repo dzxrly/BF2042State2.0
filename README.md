@@ -23,8 +23,7 @@
 
 - Android 64位版: [点击进入下载地址](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
-- Google Play (
-  内部测试版，由于内部测试为白名单机制，请先将个人谷歌账号对应的邮箱发送至aegonhe993@gmail.com以方便将您加入白名单。): [Google Play Internal Test](https://play.google.com/apps/internaltest/4701368484862393507)
+- Google Play (内部测试版): [查看详情](https://github.com/dzxrly/BF2042State2.0/issues/4)
 
 - 网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
