@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
@@ -38,7 +36,7 @@ class WeaponListState extends State<WeaponList> {
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.dpmTitle,
           showValueString:
-          AppLocalizations.of(context)!.universalDoubleDisplay(weapon.DPM)),
+              AppLocalizations.of(context)!.universalDoubleDisplay(weapon.DPM)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.headshotRate,
           showValueString: AppLocalizations.of(context)!
@@ -50,7 +48,7 @@ class WeaponListState extends State<WeaponList> {
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
           showValueString:
-          AppLocalizations.of(context)!.universalIntDisplay(weapon.damage)),
+              AppLocalizations.of(context)!.universalIntDisplay(weapon.damage)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.multiKillsTitle,
           showValueString: AppLocalizations.of(context)!
@@ -86,16 +84,16 @@ class WeaponListState extends State<WeaponList> {
                   ]),
               Expanded(
                   child: ListView.builder(
-                    shrinkWrap: true,
-                    prototypeItem: const InfoListItem(
-                        keyName: 'null', showValueString: 'null'),
-                    itemCount: weaponDetailList.length,
-                    itemBuilder: (context, index) {
-                      return InfoListItem(
-                          keyName: weaponDetailList[index].keyName,
-                          showValueString: weaponDetailList[index].showValueString);
-                    },
-                  ))
+                shrinkWrap: true,
+                prototypeItem: const InfoListItem(
+                    keyName: 'null', showValueString: 'null'),
+                itemCount: weaponDetailList.length,
+                itemBuilder: (context, index) {
+                  return InfoListItem(
+                      keyName: weaponDetailList[index].keyName,
+                      showValueString: weaponDetailList[index].showValueString);
+                },
+              ))
             ],
           ),
         ));
@@ -148,7 +146,6 @@ class WeaponListState extends State<WeaponList> {
             dataType.remove('killsPerMinute');
           }
         }
-        log(constraints.maxWidth.toString());
         return TouchableList(
             listTitle: [
               Expanded(
@@ -227,13 +224,15 @@ class WeaponListItem extends StatelessWidget {
   final bool showKPM;
   final Function? onTap;
 
-  const WeaponListItem({super.key,
-    required this.weapon,
-    required this.dataTypeValue,
-    this.showKPM = true,
-    this.onTap});
+  const WeaponListItem(
+      {super.key,
+      required this.weapon,
+      required this.dataTypeValue,
+      this.showKPM = true,
+      this.onTap});
 
-  String filterWeaponDataByDataTypeValue(BuildContext context, WeaponInfoEnsemble weapon, String value) {
+  String filterWeaponDataByDataTypeValue(
+      BuildContext context, WeaponInfoEnsemble weapon, String value) {
     switch (value) {
       case 'timePlayed':
         return AppLocalizations.of(context)!.playedTime(weapon.playedTime);
@@ -258,12 +257,12 @@ class WeaponListItem extends StatelessWidget {
     final List<Widget> expandChildren = [
       Expanded(
           child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Text(weapon.weaponName,
+        scrollDirection: Axis.horizontal,
+        child: Text(weapon.weaponName,
             softWrap: true,
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyMedium),
-          )),
+      )),
       Expanded(
           child: Text(
         AppLocalizations.of(context)!.universalIntDisplay(weapon.kills),
