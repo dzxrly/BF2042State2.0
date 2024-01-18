@@ -21,44 +21,54 @@ class QueryHistory {
   // set history to playerNameHistory and playerPlatformHistory
   Future<void> setHistory(
       String playerName, String playerPlatform, String playerUid) async {
-    final Box box = await Hive.openBox('queryHistoryHiveBox');
-    if (!playerUidHistory.contains(playerUid)) {
-      playerNameHistory.add(playerName);
-      playerPlatformHistory.add(playerPlatform);
-      playerUidHistory.add(playerUid);
-      if (playerUidHistory.length > maxHistoryLength) {
-        playerNameHistory.removeAt(0);
-        playerPlatformHistory.removeAt(0);
-        playerUidHistory.removeAt(0);
-      }
-      box.put(playerNameHistoryKey, playerNameHistory);
-      box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      box.put(playerUidHistoryKey, playerUidHistory);
+    // check all input is '', if true, throw error
+    if (playerName == '' || playerPlatform == '' || playerUid == '') {
+      throw Exception('playerName, playerPlatform, playerUid cannot be empty');
     } else {
-      final int index = playerUidHistory.indexOf(playerUid);
-      playerNameHistory.removeAt(index);
-      playerPlatformHistory.removeAt(index);
-      playerUidHistory.removeAt(index);
-      playerNameHistory.add(playerName);
-      playerPlatformHistory.add(playerPlatform);
-      playerUidHistory.add(playerUid);
-      box.put(playerNameHistoryKey, playerNameHistory);
-      box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      box.put(playerUidHistoryKey, playerUidHistory);
+      final Box box = await Hive.openBox('queryHistoryHiveBox');
+      if (!playerUidHistory.contains(playerUid)) {
+        playerNameHistory.add(playerName);
+        playerPlatformHistory.add(playerPlatform);
+        playerUidHistory.add(playerUid);
+        if (playerUidHistory.length > maxHistoryLength) {
+          playerNameHistory.removeAt(0);
+          playerPlatformHistory.removeAt(0);
+          playerUidHistory.removeAt(0);
+        }
+        box.put(playerNameHistoryKey, playerNameHistory);
+        box.put(playerPlatformHistoryKey, playerPlatformHistory);
+        box.put(playerUidHistoryKey, playerUidHistory);
+      } else {
+        final int index = playerUidHistory.indexOf(playerUid);
+        playerNameHistory.removeAt(index);
+        playerPlatformHistory.removeAt(index);
+        playerUidHistory.removeAt(index);
+        playerNameHistory.add(playerName);
+        playerPlatformHistory.add(playerPlatform);
+        playerUidHistory.add(playerUid);
+        box.put(playerNameHistoryKey, playerNameHistory);
+        box.put(playerPlatformHistoryKey, playerPlatformHistory);
+        box.put(playerUidHistoryKey, playerUidHistory);
+      }
     }
   }
 
   // delete player history by playerUid
   Future<void> deleteHistory(String playerUid) async {
-    final Box box = await Hive.openBox('queryHistoryHiveBox');
-    final int index = playerUidHistory.indexOf(playerUid);
-    if (index != -1) {
-      playerNameHistory.removeAt(index);
-      playerPlatformHistory.removeAt(index);
-      playerUidHistory.removeAt(index);
-      box.put(playerNameHistoryKey, playerNameHistory);
-      box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      box.put(playerUidHistoryKey, playerUidHistory);
+    // check all input is '', if true, throw error
+    if (playerUid == '') {
+      throw Exception('playerUid cannot be empty');
+    } else {
+      final Box box = await Hive.openBox('queryHistoryHiveBox');
+      final int index = playerUidHistory.indexOf(playerUid);
+      if (index != -1) {
+        playerNameHistory.removeAt(index);
+        playerPlatformHistory.removeAt(index);
+        playerUidHistory.removeAt(index);
+        box.put(playerNameHistoryKey, playerNameHistory);
+        box.put(playerPlatformHistoryKey, playerPlatformHistory);
+        box.put(playerUidHistoryKey, playerUidHistory);
+      }
     }
   }
 }
