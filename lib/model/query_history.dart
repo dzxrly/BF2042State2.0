@@ -31,9 +31,9 @@ class QueryHistory {
         playerPlatformHistory.removeAt(0);
         playerUidHistory.removeAt(0);
       }
-      await box.put(playerNameHistoryKey, playerNameHistory);
-      await box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      await box.put(playerUidHistoryKey, playerUidHistory);
+      box.put(playerNameHistoryKey, playerNameHistory);
+      box.put(playerPlatformHistoryKey, playerPlatformHistory);
+      box.put(playerUidHistoryKey, playerUidHistory);
     } else {
       final int index = playerUidHistory.indexOf(playerUid);
       playerNameHistory.removeAt(index);
@@ -42,9 +42,9 @@ class QueryHistory {
       playerNameHistory.add(playerName);
       playerPlatformHistory.add(playerPlatform);
       playerUidHistory.add(playerUid);
-      await box.put(playerNameHistoryKey, playerNameHistory);
-      await box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      await box.put(playerUidHistoryKey, playerUidHistory);
+      box.put(playerNameHistoryKey, playerNameHistory);
+      box.put(playerPlatformHistoryKey, playerPlatformHistory);
+      box.put(playerUidHistoryKey, playerUidHistory);
     }
   }
 
@@ -56,9 +56,9 @@ class QueryHistory {
       playerNameHistory.removeAt(index);
       playerPlatformHistory.removeAt(index);
       playerUidHistory.removeAt(index);
-      await box.put(playerNameHistoryKey, playerNameHistory);
-      await box.put(playerPlatformHistoryKey, playerPlatformHistory);
-      await box.put(playerUidHistoryKey, playerUidHistory);
+      box.put(playerNameHistoryKey, playerNameHistory);
+      box.put(playerPlatformHistoryKey, playerPlatformHistory);
+      box.put(playerUidHistoryKey, playerUidHistory);
     }
   }
 }
