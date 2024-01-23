@@ -462,6 +462,8 @@ class LoginFormState extends State<LoginForm>
                               onDismissed: (direction) {
                                 queryHistory.deleteHistory(
                                     queryHistory.playerUidHistory[index]);
+                                // close modal bottom sheet
+                                Navigator.pop(context);
                               },
                               background: Container(
                                 color: Theme.of(context).colorScheme.error,

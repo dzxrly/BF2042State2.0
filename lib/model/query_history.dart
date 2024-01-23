@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 
 class QueryHistory {
@@ -23,6 +25,7 @@ class QueryHistory {
       String playerName, String playerPlatform, String playerUid) async {
     // check all input is '', if true, throw error
     if (playerName == '' || playerPlatform == '' || playerUid == '') {
+      log('playerName, playerPlatform, playerUid cannot be empty');
       throw Exception('playerName, playerPlatform, playerUid cannot be empty');
     } else {
       final Box box = await Hive.openBox('queryHistoryHiveBox');
