@@ -79,6 +79,10 @@
 
     A：请自行前往[BFBan官网](https://bfban.com/)查看原因，本应用不对该结果负责！
 
+## 隐私政策
+
+[隐私政策](./privacy.md)
+
 ---
 
 <p align="center">

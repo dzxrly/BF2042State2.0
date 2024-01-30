@@ -17,7 +17,7 @@
 
 > 特別感謝[Gametools](https://gametools.network/)，本應用程式使用了其提供的API。
 >
-> [BFBan](https://bfban.com/)資料來自其公開接口，本應用程式不對結果負責！ 如有疑問請直接聯絡BFBan。
+> [BFBan](https://bfban.com/)資料來自其公開介面，本應用程式不對結果負責！ 如有疑問請直接聯絡BFBan。
 
 ## 下載地址
 
@@ -78,6 +78,10 @@
 10. **Q：我被BFBan了怎麼辦？**
 
     A：請直接聯絡[BFBan](https://bfban.com/)。
+
+## 隱私政策
+
+[隱私政策](../privacy.md)
 
 ---
 

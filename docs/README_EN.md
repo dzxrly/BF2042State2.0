@@ -86,6 +86,10 @@
     A: Please go to the [BFBan official website](https://bfban.com/) to check the reason. This
     application is not responsible for the result!
 
+## Privacy Policy
+
+[Privacy Policy](../privacy.md)
+
 ---
 
 <p align="center">
