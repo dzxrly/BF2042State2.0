@@ -360,8 +360,8 @@ class PostPlayerFeslidAPI extends APIBase {
 }
 
 class BFPlayInfoAPI extends APIBase {
-  Future<BFPlayInfo> fetchBFPlayInfo(String playerId) async {
-    final String url = '$gametoolsBaseAPI/bfglobal/games/?playerid=$playerId';
+  Future<BFPlayInfo> fetchBFPlayInfo(String name) async {
+    final String url = '$gametoolsBaseAPI/bfglobal/games/?name=$name';
     try {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
 

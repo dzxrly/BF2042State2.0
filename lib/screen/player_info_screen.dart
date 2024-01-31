@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
 import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
@@ -43,9 +45,10 @@ class PlayerInfoScreen extends StatelessWidget {
 
   PlayerInfoScreen({super.key});
 
-  Future<BFPlayInfo?> getBFPlayInfo(String playerId) async {
+  Future<BFPlayInfo?> getBFPlayInfo(String name) async {
+    log(name);
     try {
-      BFPlayInfo bfPlayInfo = await bfPlayInfoAPI.fetchBFPlayInfo(playerId);
+      BFPlayInfo bfPlayInfo = await bfPlayInfoAPI.fetchBFPlayInfo(name);
       return bfPlayInfo;
     } catch (e) {
       return null;
@@ -55,8 +58,7 @@ class PlayerInfoScreen extends StatelessWidget {
   Future<PlayerFeslid?> getPlayerFeslid(
     String platform,
     String personaId,
-    String nucleusId,
-  ) async {
+      String nucleusId,) async {
     // pc: 1, psn: 2, xboxseries: 3
     String platformId = '1';
     switch (platform) {
@@ -85,11 +87,11 @@ class PlayerInfoScreen extends StatelessWidget {
     }
   }
 
-  void onInfoButtonPressed(BuildContext context, String playerId) {
+  void onInfoButtonPressed(BuildContext context, String name) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
         context,
         FutureBuilder<BFPlayInfo?>(
-            future: getBFPlayInfo(playerId),
+            future: getBFPlayInfo(name),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Row(
@@ -121,86 +123,86 @@ class PlayerInfoScreen extends StatelessWidget {
               } else if (snapshot.connectionState == ConnectionState.done) {
                 return snapshot.data == null
                     ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!
-                                .playerBFHistorySearchingError,
-                            style: Theme.of(context).textTheme.bodyMedium,
-                            softWrap: true,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      )
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!
+                          .playerBFHistorySearchingError,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                )
                     : Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context)!.playerBFHistoryTitle,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const Padding(padding: EdgeInsets.only(top: 8)),
-                          InfoListItem(
-                            keyName: AppLocalizations.of(context)!.battlefield3,
-                            showValueString: snapshot.data!.bf3
-                                ? AppLocalizations.of(context)!
-                                    .playerBFHistoryPlayed
-                                : AppLocalizations.of(context)!
-                                    .playerBFHistoryNotPlayed,
-                            textColor: snapshot.data!.bf3
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.error,
-                          ),
-                          InfoListItem(
-                            keyName: AppLocalizations.of(context)!.battlefield4,
-                            showValueString: snapshot.data!.bf4
-                                ? AppLocalizations.of(context)!
-                                    .playerBFHistoryPlayed
-                                : AppLocalizations.of(context)!
-                                    .playerBFHistoryNotPlayed,
-                            textColor: snapshot.data!.bf4
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.error,
-                          ),
-                          InfoListItem(
-                            keyName: AppLocalizations.of(context)!.battlefieldH,
-                            showValueString: snapshot.data!.bfh
-                                ? AppLocalizations.of(context)!
-                                    .playerBFHistoryPlayed
-                                : AppLocalizations.of(context)!
-                                    .playerBFHistoryNotPlayed,
-                            textColor: snapshot.data!.bfh
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.error,
-                          ),
-                          InfoListItem(
-                            keyName: AppLocalizations.of(context)!.battlefield1,
-                            showValueString: snapshot.data!.bf1
-                                ? AppLocalizations.of(context)!
-                                    .playerBFHistoryPlayed
-                                : AppLocalizations.of(context)!
-                                    .playerBFHistoryNotPlayed,
-                            textColor: snapshot.data!.bf1
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.error,
-                          ),
-                          InfoListItem(
-                            keyName: AppLocalizations.of(context)!.battlefieldV,
-                            showValueString: snapshot.data!.bfv
-                                ? AppLocalizations.of(context)!
-                                    .playerBFHistoryPlayed
-                                : AppLocalizations.of(context)!
-                                    .playerBFHistoryNotPlayed,
-                            textColor: snapshot.data!.bfv
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.error,
-                          ),
-                        ],
-                      );
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      AppLocalizations.of(context)!.playerBFHistoryTitle,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const Padding(padding: EdgeInsets.only(top: 8)),
+                    InfoListItem(
+                      keyName: AppLocalizations.of(context)!.battlefield3,
+                      showValueString: snapshot.data!.bf3
+                          ? AppLocalizations.of(context)!
+                          .playerBFHistoryPlayed
+                          : AppLocalizations.of(context)!
+                          .playerBFHistoryNotPlayed,
+                      textColor: snapshot.data!.bf3
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
+                    ),
+                    InfoListItem(
+                      keyName: AppLocalizations.of(context)!.battlefield4,
+                      showValueString: snapshot.data!.bf4
+                          ? AppLocalizations.of(context)!
+                          .playerBFHistoryPlayed
+                          : AppLocalizations.of(context)!
+                          .playerBFHistoryNotPlayed,
+                      textColor: snapshot.data!.bf4
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
+                    ),
+                    InfoListItem(
+                      keyName: AppLocalizations.of(context)!.battlefieldH,
+                      showValueString: snapshot.data!.bfh
+                          ? AppLocalizations.of(context)!
+                          .playerBFHistoryPlayed
+                          : AppLocalizations.of(context)!
+                          .playerBFHistoryNotPlayed,
+                      textColor: snapshot.data!.bfh
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
+                    ),
+                    InfoListItem(
+                      keyName: AppLocalizations.of(context)!.battlefield1,
+                      showValueString: snapshot.data!.bf1
+                          ? AppLocalizations.of(context)!
+                          .playerBFHistoryPlayed
+                          : AppLocalizations.of(context)!
+                          .playerBFHistoryNotPlayed,
+                      textColor: snapshot.data!.bf1
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
+                    ),
+                    InfoListItem(
+                      keyName: AppLocalizations.of(context)!.battlefieldV,
+                      showValueString: snapshot.data!.bfv
+                          ? AppLocalizations.of(context)!
+                          .playerBFHistoryPlayed
+                          : AppLocalizations.of(context)!
+                          .playerBFHistoryNotPlayed,
+                      textColor: snapshot.data!.bfv
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.error,
+                    ),
+                  ],
+                );
               } else {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -226,150 +228,150 @@ class PlayerInfoScreen extends StatelessWidget {
       return Scaffold(
           appBar: AppBar(
               title: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                    width: 42,
-                    height: 42,
-                    child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        clipBehavior: Clip.antiAlias,
-                        child: FutureBuilder<PlayerFeslid?>(
-                            future: getPlayerFeslid(
-                              playerInfo.platform ?? '1',
-                              playerInfo.playerInfoEnsemble.personaId,
-                              playerInfo.playerInfoEnsemble.nucleusId,
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                        width: 42,
+                        height: 42,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
                             ),
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return SpinKitCubeGrid(
-                                  size: 24,
-                                  color: Theme.of(context).colorScheme.primary,
-                                );
-                              } else if (snapshot.connectionState ==
-                                  ConnectionState.done) {
-                                if (snapshot.data == null) {
-                                  return Image.asset(
-                                    'assets/avatar_span.png',
-                                    fit: BoxFit.cover,
-                                  );
-                                } else {
-                                  return Image.network(
-                                    snapshot.data!.avatar ??
-                                        'assets/avatar_span.png',
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) {
+                            clipBehavior: Clip.antiAlias,
+                            child: FutureBuilder<PlayerFeslid?>(
+                                future: getPlayerFeslid(
+                                  playerInfo.platform ?? '1',
+                                  playerInfo.playerInfoEnsemble.personaId,
+                                  playerInfo.playerInfoEnsemble.nucleusId,
+                                ),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return SpinKitCubeGrid(
+                                      size: 24,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    );
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (snapshot.data == null) {
                                       return Image.asset(
                                         'assets/avatar_span.png',
                                         fit: BoxFit.cover,
-                                        cacheHeight: 42,
-                                        cacheWidth: 42,
                                       );
-                                    },
-                                    loadingBuilder:
-                                        (context, child, loadingProgress) {
-                                      if (loadingProgress == null) {
-                                        return child;
-                                      } else {
-                                        return SpinKitCubeGrid(
-                                          size: 24,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        );
-                                      }
-                                    },
-                                  );
-                                }
-                              } else {
-                                return Image.asset(
-                                  'assets/avatar_span.png',
-                                  fit: BoxFit.cover,
-                                );
-                              }
-                            }))),
-                const Padding(padding: EdgeInsets.only(left: 8)),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FittedBox(
-                      child: Text(
-                        playerInfo.playerInfoEnsemble.username,
-                        style: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.titleLarge?.fontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                                    } else {
+                                      return Image.network(
+                                        snapshot.data!.avatar ??
+                                            'assets/avatar_span.png',
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (context, error, stackTrace) {
+                                          return Image.asset(
+                                            'assets/avatar_span.png',
+                                            fit: BoxFit.cover,
+                                            cacheHeight: 42,
+                                            cacheWidth: 42,
+                                          );
+                                        },
+                                        loadingBuilder:
+                                            (context, child, loadingProgress) {
+                                          if (loadingProgress == null) {
+                                            return child;
+                                          } else {
+                                            return SpinKitCubeGrid(
+                                              size: 24,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                            );
+                                          }
+                                        },
+                                      );
+                                    }
+                                  } else {
+                                    return Image.asset(
+                                      'assets/avatar_span.png',
+                                      fit: BoxFit.cover,
+                                    );
+                                  }
+                                }))),
+                    const Padding(padding: EdgeInsets.only(left: 8)),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (playerInfo.iconData != null)
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              FaIcon(
-                                playerInfo.iconData,
-                                size: Theme.of(context)
+                        FittedBox(
+                          child: Text(
+                            playerInfo.playerInfoEnsemble.username,
+                            style: TextStyle(
+                              fontSize:
+                              Theme.of(context).textTheme.titleLarge?.fontSize,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            if (playerInfo.iconData != null)
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  FaIcon(
+                                    playerInfo.iconData,
+                                    size: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall
+                                        ?.fontSize,
+                                  ),
+                                  const Padding(padding: EdgeInsets.only(left: 4)),
+                                ],
+                              ),
+                            Text(
+                              'UID: ${playerInfo.playerInfoEnsemble.nucleusId}',
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
                                     .textTheme
                                     .labelSmall
                                     ?.fontSize,
+                                fontWeight: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.fontWeight,
                               ),
-                              const Padding(padding: EdgeInsets.only(left: 4)),
-                            ],
-                          ),
-                        Text(
-                          'UID: ${playerInfo.playerInfoEnsemble.nucleusId}',
-                          style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.fontSize,
-                            fontWeight: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.fontWeight,
-                          ),
-                        ),
-                        const Padding(padding: EdgeInsets.only(left: 10)),
-                        Text(
-                          AppLocalizations.of(context)!.playedTime(
-                              playerInfo.playerInfoEnsemble.playedTime),
-                          style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.fontSize,
-                            fontWeight: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.fontWeight,
-                          ),
-                        ),
+                            ),
+                            const Padding(padding: EdgeInsets.only(left: 10)),
+                            Text(
+                              AppLocalizations.of(context)!.playedTime(
+                                  playerInfo.playerInfoEnsemble.playedTime),
+                              style: TextStyle(
+                                fontSize: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.fontSize,
+                                fontWeight: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall
+                                    ?.fontWeight,
+                              ),
+                            ),
+                          ],
+                        )
                       ],
-                    )
-                  ],
-                ),
-                IconButton(
-                  onPressed: () => onInfoButtonPressed(
-                      context, playerInfo.playerInfoEnsemble.personaId),
+                    ),
+                    IconButton(
+                      onPressed: () => onInfoButtonPressed(
+                      context, playerInfo.playerInfoEnsemble.username),
                   icon: const Icon(Icons.help_outline),
                 )
-              ],
-            ),
-          )),
+                  ],
+                ),
+              )),
           body: SafeArea(
             child: LayoutBuilder(
               builder: (context, constraints) {
@@ -404,8 +406,7 @@ class PlayerInfoScreen extends StatelessWidget {
 class PlayerInfoMainContent extends StatelessWidget {
   final double playerInfoCardWidthScale;
 
-  const PlayerInfoMainContent(
-      {required this.playerInfoCardWidthScale, super.key});
+  const PlayerInfoMainContent({required this.playerInfoCardWidthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -467,8 +468,7 @@ class PlayerBaseInfoCard extends StatelessWidget {
 class PlayerDetailsInfoCard extends StatelessWidget {
   final double playerInfoCardWidthScale;
 
-  const PlayerDetailsInfoCard(
-      {required this.playerInfoCardWidthScale, super.key});
+  const PlayerDetailsInfoCard({required this.playerInfoCardWidthScale, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -489,10 +489,10 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                         TabBar(
                           tabAlignment: TabAlignment.start,
                           splashBorderRadius:
-                              const BorderRadius.all(Radius.circular(19)),
+                          const BorderRadius.all(Radius.circular(19)),
                           indicator: BoxDecoration(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(19)),
+                            const BorderRadius.all(Radius.circular(19)),
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           indicatorPadding: const EdgeInsets.only(
@@ -503,12 +503,12 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           isScrollable: true,
                           tabs: TabList.values
                               .map((e) => Tab(
-                                      child: Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: Text(AppLocalizations.of(context)!
-                                        .playerInfoScreenTabItem(e.name)),
-                                  )))
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8),
+                                child: Text(AppLocalizations.of(context)!
+                                    .playerInfoScreenTabItem(e.name)),
+                              )))
                               .toList(),
                         ),
                         const Expanded(
