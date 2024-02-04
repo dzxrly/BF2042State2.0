@@ -15,6 +15,7 @@
 
 </div>
 
+> [!NOTE]
 > 特别感谢[Gametools](https://gametools.network/)，本应用使用了其提供的API。
 >
 > [BFBan](https://bfban.com/)数据来自其公开接口，本应用不对结果负责！如有疑问请直接联系BFBan。

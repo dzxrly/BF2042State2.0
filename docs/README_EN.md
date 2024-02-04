@@ -15,6 +15,7 @@
 
 </div>
 
+> [!NOTE]
 > Special thanks to [Gametools](https://gametools.network/), whose API is used in this application.
 >
 > The [BFBan](https://bfban.com/) data comes from its public interface and this application is not
