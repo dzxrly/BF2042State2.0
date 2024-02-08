@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 
-class ErrorSnackBar {
-  static void showErrorSnackBar(
-      BuildContext context, String errorMsg, double widthScale) {
+class CustomSnackBar {
+  static void showSnackBar(
+      BuildContext context, String msg, double widthScale, String type) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Icon(
-            Icons.error,
-            color: Theme.of(context).colorScheme.onError,
-          ),
+          if (type == 'error')
+            Icon(
+              Icons.error,
+              color: Theme.of(context).colorScheme.onError,
+            ),
+          if (type == 'info')
+            Icon(
+              Icons.info,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
           const Padding(padding: EdgeInsets.only(left: 8)),
           Text(
-            errorMsg,
+            msg,
             style: const TextStyle(fontSize: 14),
             softWrap: true,
             maxLines: 5,
@@ -27,7 +33,9 @@ class ErrorSnackBar {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(19)),
       ),
-      backgroundColor: Theme.of(context).colorScheme.error,
+      backgroundColor: type == 'error'
+          ? Theme.of(context).colorScheme.onError
+          : Theme.of(context).colorScheme.primary,
       width: MediaQuery.of(context).size.width * widthScale,
       clipBehavior: Clip.antiAlias,
       duration: const Duration(seconds: 1),

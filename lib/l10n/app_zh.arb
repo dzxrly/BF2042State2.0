@@ -95,5 +95,7 @@
   "mapName": "{mapName, select, Discarded{废弃之地} Hourglass{沙漏} Breakaway{分崩离析} Kaleidescope{万花筒} Manifest{货物仓单} Orbital{航天发射场} Renewal{涅槃} BattleoftheBulge{突出部之役} AricaHarbor{阿里卡港} Valparaiso{瓦尔帕莱索} ElAlamein{阿拉曼} NoshahrCanals{诺沙运河} CaspianBorder{里海边境} Exposure{曝光} Stranded{搁浅} Spearhead{急先锋} Flashpoint{闪点} Reclaimed{重生} Redacted{删隐地区} other{mapName}}",
   "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{使用时长} headshotRate{爆头率} accuracy{命中率} efficiency{效率} other{weaponDataType}}",
   "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{游玩时长} destroyCount{摧毁载具} other{vehicleDataType}}",
-  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{使用次数} destroyCount{摧毁载具} other{gadgetDataType}}"
+  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{使用次数} destroyCount{摧毁载具} other{gadgetDataType}}",
+  "playerUidCopied": "UID 已复制到剪贴板",
+  "playerUidCopyError": "写入剪贴板时发生错误"
 }

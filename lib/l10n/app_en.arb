@@ -477,5 +477,13 @@
         "type": "String"
       }
     }
+  },
+  "playerUidCopied": "UID copied successfully !",
+  "@playerUidCopied": {
+    "description": "Tip for the player UID copied"
+  },
+  "playerUidCopyError": "Failed to write to clipboard",
+  "@playerUidCopyError": {
+    "description": "Tip for the player UID copy error"
   }
 }
