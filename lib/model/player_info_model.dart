@@ -159,6 +159,7 @@ class PlayerInfoEnsemble {
         winRate = 'null',
         damagePerMinute = 0.0,
         accuracy = 'null',
+        realKillsPerMatch = 0.0,
         killsPerMatch = 0.0,
         playedMatches = 0,
         kills = 0,
@@ -203,6 +204,7 @@ class PlayerInfoEnsemble {
     winRate = playerInfo.winPercent ?? '0.0%';
     damagePerMinute = playerInfo.damagePerMinute ?? 0;
     accuracy = playerInfo.accuracy ?? '0.0%';
+    realKillsPerMatch = realKills / (playerInfo.matchesPlayed ?? 1);
     killsPerMatch = playerInfo.killsPerMatch ?? 0;
     playedMatches = playerInfo.matchesPlayed ?? 0;
 
@@ -335,6 +337,7 @@ class PlayerInfoEnsemble {
         winRate = 'null',
         damagePerMinute = 0.0,
         accuracy = 'null',
+        realKillsPerMatch = 0.0,
         killsPerMatch = 0.0,
         playedMatches = 0,
         kills = 0,
@@ -381,6 +384,8 @@ class PlayerInfoEnsemble {
     winRate =
         '${overviewSegment?.stats?.wlPercentage?.value?.toStringAsFixed(2) ?? 0}%';
     damagePerMinute = overviewSegment?.stats?.dmgPerMin?.value ?? 0;
+    realKillsPerMatch =
+        realKills / (overviewSegment?.stats?.matches?.value ?? 1);
     killsPerMatch = overviewSegment?.stats?.killsPerMatch?.value ?? 0;
     playedMatches = overviewSegment?.stats?.matches?.value ?? 0;
 
@@ -530,12 +535,13 @@ class PlayerInfoEnsemble {
   String winRate;
   double damagePerMinute;
   String accuracy;
-  double killsPerMatch;
+  double realKillsPerMatch;
   int playedMatches;
 
   int kills;
   int deaths;
   int assists;
+  double killsPerMatch;
   double KD;
   double KPM;
   int damage;

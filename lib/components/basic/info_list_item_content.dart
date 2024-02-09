@@ -13,8 +13,7 @@ class InfoListItem extends StatelessWidget {
   final Color? textColor;
 
   const InfoListItem(
-      {required this.keyName, this.showValueString, this.textColor, Key? key})
-      : super(key: key);
+      {required this.keyName, this.showValueString, this.textColor, super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ import '../model/player_info_model.dart';
 class KeyInfoView extends StatefulWidget {
   final String userId;
 
-  const KeyInfoView({required this.userId, Key? key}) : super(key: key);
+  const KeyInfoView({required this.userId, super.key});
 
   @override
   State<StatefulWidget> createState() => _KeyInfoViewState();
@@ -140,10 +140,10 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   KeyInfoWidget(
-                    keyName: AppLocalizations.of(context)!.killsPerMatch,
+                    keyName: AppLocalizations.of(context)!.realKillsPerMatch,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                            playerInfo.playerInfoEnsemble.killsPerMatch),
+                            playerInfo.playerInfoEnsemble.realKillsPerMatch),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.matches,

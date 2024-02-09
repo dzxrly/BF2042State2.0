@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
@@ -173,7 +171,7 @@ class LoginFormState extends State<LoginForm>
     if (!PlatformUtils.isWeb) {
       try {
         PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        currentVersionName = packageInfo.version ?? '0.0.0';
+        currentVersionName = packageInfo.version;
         GiteeVersionCheck giteeVersionCheck =
             await giteeVersionCheckAPI.fetchGiteeVersionCheck();
         if (giteeVersionCheck.tagName != null &&
@@ -341,7 +339,6 @@ class LoginFormState extends State<LoginForm>
                   )
                 })
             .catchError((error) {
-          log(error.toString());
           CustomSnackBar.showSnackBar(
               context,
               AppLocalizations.of(context)!.writeCacheErrorTip,

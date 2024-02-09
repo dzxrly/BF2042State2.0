@@ -34,7 +34,7 @@ class CustomSnackBar {
         borderRadius: BorderRadius.all(Radius.circular(19)),
       ),
       backgroundColor: type == 'error'
-          ? Theme.of(context).colorScheme.onError
+          ? Theme.of(context).colorScheme.error
           : Theme.of(context).colorScheme.primary,
       width: MediaQuery.of(context).size.width * widthScale,
       clipBehavior: Clip.antiAlias,

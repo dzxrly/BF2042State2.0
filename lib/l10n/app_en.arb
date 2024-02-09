@@ -203,7 +203,11 @@
   "@accuracy": {
     "description": "Tip for the accuracy"
   },
-  "killsPerMatch": "Kills/Match",
+  "realKillsPerMatch": "Human K/Match",
+  "@realKillsPerMatch": {
+    "description": "Tip for the real kills per match"
+  },
+  "killsPerMatch": "K/Match",
   "@killsPerMatch": {
     "description": "Tip for the kills per match"
   },

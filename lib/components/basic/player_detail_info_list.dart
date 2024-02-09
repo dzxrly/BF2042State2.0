@@ -4,8 +4,8 @@ class TouchableListItem extends StatelessWidget {
   final List<Widget> expandChildren;
   final Function? onTap;
 
-  const TouchableListItem({Key? key, required this.expandChildren, this.onTap})
-      : super(key: key);
+  const TouchableListItem(
+      {super.key, required this.expandChildren, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,7 @@ class TouchableList extends StatelessWidget {
   final Widget listChild;
 
   const TouchableList(
-      {Key? key, required this.listTitle, required this.listChild})
-      : super(key: key);
+      {super.key, required this.listTitle, required this.listChild});
 
   @override
   Widget build(BuildContext context) {

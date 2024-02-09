@@ -70,7 +70,7 @@ class GadgetListState extends State<GadgetList> {
                   children: [
                     FittedBox(
                       fit: BoxFit.scaleDown,
-                      child: Text(gadget.gadgetName ?? '未知装备',
+                      child: Text(gadget.gadgetName,
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                   ]),

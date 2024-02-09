@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import '../model/player_info_model.dart';
 
 class OverviewList extends StatelessWidget {
-  const OverviewList({Key? key}) : super(key: key);
+  const OverviewList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,11 @@ class OverviewList extends StatelessWidget {
           keyName: AppLocalizations.of(context)!.kpm,
           showValueString: AppLocalizations.of(context)!
               .universalDoubleDisplay(playerInfo.playerInfoEnsemble.KPM),
+        ),
+        InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.killsPerMatch,
+          showValueString: AppLocalizations.of(context)!.universalDoubleDisplay(
+              playerInfo.playerInfoEnsemble.killsPerMatch),
         ),
         InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
