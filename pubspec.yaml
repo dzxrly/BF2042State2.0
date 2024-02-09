@@ -50,7 +50,6 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: ^2.1.2
   another_flushbar: ^1.12.30
-  saf: ^1.0.3+3
 
 dev_dependencies:
   flutter_test:

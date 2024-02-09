@@ -27,7 +27,8 @@ class UtilTools {
     return aVersion < bVersion;
   }
 
-  static String parseDoubleAsFixedAndENUSFormat(double value, int fractionDigits) {
+  static String parseDoubleAsFixedAndENUSFormat(
+      double value, int fractionDigits) {
     final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
     // check value is NaN
     return value.isNaN || value.isNegative
