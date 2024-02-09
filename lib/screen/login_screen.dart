@@ -2,6 +2,7 @@ import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/custom_snackbar.dart';
+import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:battlefield_2042_state/screen/player_info_screen.dart';
@@ -277,10 +278,9 @@ class LoginFormState extends State<LoginForm>
                 });
               } else {
                 CustomSnackBar.showSnackBar(
-                    context,
-                    AppLocalizations.of(context)!.dataAPINotOpenErrorTip,
-                    widget.loginScreenWidthScale,
-                    'error');
+                  context,
+                  AppLocalizations.of(context)!.dataAPINotOpenErrorTip,
+                ).show(context);
               }
               Navigator.pop(context);
             },
@@ -340,10 +340,9 @@ class LoginFormState extends State<LoginForm>
                 })
             .catchError((error) {
           CustomSnackBar.showSnackBar(
-              context,
-              AppLocalizations.of(context)!.writeCacheErrorTip,
-              widget.loginScreenWidthScale,
-              'error');
+            context,
+            AppLocalizations.of(context)!.writeCacheErrorTip,
+          ).show(context);
         });
       } else {
         throw AppLocalizations.of(context)!
@@ -357,10 +356,9 @@ class LoginFormState extends State<LoginForm>
         queryBtnLoading = false;
       });
       CustomSnackBar.showSnackBar(
-          context,
-          AppLocalizations.of(context)!.requestErrorTip(error.toString()),
-          widget.loginScreenWidthScale,
-          'error');
+        context,
+        AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+      ).show(context);
     });
   }
 
@@ -410,10 +408,9 @@ class LoginFormState extends State<LoginForm>
         queryBtnLoading = false;
       });
       CustomSnackBar.showSnackBar(
-          context,
-          AppLocalizations.of(context)!.requestErrorTip(error.toString()),
-          widget.loginScreenWidthScale,
-          'error');
+        context,
+        AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+      ).show(context);
     });
   }
 
@@ -427,12 +424,11 @@ class LoginFormState extends State<LoginForm>
         (enablePlayerUidQuery && playerUid == null) ||
         (!enablePlayerUidQuery && playerName == null)) {
       CustomSnackBar.showSnackBar(
-          context,
-          enablePlayerUidQuery
-              ? AppLocalizations.of(context)!.playerUIDTextFieldNotNone
-              : AppLocalizations.of(context)!.playerNameTextFieldNotNone,
-          widget.loginScreenWidthScale,
-          'error');
+        context,
+        enablePlayerUidQuery
+            ? AppLocalizations.of(context)!.playerUIDTextFieldNotNone
+            : AppLocalizations.of(context)!.playerNameTextFieldNotNone,
+      ).show(context);
     } else {
       setState(() {
         queryBtnLoading = true;
@@ -545,8 +541,7 @@ class LoginFormState extends State<LoginForm>
               )
             })
         .catchError((error) {
-      CustomSnackBar.showSnackBar(
-          context, error.toString(), widget.loginScreenWidthScale, 'error');
+      CustomSnackBar.showSnackBar(context, error.toString()).show(context);
     });
   }
 

@@ -1,4 +1,5 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
+import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

@@ -11,6 +11,7 @@ import 'package:battlefield_2042_state/components/gadget_list.dart';
 import 'package:battlefield_2042_state/components/gamemode_list.dart';
 import 'package:battlefield_2042_state/components/map_list.dart';
 import 'package:battlefield_2042_state/components/overview_list.dart';
+import 'package:battlefield_2042_state/components/share_player_state.dart';
 import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
@@ -117,6 +118,8 @@ class PlayerInfoScreen extends StatelessWidget {
                               .playerBFHistorySearching,
                           style: Theme.of(context).textTheme.bodyMedium,
                           softWrap: true,
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -223,6 +226,11 @@ class PlayerInfoScreen extends StatelessWidget {
                 );
               }
             }));
+  }
+
+  void onShareBtnPressed(BuildContext context) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context, const SharePlayerState());
   }
 
   @override
@@ -366,20 +374,18 @@ class PlayerInfoScreen extends StatelessWidget {
                                     text: playerInfo
                                         .playerInfoEnsemble.nucleusId))
                                 .then((value) => {
-                                      CustomSnackBar.showSnackBar(
-                                          context,
-                                          AppLocalizations.of(context)!
-                                              .playerUidCopied,
-                                          0.85,
-                                          'info')
+                              CustomSnackBar.showSnackBar(
+                                        context,
+                                        AppLocalizations.of(context)!
+                                            .playerUidCopied,
+                                      ).show(context)
                                     })
                                 .catchError((error) => {
-                                      CustomSnackBar.showSnackBar(
-                                          context,
-                                          AppLocalizations.of(context)!
-                                              .playerUidCopyError,
-                                          0.85,
-                                          'error')
+                              CustomSnackBar.showSnackBar(
+                                        context,
+                                        AppLocalizations.of(context)!
+                                            .playerUidCopyError,
+                                      ).show(context)
                                     });
                           },
                         ),
@@ -401,6 +407,10 @@ class PlayerInfoScreen extends StatelessWidget {
                       ],
                     )
                   ],
+                ),
+                IconButton(
+                  onPressed: () => onShareBtnPressed(context),
+                  icon: const Icon(Icons.share),
                 ),
                 IconButton(
                   onPressed: () => onInfoButtonPressed(

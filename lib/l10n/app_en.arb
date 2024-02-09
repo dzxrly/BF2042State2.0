@@ -489,5 +489,13 @@
   "playerUidCopyError": "Failed to write to clipboard",
   "@playerUidCopyError": {
     "description": "Tip for the player UID copy error"
+  },
+  "exportPlayerStateBtnTitle": "Export as Snapshot",
+  "@exportPlayerStateBtnTitle": {
+    "description": "Title of the export player state button"
+  },
+  "permissionStorageIsDenied": "Permission denied, please allow the storage request",
+  "@permissionStorageIsDenied": {
+    "description": "Tip for the permission storage is denied"
   }
 }

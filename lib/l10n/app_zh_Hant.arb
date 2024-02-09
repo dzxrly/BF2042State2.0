@@ -98,5 +98,7 @@
   "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{遊玩時長} destroyCount{摧毀載具} other{vehicleDataType}}",
   "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{使用次數} destroyCount{摧毀載具} other{gadgetDataType}}",
   "playerUidCopied": "UID 已複製到剪貼簿",
-  "playerUidCopyError": "寫入剪貼簿時發生錯誤"
+  "playerUidCopyError": "寫入剪貼簿時發生錯誤",
+  "exportPlayerStateBtnTitle": "儲存資料快照",
+  "permissionStorageIsDenied": "未授予儲存權限，無法儲存"
 }
