@@ -646,7 +646,7 @@ class PlayerInfoEnsemble {
   Map<String, dynamic> toJson() => _$PlayerInfoEnsembleToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlayerInfoSnapshot {
   PlayerInfoSnapshot(
     this.playerInfoEnsemble,

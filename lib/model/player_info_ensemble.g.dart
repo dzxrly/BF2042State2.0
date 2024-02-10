@@ -289,7 +289,7 @@ PlayerInfoSnapshot _$PlayerInfoSnapshotFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$PlayerInfoSnapshotToJson(PlayerInfoSnapshot instance) =>
     <String, dynamic>{
-      'playerInfoEnsemble': instance.playerInfoEnsemble,
+      'playerInfoEnsemble': instance.playerInfoEnsemble.toJson(),
       'playerPlatform': instance.playerPlatform,
       'createTime': instance.createTime,
     };
