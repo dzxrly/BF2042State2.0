@@ -56,6 +56,7 @@ class SharePlayerState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       return ListView(
+        shrinkWrap: true,
         children: [
           InkWell(
             borderRadius: BorderRadius.circular(19),
@@ -81,9 +82,9 @@ class SharePlayerState extends StatelessWidget {
                       AppLocalizations.of(context)!.exportPlayerStateBtnTitle,
                       style: TextStyle(
                         fontWeight:
-                            Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                        Theme.of(context).textTheme.bodyMedium?.fontWeight,
                         fontSize:
-                            Theme.of(context).textTheme.bodyMedium?.fontSize,
+                        Theme.of(context).textTheme.bodyMedium?.fontSize,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
