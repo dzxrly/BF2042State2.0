@@ -24,6 +24,10 @@
       }
     }
   },
+  "aboutPageDonateBtnTitle": "Donate",
+  "@aboutPageDonateBtnTitle": {
+    "description": "Title of the donate button on the about page"
+  },
   "loginScreenLogoTitle": "State",
   "@loginScreenLogoTitle": {
     "description": "Title under the BF2042 logo on the login_screen"

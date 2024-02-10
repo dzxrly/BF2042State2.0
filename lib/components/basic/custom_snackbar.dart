@@ -28,6 +28,9 @@ class CustomSnackBar {
             : Theme.of(context).colorScheme.onPrimary,
       ),
       messageSize: Theme.of(context).textTheme.titleMedium?.fontSize,
+      messageColor: type == 'error'
+          ? Theme.of(context).colorScheme.onError
+          : Theme.of(context).colorScheme.onPrimary,
     );
   }
 }

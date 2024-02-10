@@ -226,29 +226,65 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   )),
             ],
           ),
-          TextButton(
-              onPressed: () {
-                urlLauncher('https://github.com/dzxrly/BF2042State2.0');
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const FaIcon(
-                    FontAwesomeIcons.github,
-                    size: 14,
-                  ),
-                  const Padding(padding: EdgeInsets.only(left: 4)),
-                  Text('Github',
-                      style: TextStyle(
-                        fontSize:
-                            Theme.of(context).textTheme.bodySmall?.fontSize,
-                        fontWeight:
-                            Theme.of(context).textTheme.bodySmall?.fontWeight,
-                        color: Theme.of(context).colorScheme.primary,
-                      )),
-                ],
-              )),
+          const Padding(padding: EdgeInsets.only(top: 8)),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextButton(
+                  onPressed: () {
+                    urlLauncher('https://github.com/dzxrly/BF2042State2.0');
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.github,
+                        size: 14,
+                      ),
+                      const Padding(padding: EdgeInsets.only(left: 4)),
+                      Text('Github',
+                          style: TextStyle(
+                            fontSize:
+                                Theme.of(context).textTheme.bodySmall?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.fontWeight,
+                            color: Theme.of(context).colorScheme.primary,
+                          )),
+                    ],
+                  )),
+              TextButton(
+                  onPressed: () {
+                    urlLauncher('https://ko-fi.com/F1F0PZH7X');
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const FaIcon(
+                        FontAwesomeIcons.mugHot,
+                        size: 14,
+                      ),
+                      const Padding(padding: EdgeInsets.only(left: 4)),
+                      Text(
+                          AppLocalizations.of(context)!.aboutPageDonateBtnTitle,
+                          style: TextStyle(
+                            fontSize:
+                                Theme.of(context).textTheme.bodySmall?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.fontWeight,
+                            color: Theme.of(context).colorScheme.primary,
+                          )),
+                    ],
+                  )),
+            ],
+          ),
           const Divider(),
           Text(
             AppLocalizations.of(context)!

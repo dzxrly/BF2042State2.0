@@ -2,6 +2,7 @@
   "launchUrlError": "錯誤! 無法開啟URL: {url}",
   "aboutPageTitle": "戰地風雲2042\n戰績查詢助手",
   "aboutPageContent": "本程式由 {authorSteamName} 開發 (Origin ID: {authorEAID})。玩家資料介面來自 gametools.network ，非常感謝其提供的介面。 BFBan 資料來自 bfban.com，結果僅供參考，本應用程式及作者不對此結果負責，如有疑問請自行聯絡 BFBan。",
+  "aboutPageDonateBtnTitle": "捐贈",
   "loginScreenLogoTitle": "戰績查詢助手",
   "queryAPITextFieldPlaceholder": "查詢 API",
   "platformTextFieldPlaceholder": "遊戲平台",
