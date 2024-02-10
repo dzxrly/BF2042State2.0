@@ -17,12 +17,12 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum Platform {
+enum GamePlatform {
   pc('PC', 'pc', FaIcon(FontAwesomeIcons.windows)),
   psn('PlayStation (PSN)', 'psn', FaIcon(FontAwesomeIcons.playstation)),
   xboxseries('XBOX SERIES X/S', 'xboxseries', FaIcon(FontAwesomeIcons.xbox));
 
-  const Platform(this.label, this.value, this.icon);
+  const GamePlatform(this.label, this.value, this.icon);
 
   final String label;
   final String value;
@@ -208,15 +208,15 @@ class LoginFormState extends State<LoginForm>
       context,
       ListView.builder(
         shrinkWrap: true,
-        itemCount: Platform.values.length,
+        itemCount: GamePlatform.values.length,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            leading: Platform.values[index].icon,
+            leading: GamePlatform.values[index].icon,
             title: Text(
-              Platform.values[index].label,
+              GamePlatform.values[index].label,
               style: Theme.of(context).textTheme.titleMedium,
             ),
-            tileColor: platformName == Platform.values[index].value
+            tileColor: platformName == GamePlatform.values[index].value
                 ? Theme.of(context).colorScheme.secondaryContainer
                 : null,
             shape: RoundedRectangleBorder(
@@ -224,8 +224,8 @@ class LoginFormState extends State<LoginForm>
             ),
             onTap: () {
               setState(() {
-                platformName = Platform.values[index].value;
-                platformController.text = Platform.values[index].label;
+                platformName = GamePlatform.values[index].value;
+                platformController.text = GamePlatform.values[index].label;
               });
               Navigator.pop(context);
             },
@@ -282,7 +282,6 @@ class LoginFormState extends State<LoginForm>
                   AppLocalizations.of(context)!.dataAPINotOpenErrorTip,
                 ).show(context);
               }
-              Navigator.pop(context);
             },
           );
         },
@@ -316,7 +315,7 @@ class LoginFormState extends State<LoginForm>
                   Provider.of<PlayerInfoModel>(context, listen: false)
                       .updatePlayerInfo(
                           PlayerInfoEnsemble.gametoolsAPI(response),
-                          Platform.values
+                      GamePlatform.values
                               .firstWhere(
                                   (element) => element.value == platformName)
                               .icon
@@ -482,7 +481,7 @@ class LoginFormState extends State<LoginForm>
                               ),
                               child: ListTile(
                                 // set leading icon to platform icon
-                                leading: Platform.values
+                                leading: GamePlatform.values
                                     .firstWhere((element) =>
                                         element.value ==
                                         queryHistory
@@ -510,7 +509,8 @@ class LoginFormState extends State<LoginForm>
                                     platformName = queryHistory
                                         .playerPlatformHistory[index];
                                     // set platformName to platformController, by platform value index platform label
-                                    platformController.text = Platform.values
+                                    platformController.text = GamePlatform
+                                        .values
                                         .firstWhere((element) =>
                                             element.value ==
                                             queryHistory

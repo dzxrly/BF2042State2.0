@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:battlefield_2042_state/utils/file_exporter/unsupported_file_exporter.dart'
+    if (dart.library.html) 'package:battlefield_2042_state/utils/file_exporter/web_file_exporter.dart'
+    if (dart.library.io) 'package:battlefield_2042_state/utils/file_exporter/android_file_exporter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:saf/saf.dart';
 
 class UtilTools {
   static bool versionCompare(String currentVersion, String latestVersion) {
@@ -42,20 +44,6 @@ class UtilTools {
     final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
     // check value is NaN
     return value.isNaN || value.isNegative ? 'NaN' : numberFormat.format(value);
-  }
-
-  static void checkStoragePermission(
-    Function grantedCallback,
-    Function deniedCallback,
-  ) async {
-    final safInstance = Saf('/storage/emulated/0/Documents');
-    bool? isGranted = await safInstance.getDirectoryPermission(isDynamic: true);
-    if (isGranted != null && isGranted) {
-      // Perform some file operations
-      grantedCallback();
-    } else {
-      deniedCallback();
-    }
   }
 }
 
@@ -110,4 +98,10 @@ class WidthBreakpoints {
   static double minM = 1024.0;
   static double minL = 1440.0;
   static double minXL = 1920.0;
+}
+
+abstract class FileExporter {
+  Future exportFile(String fileName, String content);
+
+  factory FileExporter() => fileExporter();
 }

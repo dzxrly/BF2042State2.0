@@ -100,7 +100,5 @@
   "playerUidCopied": "UID 已复制到剪贴板",
   "playerUidCopyError": "写入剪贴板时发生错误",
   "exportPlayerStateBtnTitle": "保存数据快照",
-  "permissionStorageIsDenied": "未授予存储权限，无法保存",
-  "exportPlayerStateFailed": "保存数据快照失败",
-  "exportPlayerStateSuccess": "保存数据快照成功"
+  "exportPlayerState": "{exportPlayerState, select, success{保存数据快照成功} error{保存数据快照失败} denied{未授予存储权限，无法保存} other{exportPlayerState}}"
 }

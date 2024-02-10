@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:battlefield_2042_state/components/basic/custom_snackbar.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
@@ -11,11 +9,10 @@ import 'package:provider/provider.dart';
 class SharePlayerState extends StatelessWidget {
   const SharePlayerState({super.key});
 
-  void savePlayerInfoToFile(
-    BuildContext context,
+  List<String> createJsonSnapshotFile(
     PlayerInfoEnsemble playerInfoEnsemble,
     String platform,
-  ) async {
+  ) {
     final nowTime = DateTime.now().toUtc();
     final fileName =
         'bf2042_${playerInfoEnsemble.personaId}_${nowTime.millisecondsSinceEpoch.toString()}.json';
@@ -23,24 +20,7 @@ class SharePlayerState extends StatelessWidget {
             playerInfoEnsemble, platform, nowTime.toIso8601String())
         .toJson()
         .toString();
-    // save to file
-    if (PlatformUtils.isAndroid) {
-      final file = File('/storage/emulated/0/Documents/$fileName');
-      await file.writeAsString(playerInfoSnapshot).then((value) {
-        CustomSnackBar.showSnackBar(
-          context,
-          AppLocalizations.of(context)!.exportPlayerStateSuccess,
-          type: 'info',
-        ).show(context);
-      }).catchError((error) {
-        CustomSnackBar.showSnackBar(
-          context,
-          '${AppLocalizations.of(context)!.exportPlayerStateFailed}: $error',
-        ).show(context);
-      });
-    } else {
-      // TODO: implement for Web
-    }
+    return [fileName, playerInfoSnapshot];
   }
 
   void expertPlayerInfoOnPressed(
@@ -48,16 +28,28 @@ class SharePlayerState extends StatelessWidget {
     PlayerInfoEnsemble playerInfoEnsemble,
     String platform,
   ) {
-    UtilTools.checkStoragePermission(
-      () => savePlayerInfoToFile(context, playerInfoEnsemble, platform),
-      () => {
-        Navigator.pop(context),
-        CustomSnackBar.showSnackBar(
-          context,
-          AppLocalizations.of(context)!.permissionStorageIsDenied,
-        ).show(context)
-      },
-    );
+    final file = createJsonSnapshotFile(playerInfoEnsemble, platform);
+    final fileName = file[0];
+    final playerInfoSnapshot = file[1];
+    FileExporter()
+        .exportFile(
+          fileName,
+          playerInfoSnapshot,
+        )
+        .then((value) => {
+              CustomSnackBar.showSnackBar(
+                      context,
+                      AppLocalizations.of(context)!
+                          .exportPlayerState('success'),
+                      type: 'info')
+                  .show(context)
+            })
+        .catchError((error) => {
+              CustomSnackBar.showSnackBar(
+                context,
+                AppLocalizations.of(context)!.exportPlayerState(error),
+              ).show(context)
+            });
   }
 
   @override

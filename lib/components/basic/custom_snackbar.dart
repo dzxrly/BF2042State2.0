@@ -9,7 +9,7 @@ class CustomSnackBar {
     String type = 'error',
     FlushbarPosition position = FlushbarPosition.TOP,
     BorderRadius borderRadius = const BorderRadius.all(Radius.circular(19)),
-    EdgeInsets margin = const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+    EdgeInsets margin = const EdgeInsets.only(left: 16, right: 16, top: 32),
     IconData iconData = Icons.error,
   }) {
     return Flushbar(

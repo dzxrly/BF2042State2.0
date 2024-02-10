@@ -494,16 +494,13 @@
   "@exportPlayerStateBtnTitle": {
     "description": "Title of the export player state button"
   },
-  "permissionStorageIsDenied": "Permission denied, please allow the storage request",
-  "@permissionStorageIsDenied": {
-    "description": "Tip for the permission storage is denied"
-  },
-  "exportPlayerStateFailed": "Failed to export the player state",
-  "@exportPlayerStateFailed": {
-    "description": "Tip for the export player state error"
-  },
-  "exportPlayerStateSuccess": "Exported successfully !",
-  "@exportPlayerStateSuccess": {
-    "description": "Tip for the export player state success"
+  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player state} denied{Permission denied, please allow the storage access permission} other{exportPlayerState}}",
+  "@exportPlayerState": {
+    "description": "Tip for the export player state",
+    "placeholders": {
+      "exportPlayerState": {
+        "type": "String"
+      }
+    }
   }
 }
