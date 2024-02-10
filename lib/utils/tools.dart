@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:saf/saf.dart';
 
 class UtilTools {
   static bool versionCompare(String currentVersion, String latestVersion) {
@@ -43,11 +44,19 @@ class UtilTools {
     return value.isNaN || value.isNegative ? 'NaN' : numberFormat.format(value);
   }
 
-  static void checkPermission(
+  static void checkStoragePermission(
     Function grantedCallback,
     Function deniedCallback,
-    Function permanentlyDeniedCallback,
-  ) async {}
+  ) async {
+    final safInstance = Saf('/storage/emulated/0/Documents');
+    bool? isGranted = await safInstance.getDirectoryPermission(isDynamic: true);
+    if (isGranted != null && isGranted) {
+      // Perform some file operations
+      grantedCallback();
+    } else {
+      deniedCallback();
+    }
+  }
 }
 
 class PlatformUtils {

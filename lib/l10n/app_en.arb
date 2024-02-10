@@ -497,5 +497,13 @@
   "permissionStorageIsDenied": "Permission denied, please allow the storage request",
   "@permissionStorageIsDenied": {
     "description": "Tip for the permission storage is denied"
+  },
+  "exportPlayerStateFailed": "Failed to export the player state",
+  "@exportPlayerStateFailed": {
+    "description": "Tip for the export player state error"
+  },
+  "exportPlayerStateSuccess": "Exported successfully !",
+  "@exportPlayerStateSuccess": {
+    "description": "Tip for the export player state success"
   }
 }

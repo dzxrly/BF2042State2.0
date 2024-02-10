@@ -408,9 +408,10 @@ class PlayerInfoScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                const Padding(padding: EdgeInsets.only(left: 8)),
                 IconButton(
                   onPressed: () => onShareBtnPressed(context),
-                  icon: const Icon(Icons.share),
+                  icon: const Icon(Icons.share_rounded),
                 ),
                 IconButton(
                   onPressed: () => onInfoButtonPressed(

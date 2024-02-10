@@ -180,7 +180,7 @@ class MapInfoEnsemble {
   Map<String, dynamic> toJson() => _$MapInfoEnsembleToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class PlayerInfoEnsemble {
   PlayerInfoEnsemble(
       this.avatar,
@@ -644,4 +644,22 @@ class PlayerInfoEnsemble {
       _$PlayerInfoEnsembleFromJson(json);
 
   Map<String, dynamic> toJson() => _$PlayerInfoEnsembleToJson(this);
+}
+
+@JsonSerializable()
+class PlayerInfoSnapshot {
+  PlayerInfoSnapshot(
+    this.playerInfoEnsemble,
+    this.playerPlatform,
+    this.createTime,
+  );
+
+  final PlayerInfoEnsemble playerInfoEnsemble;
+  final String playerPlatform;
+  final String createTime;
+
+  factory PlayerInfoSnapshot.fromJson(Map<String, dynamic> json) =>
+      _$PlayerInfoSnapshotFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PlayerInfoSnapshotToJson(this);
 }

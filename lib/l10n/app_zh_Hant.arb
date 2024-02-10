@@ -100,5 +100,7 @@
   "playerUidCopied": "UID 已複製到剪貼簿",
   "playerUidCopyError": "寫入剪貼簿時發生錯誤",
   "exportPlayerStateBtnTitle": "儲存資料快照",
-  "permissionStorageIsDenied": "未授予儲存權限，無法儲存"
+  "permissionStorageIsDenied": "未授予儲存權限，無法儲存",
+  "exportPlayerStateFailed": "保存資料快照失敗",
+  "exportPlayerStateSuccess": "保存資料快照成功"
 }

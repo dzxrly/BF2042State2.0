@@ -341,7 +341,7 @@ class LoginFormState extends State<LoginForm>
             .catchError((error) {
           CustomSnackBar.showSnackBar(
             context,
-            AppLocalizations.of(context)!.writeCacheErrorTip,
+            '${AppLocalizations.of(context)!.writeCacheErrorTip}: $error',
           ).show(context);
         });
       } else {

@@ -271,10 +271,25 @@ Map<String, dynamic> _$PlayerInfoEnsembleToJson(PlayerInfoEnsemble instance) =>
       'recovery': instance.recovery,
       'supply': instance.supply,
       'repair': instance.repair,
-      'weapons': instance.weapons,
-      'vehicles': instance.vehicles,
-      'gadgets': instance.gadgets,
-      'characters': instance.characters,
-      'gameModes': instance.gameModes,
-      'maps': instance.maps,
+      'weapons': instance.weapons.map((e) => e.toJson()).toList(),
+      'vehicles': instance.vehicles.map((e) => e.toJson()).toList(),
+      'gadgets': instance.gadgets.map((e) => e.toJson()).toList(),
+      'characters': instance.characters.map((e) => e.toJson()).toList(),
+      'gameModes': instance.gameModes.map((e) => e.toJson()).toList(),
+      'maps': instance.maps.map((e) => e.toJson()).toList(),
+    };
+
+PlayerInfoSnapshot _$PlayerInfoSnapshotFromJson(Map<String, dynamic> json) =>
+    PlayerInfoSnapshot(
+      PlayerInfoEnsemble.fromJson(
+          json['playerInfoEnsemble'] as Map<String, dynamic>),
+      json['playerPlatform'] as String,
+      json['createTime'] as String,
+    );
+
+Map<String, dynamic> _$PlayerInfoSnapshotToJson(PlayerInfoSnapshot instance) =>
+    <String, dynamic>{
+      'playerInfoEnsemble': instance.playerInfoEnsemble,
+      'playerPlatform': instance.playerPlatform,
+      'createTime': instance.createTime,
     };
