@@ -498,7 +498,7 @@
   "@exportPlayerStateBtnTitle": {
     "description": "Title of the export player state button"
   },
-  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player state} denied{Permission denied, please allow the storage access permission} other{exportPlayerState}}",
+  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player stat snapshot} denied{Permission denied, please allow the storage access permission} other{exportPlayerState}}",
   "@exportPlayerState": {
     "description": "Tip for the export player state",
     "placeholders": {
