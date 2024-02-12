@@ -60,7 +60,7 @@
   "@searchResultsTitle": {
     "description": "Title of the search results"
   },
-  "requestErrorTip": "{requestError, select, notPlay2042{The player may not played BF2042} notFound{Player not found} serverError{Data API server error, please try again later} networkError{Network error, please check your network} unknownError{Unknown error, please try again later} timeoutError{Request timeout, please try again later} rejectedError{The server rejected the request, please try again later} privateLimitError{Player state is protected by private setting} other{requestError}}",
+  "requestErrorTip": "{requestError, select, notPlay2042{The player may not played BF2042} notFound{Player not found} serverError{Data API server error, please try again later} networkError{Network error, please check your network} unknownError{Unknown error, please try again later} timeoutError{Request timeout, please try again later} rejectedError{The server rejected the request, please try again later} privateLimitError{Player state is protected by private setting} other{default}}",
   "@requestErrorTip": {
     "description": "Tip for the request error",
     "placeholders": {
@@ -69,7 +69,7 @@
       }
     }
   },
-  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don''t need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{dataAPIDesc}}",
+  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don''t need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{default}}",
   "@dataAPIDescription": {
     "description": "Description of the data API",
     "placeholders": {
@@ -122,7 +122,7 @@
   "@upgradeDiscoveryTitle": {
     "description": "Title of the upgrade discovery"
   },
-  "playerInfoScreenTabItem": "{tabs, select, overview{Overview} weapons{Weapons} vehicles{Vehicles} gadgets{Gadgets} classes{Characters} gamemodes{Game Modes} maps{Maps} other{tabs}}",
+  "playerInfoScreenTabItem": "{tabs, select, overview{Overview} weapons{Weapons} vehicles{Vehicles} gadgets{Gadgets} classes{Characters} gamemodes{Game Modes} maps{Maps} other{default}}",
   "@playerInfoScreenTabItem": {
     "description": "Tab item of the player info screen",
     "placeholders": {
@@ -243,7 +243,7 @@
       }
     }
   },
-  "bfbanStatus": "{bfbanStatus, select, neterr{Network Error} searching{Searching...} norecord{No record} waiting{Waiting for checking} hacker{Confirmed Hacker} needprovidingproof{need to provide} moss{Innocence By MOSS} invalid{Invalid reports} checking{Waiting for confirming} vote{Need more proof} null{null} pve{Not Hacker} other{Unknown}}",
+  "bfbanStatus": "{bfbanStatus, select, neterr{Network Error} searching{Searching...} norecord{No record} waiting{Waiting for checking} hacker{Confirmed Hacker} needprovidingproof{need to provide} moss{Innocence By MOSS} invalid{Invalid reports} checking{Waiting for confirming} vote{Need more proof} null{null} pve{Not Hacker} other{default}}",
   "@bfbanStatus": {
     "description": "Status of the BFBan",
     "placeholders": {
@@ -322,7 +322,7 @@
   "@repairs": {
     "description": "Repairs"
   },
-  "characterName": "{characterName, select, Mackay{Mackay} Irish{Irish} Sundance{Sundance} Dozer{Dozer} Paik{Paik} Falck{Falck} Angel{Angel} Boris{Boris} Casper{Casper} Rao{Rao} Lis{Lis} Crawford{Crawford} Zain{Zain} Blasco{Blasco} BF3Support{BF3 Support} BF3Engineer{BF3 Engineer} BF3Recon{BF3 Recon} BF3Assault{BF3 Assault} BC2Assault{BC2 Assault} BC2Medic{BC2 Medic} BC2Engineer{BC2 Engineer} BC2Recon{BC2 Recon} BF1942Assault{1942 Assault} BF1942Medic{1942 Medic} BF1942Engineer{1942 Engineer} BF1942Scout{1942 Scout} BF1942Antitank{1942 Anti-tank} other{characterName}}",
+  "characterName": "{characterName, select, Mackay{Mackay} Irish{Irish} Sundance{Sundance} Dozer{Dozer} Paik{Paik} Falck{Falck} Angel{Angel} Boris{Boris} Casper{Casper} Rao{Rao} Lis{Lis} Crawford{Crawford} Zain{Zain} Blasco{Blasco} BF3Support{BF3 Support} BF3Engineer{BF3 Engineer} BF3Recon{BF3 Recon} BF3Assault{BF3 Assault} BC2Assault{BC2 Assault} BC2Medic{BC2 Medic} BC2Engineer{BC2 Engineer} BC2Recon{BC2 Recon} BF1942Assault{1942 Assault} BF1942Medic{1942 Medic} BF1942Engineer{1942 Engineer} BF1942Scout{1942 Scout} BF1942Antitank{1942 Anti-tank} other{default}}",
   "@characterName": {
     "description": "Character name",
     "placeholders": {
@@ -431,7 +431,7 @@
   "@objectDestroyedTitle": {
     "description": "Title of the object destroyed"
   },
-  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{weaponDataType}}",
+  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{default}}",
   "@weaponDataType": {
     "description": "Data type of the weapon",
     "placeholders": {
@@ -450,7 +450,7 @@
       }
     }
   },
-  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{Time} destroyCount{Destroyed Vehicles} other{vehicleDataType}}",
+  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{Time} destroyCount{Destroyed Vehicles} other{default}}",
   "@vehicleDataType": {
     "description": "Data type of the vehicle",
     "placeholders": {
@@ -459,7 +459,7 @@
       }
     }
   },
-  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{Uses} destroyCount{Destroyed Vehicles} other{gadgetDataType}}",
+  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{Uses} destroyCount{Destroyed Vehicles} other{default}}",
   "@gadgetDataType": {
     "description": "Data type of the gadget",
     "placeholders": {
@@ -468,7 +468,7 @@
       }
     }
   },
-  "gameModeName": "{gameModeName, select, Breakthrough{Breakthrough} BreakthroughLarge{Breakthrough Large} Conquest{Conquest} ConquestLarge{Conquest Large} HazardZone{Hazard Zone} HazardZoneLarge{Hazard Zone Large} Rush{Rush} Custom{Custom} other{gameModeName}}",
+  "gameModeName": "{gameModeName, select, Breakthrough{Breakthrough} BreakthroughLarge{Breakthrough Large} Conquest{Conquest} ConquestLarge{Conquest Large} HazardZone{Hazard Zone} HazardZoneLarge{Hazard Zone Large} Rush{Rush} Custom{Custom} other{default}}",
   "@gameModeName": {
     "description": "Name of the game mode",
     "placeholders": {
@@ -477,7 +477,7 @@
       }
     }
   },
-  "mapName": "{mapName, select, Discarded{Discarded} Hourglass{Hourglass} Breakaway{Breakaway} Kaleidescope{Kaleidescope} Manifest{Manifest} Orbital{Orbital} Renewal{Renewal} BattleoftheBulge{Battle of the Bulge} AricaHarbor{Arica Harbor} Valparaiso{Valparaiso} ElAlamein{El Alamein} NoshahrCanals{Noshahr Canals} CaspianBorder{Caspian Border} Exposure{Exposure} Stranded{Stranded} Spearhead{Spearhead} Flashpoint{Flashpoint} Reclaimed{Reclaimed} Redacted{Redacted} other{mapName}}",
+  "mapName": "{mapName, select, Discarded{Discarded} Hourglass{Hourglass} Breakaway{Breakaway} Kaleidescope{Kaleidescope} Manifest{Manifest} Orbital{Orbital} Renewal{Renewal} BattleoftheBulge{Battle of the Bulge} AricaHarbor{Arica Harbor} Valparaiso{Valparaiso} ElAlamein{El Alamein} NoshahrCanals{Noshahr Canals} CaspianBorder{Caspian Border} Exposure{Exposure} Stranded{Stranded} Spearhead{Spearhead} Flashpoint{Flashpoint} Reclaimed{Reclaimed} Redacted{Redacted} other{default}}",
   "@mapName": {
     "description": "Name of the map",
     "placeholders": {
@@ -498,7 +498,7 @@
   "@exportPlayerStateBtnTitle": {
     "description": "Title of the export player state button"
   },
-  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player stat snapshot} denied{Permission denied, please allow the storage access permission} other{exportPlayerState}}",
+  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player stat snapshot} denied{Permission denied, please allow the storage access permission} other{default}}",
   "@exportPlayerState": {
     "description": "Tip for the export player state",
     "placeholders": {

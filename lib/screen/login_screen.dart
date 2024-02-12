@@ -6,6 +6,7 @@ import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:battlefield_2042_state/screen/player_info_screen.dart';
+import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -248,9 +249,11 @@ class LoginFormState extends State<LoginForm>
               style: Theme.of(context).textTheme.titleMedium,
             ),
             subtitle: Text(
-              AppLocalizations.of(context)!.dataAPIDescription(
-                QueryAPI.values[index].value,
-              ),
+              Translator.appLocalizationsTranslate(
+                  AppLocalizations.of(context)!.dataAPIDescription(
+                    QueryAPI.values[index].value,
+                  ),
+                  QueryAPI.values[index].value),
             ),
             tileColor: queryAPIName == QueryAPI.values[index].value
                 ? Theme.of(context).colorScheme.secondaryContainer
@@ -356,7 +359,9 @@ class LoginFormState extends State<LoginForm>
       });
       CustomSnackBar.showSnackBar(
         context,
-        AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+        Translator.appLocalizationsTranslate(
+            AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+            error.toString()),
       ).show(context);
     });
   }
@@ -408,7 +413,9 @@ class LoginFormState extends State<LoginForm>
       });
       CustomSnackBar.showSnackBar(
         context,
-        AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+        Translator.appLocalizationsTranslate(
+            AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+            error.toString()),
       ).show(context);
     });
   }

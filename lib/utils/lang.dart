@@ -17,4 +17,9 @@ class Translator {
   static bfbanStatusTranslate(int bfbanStatus) {
     return bfbanStatusMap[bfbanStatus] ?? bfbanStatus.toString();
   }
+
+  static appLocalizationsTranslate(String translated, String original,
+      {String unableTranslatedKey = 'default'}) {
+    return translated == unableTranslatedKey ? original : translated;
+  }
 }

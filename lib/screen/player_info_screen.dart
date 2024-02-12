@@ -15,6 +15,7 @@ import 'package:battlefield_2042_state/components/share_player_state.dart';
 import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
+import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -555,10 +556,14 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           tabs: TabList.values
                               .map((e) => Tab(
                                       child: Container(
-                                    padding: const EdgeInsets.only(
+                                        padding: const EdgeInsets.only(
                                         left: 8, right: 8),
-                                    child: Text(AppLocalizations.of(context)!
-                                        .playerInfoScreenTabItem(e.name)),
+                                    child: Text(
+                                        Translator.appLocalizationsTranslate(
+                                            AppLocalizations.of(context)!
+                                                .playerInfoScreenTabItem(
+                                                    e.name),
+                                            e.name)),
                                   )))
                               .toList(),
                         ),

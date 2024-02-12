@@ -218,10 +218,13 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                       const Padding(
                                           padding: EdgeInsets.only(left: 2)),
                                       Text(
-                                        AppLocalizations.of(context)!
-                                            .bfbanStatus(
-                                                Translator.bfbanStatusTranslate(
-                                                    bfbanStatus)),
+                                        Translator.appLocalizationsTranslate(
+                                            AppLocalizations.of(context)!
+                                                .bfbanStatus(Translator
+                                                    .bfbanStatusTranslate(
+                                                        bfbanStatus)),
+                                            Translator.bfbanStatusTranslate(
+                                                bfbanStatus)),
                                         softWrap: true,
                                         textAlign: TextAlign.center,
                                         style: TextStyle(

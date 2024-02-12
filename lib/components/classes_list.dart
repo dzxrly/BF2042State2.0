@@ -1,6 +1,7 @@
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
+import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -47,8 +48,10 @@ class ClassesList extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.scaleDown,
                       child: Text(
-                          AppLocalizations.of(context)!
-                              .characterName(classes.characterName),
+                          Translator.appLocalizationsTranslate(
+                              AppLocalizations.of(context)!
+                                  .characterName(classes.characterName),
+                              classes.characterName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
@@ -146,8 +149,10 @@ class ClassesListItem extends StatelessWidget {
           child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Text(
-                AppLocalizations.of(context)!
-                    .characterName(classes.characterName),
+                Translator.appLocalizationsTranslate(
+                    AppLocalizations.of(context)!
+                        .characterName(classes.characterName),
+                    classes.characterName),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
