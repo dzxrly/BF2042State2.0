@@ -100,6 +100,6 @@
   "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{使用次數} destroyCount{摧毀載具} other{default}}",
   "playerUidCopied": "UID 已複製到剪貼簿",
   "playerUidCopyError": "寫入剪貼簿時發生錯誤",
-  "exportPlayerStateBtnTitle": "儲存資料快照",
-  "exportPlayerState": "{exportPlayerState, select, success{保存資料快照成功} error{保存資料快照失敗} denied{未授予儲存權限，無法儲存} other{default}}"
+  "exportPlayerStatsBtnTitle": "儲存資料快照",
+  "exportPlayerStats": "{exportPlayerStats, select, success{保存資料快照成功} error{保存資料快照失敗} denied{未授予儲存權限，無法儲存} other{default}}"
 }

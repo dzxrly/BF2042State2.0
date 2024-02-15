@@ -8,7 +8,7 @@
       }
     }
   },
-  "aboutPageTitle": "Battlefield2042\nState",
+  "aboutPageTitle": "Battlefield2042\nStats",
   "@aboutPageTitle": {
     "description": "Title of the about page"
   },
@@ -28,7 +28,7 @@
   "@aboutPageDonateBtnTitle": {
     "description": "Title of the donate button on the about page"
   },
-  "loginScreenLogoTitle": "State",
+  "loginScreenLogoTitle": "Stats",
   "@loginScreenLogoTitle": {
     "description": "Title under the BF2042 logo on the login_screen"
   },
@@ -60,7 +60,7 @@
   "@searchResultsTitle": {
     "description": "Title of the search results"
   },
-  "requestErrorTip": "{requestError, select, notPlay2042{The player may not played BF2042} notFound{Player not found} serverError{Data API server error, please try again later} networkError{Network error, please check your network} unknownError{Unknown error, please try again later} timeoutError{Request timeout, please try again later} rejectedError{The server rejected the request, please try again later} privateLimitError{Player state is protected by private setting} other{default}}",
+  "requestErrorTip": "{requestError, select, notPlay2042{The player may not played BF2042} notFound{Player not found} serverError{Data API server error, please try again later} networkError{Network error, please check your network} unknownError{Unknown error, please try again later} timeoutError{Request timeout, please try again later} rejectedError{The server rejected the request, please try again later} privateLimitError{Player stats is protected by private setting} other{default}}",
   "@requestErrorTip": {
     "description": "Tip for the request error",
     "placeholders": {
@@ -494,15 +494,15 @@
   "@playerUidCopyError": {
     "description": "Tip for the player UID copy error"
   },
-  "exportPlayerStateBtnTitle": "Export as Snapshot",
-  "@exportPlayerStateBtnTitle": {
-    "description": "Title of the export player state button"
+  "exportPlayerStatsBtnTitle": "Export as Snapshot",
+  "@exportPlayerStatsBtnTitle": {
+    "description": "Title of the export player stats button"
   },
-  "exportPlayerState": "{exportPlayerState, select, success{Exported successfully !} error{Failed to export the player stat snapshot} denied{Permission denied, please allow the storage access permission} other{default}}",
-  "@exportPlayerState": {
-    "description": "Tip for the export player state",
+  "exportPlayerStats": "{exportPlayerStats, select, success{Exported successfully !} error{Failed to export the player stats snapshot} denied{Permission denied, please allow the storage access permission} other{default}}",
+  "@exportPlayerStats": {
+    "description": "Tip for the export player stats",
     "placeholders": {
-      "exportPlayerState": {
+      "exportPlayerStats": {
         "type": "String"
       }
     }

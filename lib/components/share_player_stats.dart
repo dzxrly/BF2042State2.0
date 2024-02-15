@@ -40,14 +40,14 @@ class SharePlayerState extends StatelessWidget {
               CustomSnackBar.showSnackBar(
                       context,
                       AppLocalizations.of(context)!
-                          .exportPlayerState('success'),
+                          .exportPlayerStats('success'),
                       type: 'info')
                   .show(context)
             })
         .catchError((error) => {
               CustomSnackBar.showSnackBar(
                 context,
-                AppLocalizations.of(context)!.exportPlayerState(error),
+                AppLocalizations.of(context)!.exportPlayerStats(error),
               ).show(context)
             });
   }
@@ -79,12 +79,12 @@ class SharePlayerState extends StatelessWidget {
                     ),
                     const Padding(padding: EdgeInsets.only(left: 16)),
                     Text(
-                      AppLocalizations.of(context)!.exportPlayerStateBtnTitle,
+                      AppLocalizations.of(context)!.exportPlayerStatsBtnTitle,
                       style: TextStyle(
                         fontWeight:
-                        Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                            Theme.of(context).textTheme.bodyMedium?.fontWeight,
                         fontSize:
-                        Theme.of(context).textTheme.bodyMedium?.fontSize,
+                            Theme.of(context).textTheme.bodyMedium?.fontSize,
                         color: Theme.of(context).colorScheme.primary,
                       ),
                     ),

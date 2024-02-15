@@ -11,7 +11,7 @@ import 'package:battlefield_2042_state/components/gadget_list.dart';
 import 'package:battlefield_2042_state/components/gamemode_list.dart';
 import 'package:battlefield_2042_state/components/map_list.dart';
 import 'package:battlefield_2042_state/components/overview_list.dart';
-import 'package:battlefield_2042_state/components/share_player_state.dart';
+import 'package:battlefield_2042_state/components/share_player_stats.dart';
 import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
