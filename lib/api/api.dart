@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_gadget_info.dart';
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_info.dart';
@@ -10,6 +11,7 @@ import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_inf
 import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
 import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
+import 'package:battlefield_2042_state/api/gametools/gametools_player_info_raw.dart';
 import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
 import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:http/http.dart' as http;
@@ -53,8 +55,44 @@ class GametoolsPlayerInfoAPI extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
           return GametoolsPlayerInfo.fromJson(jsonDecode(response.body));
+        } catch (e) {
+          throw ErrorResponse.notPlay2042.value;
+        }
+      } else if (response.statusCode == 404) {
+        throw ErrorResponse.notFound.value;
+      } else if (response.statusCode == 408 ||
+          response.statusCode == 503 ||
+          response.statusCode == 504) {
+        throw ErrorResponse.serverError.value;
+      } else {
+        throw ErrorResponse.unknownError.value;
+      }
+    } on TimeoutException catch (_) {
+      throw ErrorResponse.timeoutError.value;
+    } catch (e) {
+      // if error is http client error, return '似乎发生了网络错误，请重试',
+      // else return error message
+      if (e.toString().contains('ClientException')) {
+        throw ErrorResponse.networkError.value;
+      } else {
+        rethrow;
+      }
+    }
+  }
+}
+
+class GametoolsPlayerInfoRawAPI extends APIBase {
+  Future<GametoolsPlayerInfoRaw> fetchPlayerInfo(String platform,
+      String username, String userUid, bool useUidQuery) async {
+    final String url =
+        '$gametoolsBaseAPI/bf2042/stats/?raw=true&format_values=false&platform=$platform&skip_battlelog=false${useUidQuery ? '&nucleus_id=$userUid' : '&name=$username'}';
+    try {
+      final response = await http.get(Uri.parse(url)).timeout(timeout);
+      log(response.body.toString());
+      if (response.statusCode == 200) {
+        try {
+          return GametoolsPlayerInfoRaw.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
         }
@@ -91,7 +129,6 @@ class BFTrackerPlayerInfoAPIMain extends APIBase {
           await http.get(Uri.parse(url), headers: header).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerPlayerInfo.fromJson(jsonDecode(response.body));
           return BFTrackerPlayerInfo.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
@@ -130,7 +167,6 @@ class BFTrackerPlayerInfoAPIWeapon extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerWeapon.fromJson(jsonDecode(response.body));
           return BFTrackerWeapon.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
@@ -169,7 +205,6 @@ class BFTrackerPlayerInfoAPIVehicle extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerVehicle.fromJson(jsonDecode(response.body));
           return BFTrackerVehicle.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
@@ -208,7 +243,6 @@ class BFTrackerPlayerInfoAPIMap extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerMap.fromJson(jsonDecode(response.body));
           return BFTrackerMap.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
@@ -247,7 +281,6 @@ class BFTrackerPlayerInfoAPIGadgets extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerGadgets.fromJson(jsonDecode(response.body));
           return BFTrackerGadgets.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;
@@ -286,7 +319,6 @@ class BFTrackerPlayerInfoAPISoldier extends APIBase {
       final response = await http.get(Uri.parse(url)).timeout(timeout);
       if (response.statusCode == 200) {
         try {
-          BFTrackerSoldier.fromJson(jsonDecode(response.body));
           return BFTrackerSoldier.fromJson(jsonDecode(response.body));
         } catch (e) {
           throw ErrorResponse.notPlay2042.value;

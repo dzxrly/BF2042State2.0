@@ -313,16 +313,33 @@ class PlayerInfoScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FittedBox(
-                      child: Text(
-                        playerInfo.playerInfoEnsemble.username,
-                        style: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.titleLarge?.fontSize,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.primary,
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Badge(
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            textColor: Theme.of(context).colorScheme.onPrimary,
+                            textStyle: Theme.of(context).textTheme.labelSmall,
+                            label: Text(
+                                'Lv.${playerInfo.playerInfoEnsemble.level.toString()}')),
+                        const Padding(padding: EdgeInsets.only(left: 4)),
+                        FittedBox(
+                          child: Text(
+                            playerInfo.playerInfoEnsemble.username,
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.fontSize,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

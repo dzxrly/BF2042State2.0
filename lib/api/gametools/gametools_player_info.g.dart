@@ -61,6 +61,7 @@ GametoolsPlayerInfo _$GametoolsPlayerInfoFromJson(Map<String, dynamic> json) =>
       maps: (json['maps'] as List<dynamic>?)
           ?.map((e) => MapElement.fromJson(e as Map<String, dynamic>))
           .toList(),
+      level: json['level'] as int?,
     );
 
 Map<String, dynamic> _$GametoolsPlayerInfoToJson(
@@ -102,6 +103,7 @@ Map<String, dynamic> _$GametoolsPlayerInfoToJson(
       'weapons': instance.weapons?.map((e) => e.toJson()).toList(),
       'winPercent': instance.winPercent,
       'wins': instance.wins,
+      'level': instance.level,
       'vehicles': instance.vehicles?.map((e) => e.toJson()).toList(),
       'gadgets': instance.gadgets?.map((e) => e.toJson()).toList(),
       'classes': instance.classes?.map((e) => e.toJson()).toList(),

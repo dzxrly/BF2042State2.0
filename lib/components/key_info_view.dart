@@ -105,7 +105,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKillsRate,
-                    showValueString: playerInfo.playerInfoEnsemble.readKillRate,
+                    showValueString: playerInfo.playerInfoEnsemble.realKillRate,
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.damagePerMatch,

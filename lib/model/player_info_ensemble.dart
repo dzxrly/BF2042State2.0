@@ -5,6 +5,7 @@ import 'package:battlefield_2042_state/api/bftracker/bftracker_player_soldier_in
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_vehicle_info.dart';
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
+import 'package:battlefield_2042_state/api/gametools/gametools_player_info_raw.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,8 +13,7 @@ part 'player_info_ensemble.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class WeaponInfoEnsemble {
-  WeaponInfoEnsemble(
-      this.weaponName,
+  WeaponInfoEnsemble(this.weaponName,
       this.weaponId,
       this.kills,
       this.KPM,
@@ -45,8 +45,7 @@ class WeaponInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class VehicleInfoEnsemble {
-  VehicleInfoEnsemble(
-      this.vehicleName,
+  VehicleInfoEnsemble(this.vehicleName,
       this.vehicleId,
       this.kills,
       this.KPM,
@@ -120,8 +119,7 @@ class CharacterInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class GameModeInfoEnsemble {
-  GameModeInfoEnsemble(
-      this.modeName,
+  GameModeInfoEnsemble(this.modeName,
       this.modeId,
       this.kills,
       this.KPM,
@@ -188,11 +186,12 @@ class PlayerInfoEnsemble {
       this.username,
       this.personaId,
       this.playedTime,
+      this.level,
       this.realKD,
       this.realKPM,
       this.hsRate,
       this.realKills,
-      this.readKillRate,
+      this.realKillRate,
       this.damagePerMatch,
       this.winRate,
       this.damagePerMinute,
@@ -228,11 +227,12 @@ class PlayerInfoEnsemble {
         username = 'null',
         personaId = 'null',
         playedTime = 0.0,
+        level = 0,
         realKD = 0.0,
         realKPM = 0.0,
         hsRate = 'null',
         realKills = 0,
-        readKillRate = 'null',
+        realKillRate = 'null',
         damagePerMatch = 0.0,
         winRate = 'null',
         damagePerMinute = 0.0,
@@ -269,6 +269,7 @@ class PlayerInfoEnsemble {
     username = playerInfo.userName ?? 'null';
     personaId = playerInfo.id != null ? playerInfo.id.toString() : 'null';
     playedTime = (playerInfo.secondsPlayed ?? 0) / 3600;
+    level = playerInfo.level ?? 0;
 
     final double realKillsRate =
         double.parse((playerInfo.humanPrecentage ?? '0').replaceAll('%', '')) /
@@ -277,7 +278,7 @@ class PlayerInfoEnsemble {
     realKD = (playerInfo.killDeath ?? 0) * realKillsRate;
     realKPM = (playerInfo.killsPerMinute ?? 0) * realKillsRate;
     hsRate = playerInfo.headshots ?? '0.0%';
-    readKillRate = playerInfo.humanPrecentage ?? '0.0%';
+    realKillRate = playerInfo.humanPrecentage ?? '0.0%';
     damagePerMatch = playerInfo.damagePerMatch ?? 0;
     winRate = playerInfo.winPercent ?? '0.0%';
     damagePerMinute = playerInfo.damagePerMinute ?? 0;
@@ -298,7 +299,7 @@ class PlayerInfoEnsemble {
     lose = playerInfo.loses ?? 0;
     killedVehicle = playerInfo.vehiclesDestroyed ?? 0;
     spotEnemy = playerInfo.enemiesSpotted ?? 0;
-    recovery = playerInfo.heals ?? 0;
+    recovery = playerInfo.revives ?? 0;
     supply = playerInfo.resupplies ?? 0;
     repair = playerInfo.repairs ?? 0;
 
@@ -310,11 +311,11 @@ class PlayerInfoEnsemble {
           weapon.killsPerMinute ?? 0,
           weapon.damagePerMinute ?? 0,
           (weapon.headshotKills ?? 0) / (weapon.kills ?? 1),
-          (weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1),
-          weapon.damage ?? 0,
-          weapon.multiKills ?? 0,
-          weapon.hitVKills ?? 0.0,
-          (weapon.timeEquipped ?? 0) / 3600)));
+              (weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1),
+              weapon.damage ?? 0,
+              weapon.multiKills ?? 0,
+              weapon.hitVKills ?? 0.0,
+              (weapon.timeEquipped ?? 0) / 3600)));
     }
 
     if (playerInfo.vehicles != null) {
@@ -394,6 +395,137 @@ class PlayerInfoEnsemble {
     }
   }
 
+  PlayerInfoEnsemble.gametoolsRawAPI(GametoolsPlayerInfoRaw playerInfo)
+      : avatar = '#',
+        nucleusId = 'null',
+        username = 'null',
+        personaId = 'null',
+        playedTime = 0.0,
+        level = 0,
+        realKD = 0.0,
+        realKPM = 0.0,
+        hsRate = 'null',
+        realKills = 0,
+        realKillRate = 'null',
+        damagePerMatch = 0.0,
+        winRate = 'null',
+        damagePerMinute = 0.0,
+        accuracy = 'null',
+        realKillsPerMatch = 0.0,
+        killsPerMatch = 0.0,
+        playedMatches = 0,
+        kills = 0,
+        deaths = 0,
+        assists = 0,
+        KD = 0.0,
+        KPM = 0.0,
+        damage = 0,
+        MVP = 0,
+        bestSquad = 0,
+        win = 0,
+        lose = 0,
+        killedVehicle = 0,
+        spotEnemy = 0,
+        recovery = 0,
+        supply = 0,
+        repair = 0,
+        weapons = [],
+        vehicles = [],
+        gadgets = [],
+        characters = [],
+        gameModes = [],
+        maps = [] {
+    nucleusId = playerInfo.result?.inventory?.loadouts?.first.player?.nucleusId
+            .toString() ??
+        'null';
+    username = playerInfo.result?.inventory?.loadouts?.first.name ?? 'null';
+    personaId = playerInfo.result?.inventory?.loadouts?.first.player?.personaId
+            .toString() ??
+        'null';
+    level = playerInfo.result?.inventory?.loadouts?.first.level ?? 0;
+
+    List<Fields> fields =
+        playerInfo.playerStats?.first.categories?.first.catFields?.fields ?? [];
+    int headShotKills = 0;
+    double secondPlayed = 0.0;
+    int shotHits = 0;
+    int shotFire = 0;
+    for (var field in fields) {
+      if (field.name == 'human_kills_total') {
+        realKills = field.value ?? 0;
+      }
+      if (field.name == 'deaths_total') {
+        deaths = field.value ?? 0;
+      }
+      if (field.name == 'Kills_Total') {
+        kills = field.value ?? 0;
+      }
+      if (field.name == 'wins_gm_all') {
+        win = field.value ?? 0;
+      }
+      if (field.name == 'losses_gm_all') {
+        lose = field.value ?? 0;
+      }
+      if (field.name == 'played_match_total') {
+        playedMatches = field.value ?? 0;
+      }
+      if (field.name == 'dmg_total') {
+        damage = field.value ?? 0;
+      }
+      if (field.name == 'kills_Headshots_Total') {
+        headShotKills = field.value ?? 0;
+      }
+      if (field.name == 'tp_gm_all') {
+        secondPlayed = (field.value ?? 0).toDouble();
+      }
+      if (field.name == 'shots_hit_total') {
+        shotHits = field.value ?? 0;
+      }
+      if (field.name == 'shots_fired_total') {
+        shotFire = field.value ?? 0;
+      }
+      if (field.name == 'mvp_total') {
+        MVP = field.value ?? 0;
+      }
+      if (field.name == 'bestsquad_gm_all') {
+        bestSquad = field.value ?? 0;
+      }
+      if (field.name == 'assists_gm_all') {
+        assists = field.value ?? 0;
+      }
+      if (field.name == 'Destroyed_Veh_Total') {
+        killedVehicle = field.value ?? 0;
+      }
+      if (field.name == 'Spotted_Enemies_Total') {
+        spotEnemy = field.value ?? 0;
+      }
+      if (field.name == 'revives_char_all') {
+        recovery = field.value ?? 0;
+      }
+      if (field.name == 'Resupply_Teammates_Total') {
+        supply = field.value ?? 0;
+      }
+      if (field.name == 'Veh_RepairedHP_Total') {
+        repair = field.value ?? 0;
+      }
+    }
+
+    final double realKillRateDouble = realKills / kills;
+    realKillRate = '${(realKillRateDouble * 100).toStringAsFixed(2)}%';
+    KD = kills / deaths;
+    realKD = realKills / deaths;
+    winRate = '${(win / playedMatches * 100).toStringAsFixed(2)}%';
+    hsRate = '${(headShotKills / kills * 100).toStringAsFixed(2)}%';
+    realKillsPerMatch = realKills / playedMatches;
+    killsPerMatch = kills / playedMatches;
+    playedTime = secondPlayed / 3600;
+    realKPM = realKills / (secondPlayed / 60);
+    KPM = kills / (secondPlayed / 60);
+    damagePerMinute = damage / (secondPlayed / 60);
+    damagePerMatch = damage / playedMatches;
+    accuracy = '${(shotHits / shotFire * 100).toStringAsFixed(2)}%';
+  }
+
   PlayerInfoEnsemble.bftracker(
     BFTrackerPlayerInfo playerInfo,
     BFTrackerWeapon weaponInfo,
@@ -406,11 +538,12 @@ class PlayerInfoEnsemble {
         username = 'null',
         personaId = 'null',
         playedTime = 0.0,
+        level = 0,
         realKD = 0.0,
         realKPM = 0.0,
         hsRate = 'null',
         realKills = 0,
-        readKillRate = 'null',
+        realKillRate = 'null',
         damagePerMatch = 0.0,
         winRate = 'null',
         damagePerMinute = 0.0,
@@ -457,7 +590,7 @@ class PlayerInfoEnsemble {
         (overviewSegment?.stats?.killsPerMinute?.value ?? 0) * realKillsRate;
     hsRate =
         '${overviewSegment?.stats?.headshotPercentage?.value?.toStringAsFixed(2) ?? 0}%';
-    readKillRate = '${(realKillsRate * 100).toStringAsFixed(2)}%';
+    realKillRate = '${(realKillsRate * 100).toStringAsFixed(2)}%';
     damagePerMatch = overviewSegment?.stats?.damagePerMatch?.value ?? 0;
     winRate =
         '${overviewSegment?.stats?.wlPercentage?.value?.toStringAsFixed(2) ?? 0}%';
@@ -603,12 +736,13 @@ class PlayerInfoEnsemble {
   String username;
   String personaId;
   double playedTime;
+  int level;
 
   double realKD;
   double realKPM;
   String hsRate;
   int realKills;
-  String readKillRate;
+  String realKillRate;
   double damagePerMatch;
   String winRate;
   double damagePerMinute;
@@ -648,11 +782,9 @@ class PlayerInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class PlayerInfoSnapshot {
-  PlayerInfoSnapshot(
-    this.playerInfoEnsemble,
-    this.playerPlatform,
-    this.createTime,
-  );
+  PlayerInfoSnapshot(this.playerInfoEnsemble,
+      this.playerPlatform,
+      this.createTime,);
 
   final PlayerInfoEnsemble playerInfoEnsemble;
   final String playerPlatform;

@@ -31,14 +31,16 @@ enum GamePlatform {
 }
 
 enum QueryAPI {
-  gametools('GAMETOOLS', 'gametools', true),
-  bftracker('BFTRACKER', 'bftracker', false);
+  gametools('GAMETOOLS', 'gametools', true, true),
+  gametoolsRaw('GAMETOOLS RAW', 'gametoolsraw', true, true),
+  bftracker('BFTRACKER', 'bftracker', false, false);
 
-  const QueryAPI(this.label, this.value, this.enable);
+  const QueryAPI(this.label, this.value, this.enableUse, this.enableUID);
 
   final String label;
   final String value;
-  final bool enable;
+  final bool enableUse;
+  final bool enableUID;
 }
 
 class LoginScreen extends StatelessWidget {
@@ -143,6 +145,7 @@ class LoginFormState extends State<LoginForm>
   String? currentVersionName;
   String? newVersionName;
   String queryAPIName = 'gametools';
+  bool allowUIDQuery = true;
   String? platformName;
   String? playerName;
   String? playerUid;
@@ -153,6 +156,8 @@ class LoginFormState extends State<LoginForm>
   FocusNode playerNameFocusNode = FocusNode();
 
   GametoolsPlayerInfoAPI gametoolsPlayerInfoAPI = GametoolsPlayerInfoAPI();
+  GametoolsPlayerInfoRawAPI gametoolsPlayerInfoRawAPI =
+      GametoolsPlayerInfoRawAPI();
   BFTrackerPlayerInfoAPIMain bfTrackerPlayerInfoAPIMain =
       BFTrackerPlayerInfoAPIMain();
   BFTrackerPlayerInfoAPIWeapon bfTrackerPlayerInfoAPIWeapon =
@@ -262,23 +267,21 @@ class LoginFormState extends State<LoginForm>
               borderRadius: BorderRadius.circular(19),
             ),
             onTap: () {
-              if (QueryAPI.values[index].enable) {
+              if (QueryAPI.values[index].enableUse) {
                 setState(() {
                   queryAPIName = QueryAPI.values[index].value;
                   queryAPIController.text = QueryAPI.values[index].label;
-
-                  // if set queryAPI to bftracker, disable playerUid query
-                  if (queryAPIName == 'bftracker') {
-                    enablePlayerUidQuery = false;
-                    platformFocusNode.unfocus();
-                    playerNameFocusNode.unfocus();
-                    platformName = null;
-                    platformController.clear();
-                    playerName = null;
-                    playerNameController.clear();
-                    playerUid = null;
-                  }
+                  platformFocusNode.unfocus();
+                  playerNameFocusNode.unfocus();
+                  platformName = null;
+                  platformController.clear();
+                  playerName = null;
+                  playerNameController.clear();
+                  playerUid = null;
+                  enablePlayerUidQuery = false;
+                  allowUIDQuery = QueryAPI.values[index].enableUID;
                 });
+                Navigator.pop(context);
               } else {
                 CustomSnackBar.showSnackBar(
                   context,
@@ -319,6 +322,83 @@ class LoginFormState extends State<LoginForm>
                       .updatePlayerInfo(
                           PlayerInfoEnsemble.gametoolsAPI(response),
                       GamePlatform.values
+                              .firstWhere(
+                                  (element) => element.value == platformName)
+                              .icon
+                              .icon,
+                          platformName),
+                  setState(() {
+                    platformFocusNode.unfocus();
+                    playerNameFocusNode.unfocus();
+                    platformName = null;
+                    platformController.clear();
+                    playerName = null;
+                    playerNameController.clear();
+                    playerUid = null;
+                  }),
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => PlayerInfoScreen(),
+                    ),
+                  )
+                })
+            .catchError((error) {
+          CustomSnackBar.showSnackBar(
+            context,
+            '${AppLocalizations.of(context)!.writeCacheErrorTip}: $error',
+          ).show(context);
+        });
+      } else {
+        throw AppLocalizations.of(context)!
+            .requestErrorTip(ErrorResponse.notPlay2042.value);
+      }
+      setState(() {
+        queryBtnLoading = false;
+      });
+    }).catchError((error) {
+      setState(() {
+        queryBtnLoading = false;
+      });
+      CustomSnackBar.showSnackBar(
+        context,
+        Translator.appLocalizationsTranslate(
+            AppLocalizations.of(context)!.requestErrorTip(error.toString()),
+            error.toString()),
+      ).show(context);
+    });
+  }
+
+  void queryByGametoolsRawAPI(
+    BuildContext context,
+  ) async {
+    gametoolsPlayerInfoRawAPI
+        .fetchPlayerInfo(
+            platformName!.trim(),
+            enablePlayerUidQuery ? '' : playerName!.trim(),
+            enablePlayerUidQuery ? playerUid!.trim() : '',
+            enablePlayerUidQuery)
+        .then((response) {
+      if (response.result?.inventory?.loadouts?.first.name != null &&
+          response.result?.inventory?.loadouts?.first.name != '' &&
+          response.result?.inventory?.loadouts?.first.level != null &&
+          response.result?.inventory?.loadouts?.first.level != 0 &&
+          response.result?.inventory?.loadouts?.first.player?.nucleusId !=
+              null &&
+          response.result?.inventory?.loadouts?.first.player?.nucleusId != 0) {
+        queryHistory
+            .setHistory(
+              response.result?.inventory?.loadouts?.first.name ?? 'null',
+              platformName!,
+              response.result?.inventory?.loadouts?.first.player?.nucleusId
+                      .toString() ??
+                  'null',
+            )
+            .then((value) => {
+                  Provider.of<PlayerInfoModel>(context, listen: false)
+                      .updatePlayerInfo(
+                          PlayerInfoEnsemble.gametoolsRawAPI(response),
+                          GamePlatform.values
                               .firstWhere(
                                   (element) => element.value == platformName)
                               .icon
@@ -441,6 +521,8 @@ class LoginFormState extends State<LoginForm>
       });
       if (queryAPIName == 'gametools') {
         queryByGametoolsAPI(context);
+      } else if (queryAPIName == 'gametoolsraw') {
+        queryByGametoolsRawAPI(context);
       } else if (queryAPIName == 'bftracker') {
         queryBFTrackerAPI(context);
       } else {
@@ -851,21 +933,20 @@ class LoginFormState extends State<LoginForm>
                     children: [
                       Checkbox(
                           value: enablePlayerUidQuery,
-                          onChanged:
-                              queryBtnLoading || queryAPIName != 'gametools'
-                                  ? null
-                                  : (value) {
-                                      platformFocusNode.unfocus();
-                                      playerNameFocusNode.unfocus();
-                                      setState(() {
-                                        enablePlayerUidQuery = value!;
-                                        platformName = null;
-                                        platformController.clear();
-                                        playerName = null;
-                                        playerNameController.clear();
-                                        playerUid = null;
-                                      });
-                                    }),
+                          onChanged: queryBtnLoading || !allowUIDQuery
+                              ? null
+                              : (value) {
+                                  platformFocusNode.unfocus();
+                                  playerNameFocusNode.unfocus();
+                                  setState(() {
+                                    enablePlayerUidQuery = value!;
+                                    platformName = null;
+                                    platformController.clear();
+                                    playerName = null;
+                                    playerNameController.clear();
+                                    playerUid = null;
+                                  });
+                                }),
                       Text(
                           AppLocalizations.of(context)!
                               .enhancedSearchButtonTitle,

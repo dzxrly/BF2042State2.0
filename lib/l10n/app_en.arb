@@ -69,7 +69,7 @@
       }
     }
   },
-  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don''t need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{default}}",
+  "dataAPIDescription": "{dataAPIDesc, select, gametools{[Recommend] Provided by gametools.network. You can check the players with hidden records and support UID query, so you don''t need to worry about changing your name. However, its server performance is average and it may have problems with jerking.} gametoolsraw{Also provided by gametools.network, but it is a simplified version of the query and can only get basic information. The advantage is fewer crashes and faster speed.} bftracker{[Not open temporarily] Unofficial requests are made to battlefieldtracker.com, whose servers are more stable, but the requests may be blocked. In addition, the data is not as detailed as that of gametools and can only be accessed by nicknames, not by players with hidden scores, which are also affected by name changes.} other{default}}",
   "@dataAPIDescription": {
     "description": "Description of the data API",
     "placeholders": {

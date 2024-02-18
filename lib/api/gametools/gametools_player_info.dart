@@ -46,6 +46,7 @@ class GametoolsPlayerInfo {
     this.classes,
     this.gamemodes,
     this.maps,
+    this.level,
   });
 
   final String? accuracy;
@@ -84,6 +85,7 @@ class GametoolsPlayerInfo {
   final List<Weapon>? weapons;
   final String? winPercent;
   final int? wins;
+  final int? level;
   final List<Vehicle>? vehicles;
   final List<Gadget>? gadgets;
   final List<Classes>? classes;
