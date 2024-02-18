@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/gametools/bf_play_info.dart';
 import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
@@ -15,9 +13,9 @@ import 'package:battlefield_2042_state/components/overview_list.dart';
 import 'package:battlefield_2042_state/components/share_player_stats.dart';
 import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
-import 'package:battlefield_2042_state/model/PlayerInfoTab.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
+import 'package:battlefield_2042_state/model/player_info_tab.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +34,6 @@ class PlayerInfoScreen extends StatelessWidget {
   PlayerInfoScreen({super.key});
 
   Future<BFPlayInfo?> getBFPlayInfo(String name) async {
-    log(name);
     try {
       BFPlayInfo bfPlayInfo = await bfPlayInfoAPI.fetchBFPlayInfo(name);
       return bfPlayInfo;
