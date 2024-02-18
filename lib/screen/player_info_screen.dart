@@ -9,13 +9,17 @@ import 'package:battlefield_2042_state/components/basic/info_list_item_content.d
 import 'package:battlefield_2042_state/components/classes_list.dart';
 import 'package:battlefield_2042_state/components/gadget_list.dart';
 import 'package:battlefield_2042_state/components/gamemode_list.dart';
+import 'package:battlefield_2042_state/components/key_info_view.dart';
 import 'package:battlefield_2042_state/components/map_list.dart';
 import 'package:battlefield_2042_state/components/overview_list.dart';
 import 'package:battlefield_2042_state/components/share_player_stats.dart';
 import 'package:battlefield_2042_state/components/vehicle_list.dart';
 import 'package:battlefield_2042_state/components/weapon_list.dart';
+import 'package:battlefield_2042_state/model/PlayerInfoTab.dart';
+import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -23,24 +27,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
-import '../components/key_info_view.dart';
-import '../utils/tools.dart';
-
-enum TabList {
-  overview('overview'),
-  weapon('weapons'),
-  vehicle('vehicles'),
-  equipment('gadgets'),
-  classes('classes'),
-  mode('gamemodes'),
-  map('maps');
-
-  const TabList(this.name, {this.icon});
-
-  final String name;
-  final FaIcon? icon;
-}
 
 class PlayerInfoScreen extends StatelessWidget {
   final NumberFormat timeFormat = NumberFormat('#,###.00');
@@ -232,6 +218,68 @@ class PlayerInfoScreen extends StatelessWidget {
   void onShareBtnPressed(BuildContext context) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
         context, const SharePlayerState());
+  }
+
+  List<PlayerInfoTab> getTabList(PlayerInfoEnsemble playerInfo,
+      {bool addOverview = true}) {
+    List<PlayerInfoTab> tabList = [];
+    if (addOverview) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const OverviewList(),
+          tabName: 'overview',
+        ),
+      );
+    }
+    if (playerInfo.weapons.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const WeaponList(),
+          tabName: 'weapons',
+        ),
+      );
+    }
+    if (playerInfo.vehicles.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const VehicleList(),
+          tabName: 'vehicles',
+        ),
+      );
+    }
+    if (playerInfo.gadgets.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const GadgetList(),
+          tabName: 'gadgets',
+        ),
+      );
+    }
+    if (playerInfo.characters.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const ClassesList(),
+          tabName: 'classes',
+        ),
+      );
+    }
+    if (playerInfo.gameModes.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const GameModeList(),
+          tabName: 'gamemodes',
+        ),
+      );
+    }
+    if (playerInfo.maps.isNotEmpty) {
+      tabList.add(
+        PlayerInfoTab(
+          tabWidget: const MapList(),
+          tabName: 'maps',
+        ),
+      );
+    }
+    return tabList;
   }
 
   @override
@@ -443,24 +491,29 @@ class PlayerInfoScreen extends StatelessWidget {
             child: LayoutBuilder(
               builder: (context, constraints) {
                 if (constraints.maxWidth < WidthBreakpoints.minS) {
-                  return const PlayerInfoMainContent(
+                  return PlayerInfoMainContent(
                     playerInfoCardWidthScale: 0.95,
+                    tabList: getTabList(playerInfo.playerInfoEnsemble),
                   );
                 } else if (constraints.maxWidth < WidthBreakpoints.minM) {
-                  return const PlayerInfoMainContent(
+                  return PlayerInfoMainContent(
                     playerInfoCardWidthScale: 0.7,
+                    tabList: getTabList(playerInfo.playerInfoEnsemble),
                   );
                 } else if (constraints.maxWidth < WidthBreakpoints.minL) {
-                  return const PlayerInfoMainContent(
+                  return PlayerInfoMainContent(
                     playerInfoCardWidthScale: 0.6,
+                    tabList: getTabList(playerInfo.playerInfoEnsemble),
                   );
                 } else if (constraints.maxWidth < WidthBreakpoints.minXL) {
-                  return const PlayerInfoMainContent(
+                  return PlayerInfoMainContent(
                     playerInfoCardWidthScale: 0.5,
+                    tabList: getTabList(playerInfo.playerInfoEnsemble),
                   );
                 } else {
-                  return const PlayerInfoMainContent(
+                  return PlayerInfoMainContent(
                     playerInfoCardWidthScale: 0.4,
+                    tabList: getTabList(playerInfo.playerInfoEnsemble),
                   );
                 }
               },
@@ -472,9 +525,12 @@ class PlayerInfoScreen extends StatelessWidget {
 
 class PlayerInfoMainContent extends StatelessWidget {
   final double playerInfoCardWidthScale;
+  final List<PlayerInfoTab> tabList;
 
   const PlayerInfoMainContent(
-      {required this.playerInfoCardWidthScale, super.key});
+      {required this.playerInfoCardWidthScale,
+      required this.tabList,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -492,6 +548,7 @@ class PlayerInfoMainContent extends StatelessWidget {
           const Padding(padding: EdgeInsets.only(top: 4)),
           PlayerDetailsInfoCard(
             playerInfoCardWidthScale: playerInfoCardWidthScale,
+            tabList: tabList,
           ),
           const Padding(padding: EdgeInsets.only(top: 8)),
         ],
@@ -535,9 +592,13 @@ class PlayerBaseInfoCard extends StatelessWidget {
 
 class PlayerDetailsInfoCard extends StatelessWidget {
   final double playerInfoCardWidthScale;
+  final List<PlayerInfoTab> tabList;
 
-  const PlayerDetailsInfoCard(
-      {required this.playerInfoCardWidthScale, super.key});
+  const PlayerDetailsInfoCard({
+    super.key,
+    required this.playerInfoCardWidthScale,
+    required this.tabList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -550,7 +611,7 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                 width: MediaQuery.of(context).size.width *
                     playerInfoCardWidthScale,
                 child: DefaultTabController(
-                    length: TabList.values.length,
+                    length: tabList.length,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -570,31 +631,23 @@ class PlayerDetailsInfoCard extends StatelessWidget {
                           indicatorSize: TabBarIndicatorSize.label,
                           dividerHeight: 0,
                           isScrollable: true,
-                          tabs: TabList.values
+                          tabs: tabList
                               .map((e) => Tab(
                                       child: Container(
-                                        padding: const EdgeInsets.only(
+                                    padding: const EdgeInsets.only(
                                         left: 8, right: 8),
                                     child: Text(
                                         Translator.appLocalizationsTranslate(
                                             AppLocalizations.of(context)!
                                                 .playerInfoScreenTabItem(
-                                                    e.name),
-                                            e.name)),
+                                                    e.tabName),
+                                            e.tabName)),
                                   )))
                               .toList(),
                         ),
-                        const Expanded(
+                        Expanded(
                           child: TabBarView(
-                            children: [
-                              OverviewList(),
-                              WeaponList(),
-                              VehicleList(),
-                              GadgetList(),
-                              ClassesList(),
-                              GameModeList(),
-                              MapList(),
-                            ],
+                            children: tabList.map((e) => e.tabWidget).toList(),
                           ),
                         )
                       ],
