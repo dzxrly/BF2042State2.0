@@ -43,7 +43,7 @@ class QueryHistory {
 
     database = openDatabase(
       PlatformUtils.isWeb
-          ? '/query_history.db'
+          ? '/BF2042StateWeb/query_history.db'
           : join(await getDatabasesPath(), 'query_history.db'),
       onCreate: (db, version) {
         return db.execute(
