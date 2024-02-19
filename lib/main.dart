@@ -120,12 +120,15 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           actions: [
-            IconButton(
-              onPressed: () {
-                ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
-                    context, const BottomSheetInfo());
-              },
-              icon: const Icon(Icons.menu),
+            Container(
+              padding: const EdgeInsets.only(right: 16),
+              child: IconButton(
+                onPressed: () {
+                  ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+                      context, const BottomSheetInfo());
+                },
+                icon: const Icon(Icons.menu),
+              ),
             )
           ],
         ),
