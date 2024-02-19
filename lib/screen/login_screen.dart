@@ -1,22 +1,19 @@
 import 'package:battlefield_2042_state/api/api.dart';
-import 'package:battlefield_2042_state/api/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/custom_snackbar.dart';
+import 'package:battlefield_2042_state/components/update_bottom_modal_sheet.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';
 import 'package:battlefield_2042_state/screen/player_info_screen.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
-import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 enum GamePlatform {
   pc('PC', 'pc', FaIcon(FontAwesomeIcons.windows)),
@@ -139,11 +136,6 @@ class LoginFormState extends State<LoginForm>
   final TextEditingController platformController = TextEditingController();
   final TextEditingController playerNameController = TextEditingController();
   final QueryHistory queryHistory = QueryHistory();
-  bool isVersionOutdated = false;
-  String? latestVersionDownloadUrl;
-  String? updateLog;
-  String? currentVersionName;
-  String? newVersionName;
   String queryAPIName = 'gametools';
   bool allowUIDQuery = true;
   String? platformName;
@@ -170,44 +162,6 @@ class LoginFormState extends State<LoginForm>
       BFTrackerPlayerInfoAPIMap();
   BFTrackerPlayerInfoAPIGadgets bfTrackerPlayerInfoAPIGadgets =
       BFTrackerPlayerInfoAPIGadgets();
-  GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
-  String channelName =
-      const String.fromEnvironment('CHANNEL', defaultValue: 'github');
-
-  void getVersion() async {
-    if (!PlatformUtils.isWeb) {
-      try {
-        PackageInfo packageInfo = await PackageInfo.fromPlatform();
-        currentVersionName = packageInfo.version;
-        GiteeVersionCheck giteeVersionCheck =
-            await giteeVersionCheckAPI.fetchGiteeVersionCheck();
-        if (giteeVersionCheck.tagName != null &&
-            giteeVersionCheck.assets != null &&
-            giteeVersionCheck.assets!.isNotEmpty) {
-          if (UtilTools.versionCompare(
-              currentVersionName!, giteeVersionCheck.tagName!)) {
-            setState(() {
-              isVersionOutdated = true;
-              latestVersionDownloadUrl =
-                  giteeVersionCheck.assets![0].browserDownloadUrl;
-              updateLog = giteeVersionCheck.body;
-              newVersionName = giteeVersionCheck.tagName;
-            });
-          }
-        } else {
-          throw 'Network Error';
-        }
-      } catch (error) {
-        rethrow;
-      }
-    }
-  }
-
-  Future<void> urlLauncher(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Error! can not open URL: $url');
-    }
-  }
 
   void platformTextFieldOnTap(BuildContext context) {
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -634,77 +588,6 @@ class LoginFormState extends State<LoginForm>
     });
   }
 
-  void showVersionUpdateDetail(BuildContext context) {
-    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
-        context,
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(AppLocalizations.of(context)!.upgradeDiscoveryTip,
-                    style: Theme.of(context).textTheme.titleMedium),
-                const Padding(padding: EdgeInsets.only(left: 8)),
-                Text(currentVersionName ?? '0.0.0',
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
-                      fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
-                const Padding(padding: EdgeInsets.only(left: 8)),
-                Text('->', style: Theme.of(context).textTheme.titleMedium),
-                const Padding(padding: EdgeInsets.only(left: 8)),
-                Text(newVersionName ?? '0.0.0',
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
-                      fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
-                      color: Theme.of(context).colorScheme.primary,
-                    )),
-              ],
-            ),
-            const Padding(padding: EdgeInsets.only(top: 8)),
-            const Divider(height: 1),
-            const Padding(padding: EdgeInsets.only(top: 8)),
-            Text(AppLocalizations.of(context)!.upgradeLogTitle,
-                style: Theme.of(context).textTheme.titleMedium),
-            const Padding(padding: EdgeInsets.only(top: 4)),
-            Text(updateLog ?? '无',
-                softWrap: true, style: Theme.of(context).textTheme.bodyMedium),
-            const Padding(padding: EdgeInsets.only(top: 16)),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(19),
-                  ),
-                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  disabledBackgroundColor:
-                      Theme.of(context).colorScheme.secondaryContainer,
-                ),
-                onPressed: () => urlLauncher(latestVersionDownloadUrl ??
-                    'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
-                child: Text(
-                    AppLocalizations.of(context)!.upgradeDownloadButtonTitle,
-                    style: TextStyle(
-                      fontSize:
-                          Theme.of(context).textTheme.titleMedium?.fontSize,
-                      fontWeight:
-                          Theme.of(context).textTheme.titleMedium?.fontWeight,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ))),
-          ],
-        ));
-  }
-
   void checkInputPlayerNameIsInHistory(String? userInput) {
     // check input playerName is in history, if not, set playerUID to null,
     // if in, do nothing
@@ -719,9 +602,6 @@ class LoginFormState extends State<LoginForm>
   // load history when initState
   @override
   initState() {
-    if (!PlatformUtils.isWeb && channelName == 'github') {
-      getVersion();
-    }
     queryAPIController.text = QueryAPI.gametools.label;
     super.initState();
   }
@@ -973,15 +853,7 @@ class LoginFormState extends State<LoginForm>
                 ]),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          isVersionOutdated && !PlatformUtils.isWeb && channelName == 'github'
-              ? TextButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Theme.of(context).colorScheme.error,
-                  ),
-                  onPressed: () => showVersionUpdateDetail(context),
-                  child:
-                      Text(AppLocalizations.of(context)!.upgradeDiscoveryTitle))
-              : Container(),
+          const UpdateBottomModalSheet()
         ],
       ),
     );
