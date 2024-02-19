@@ -1,5 +1,7 @@
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 
 class QueryHistoryInterface {
   const QueryHistoryInterface({
@@ -35,6 +37,10 @@ class QueryHistory {
   late final Future<Database> database;
 
   void initQueryHistoryDatabase() async {
+    if (PlatformUtils.isWeb) {
+      databaseFactory = databaseFactoryFfiWeb;
+    }
+
     database = openDatabase(
       join(
         await getDatabasesPath(),
@@ -60,7 +66,7 @@ class QueryHistory {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     final List<Map<String, dynamic>> queryHistoryList =
-        await db.query('query_history');
+    await db.query('query_history');
     if (queryHistoryList.length > maxQueryHistory) {
       await db.delete(
         'query_history',
@@ -73,7 +79,7 @@ class QueryHistory {
   Future<List<QueryHistoryInterface>> queryAllQueryHistory() async {
     final Database db = await database;
     final List<Map<String, dynamic>> queryHistoryList =
-        await db.query('query_history');
+    await db.query('query_history');
     return List<QueryHistoryInterface>.generate(queryHistoryList.length, (i) {
       return QueryHistoryInterface(
         name: queryHistoryList[i]['name'],
@@ -95,7 +101,7 @@ class QueryHistory {
   Future<bool> isNameExist(String name) async {
     final Database db = await database;
     final List<Map<String, dynamic>> queryHistoryList =
-        await db.query('query_history');
+    await db.query('query_history');
     for (int i = 0; i < queryHistoryList.length; i++) {
       if (queryHistoryList[i]['name'] == name) {
         return true;
