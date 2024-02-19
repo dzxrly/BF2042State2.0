@@ -74,15 +74,11 @@
 
    A: Yes.
 
-8. **Q: Why is there no player level display?**
-
-   A: `gametools.network` does not provide player level data, so it cannot be displayed.
-
-9. **Q: How to get `UID`?**
+8. **Q: How to get `UID`?**
 
    A: You can only query by player name first, and then check the `UID` in the query result.
 
-10. **Q: What should I do if I am banned by BFBan?**
+9. **Q: What should I do if I am banned by BFBan?**
 
     A: Please go to the [BFBan official website](https://bfban.com/) to check the reason. This
     application is not responsible for the result!
