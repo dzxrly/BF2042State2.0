@@ -9,7 +9,7 @@
   "playerNameTextFieldPlaceholder": "玩家暱稱",
   "playerUIDTextFieldPlaceholder": "UID",
   "searchButtonTitle": "查詢",
-  "enhancedSearchButtonTitle": "增強查詢",
+  "enhancedSearchButtonTitle": "UID查詢",
   "searchResultsTitle": "查詢歷史",
   "requestErrorTip": "{requestError, select, notPlay2042{該用戶似乎沒有玩過2042} notFound{未找到該用戶！} serverError{查詢伺服器錯誤，請稍後再試} networkError{網路錯誤，請稍後再試} unknownError{未知錯誤，請稍後再試} timeoutError{查詢請求逾時，請嘗試重新查詢} rejectedError{查詢請求被拒絕，請過段時間再查詢} privateLimitError{該名玩家戰績受隱私保護} other{default}}",
   "dataAPIDescription": "{dataAPIDesc, select, gametools{[推薦] 由 gametools.network 提供。 可查詢到隱藏戰績的玩家，且支援 UID 查詢，不需要擔心改名問題。 但是其伺服器效能一般，可能會出現抽風的問題。} gametoolsraw{同樣由 gametools.network 提供，但其為精簡版查詢，只能查詢基本資訊。 優勢是崩潰次數較少，速度更快。} bftracker{[暫未開放] 向 battlefieldtracker.com 發起非官方的查詢請求，其伺服器穩定性更高，但請求可能被封鎖。 此外資料不如 gametools 的詳細，且只能透過暱稱查詢，無法查詢隱藏戰績的玩家，亦受到改名影響。} other{default}}",

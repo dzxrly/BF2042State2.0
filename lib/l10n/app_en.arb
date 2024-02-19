@@ -56,7 +56,7 @@
   "@enhancedSearchButtonTitle": {
     "description": "Title of the enhanced search switch"
   },
-  "searchResultsTitle": "Search History",
+  "searchResultsTitle": "History",
   "@searchResultsTitle": {
     "description": "Title of the search results"
   },
