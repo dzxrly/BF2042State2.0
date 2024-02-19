@@ -42,10 +42,9 @@ class QueryHistory {
     }
 
     database = openDatabase(
-      join(
-        await getDatabasesPath(),
-        'query_history.db',
-      ),
+      PlatformUtils.isWeb
+          ? '/query_history.db'
+          : join(await getDatabasesPath(), 'query_history.db'),
       onCreate: (db, version) {
         return db.execute(
           'CREATE TABLE query_history(name TEXT, platform TEXT, uid TEXT PRIMARY KEY)',
@@ -66,7 +65,7 @@ class QueryHistory {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
     final List<Map<String, dynamic>> queryHistoryList =
-    await db.query('query_history');
+        await db.query('query_history');
     if (queryHistoryList.length > maxQueryHistory) {
       await db.delete(
         'query_history',
@@ -79,7 +78,7 @@ class QueryHistory {
   Future<List<QueryHistoryInterface>> queryAllQueryHistory() async {
     final Database db = await database;
     final List<Map<String, dynamic>> queryHistoryList =
-    await db.query('query_history');
+        await db.query('query_history');
     return List<QueryHistoryInterface>.generate(queryHistoryList.length, (i) {
       return QueryHistoryInterface(
         name: queryHistoryList[i]['name'],
@@ -101,7 +100,7 @@ class QueryHistory {
   Future<bool> isNameExist(String name) async {
     final Database db = await database;
     final List<Map<String, dynamic>> queryHistoryList =
-    await db.query('query_history');
+        await db.query('query_history');
     for (int i = 0; i < queryHistoryList.length; i++) {
       if (queryHistoryList[i]['name'] == name) {
         return true;
