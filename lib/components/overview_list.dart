@@ -38,6 +38,11 @@ class OverviewList extends StatelessWidget {
               playerInfo.playerInfoEnsemble.killsPerMatch),
         ),
         InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.multiKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(playerInfo.playerInfoEnsemble.multiKills),
+        ),
+        InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
           showValueString: AppLocalizations.of(context)!
               .universalIntDisplay(playerInfo.playerInfoEnsemble.damage),

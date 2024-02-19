@@ -47,6 +47,7 @@ class GametoolsPlayerInfo {
     this.gamemodes,
     this.maps,
     this.level,
+    this.dividedKills,
   });
 
   final String? accuracy;
@@ -86,6 +87,7 @@ class GametoolsPlayerInfo {
   final String? winPercent;
   final int? wins;
   final int? level;
+  final DividedKills? dividedKills;
   final List<Vehicle>? vehicles;
   final List<Gadget>? gadgets;
   final List<Classes>? classes;
@@ -318,4 +320,18 @@ class MapElement {
       _$MapElementFromJson(json);
 
   Map<String, dynamic> toJson() => _$MapElementToJson(this);
+}
+
+@JsonSerializable()
+class DividedKills {
+  DividedKills({
+    this.multiKills,
+  });
+
+  final int? multiKills;
+
+  factory DividedKills.fromJson(Map<String, dynamic> json) =>
+      _$DividedKillsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DividedKillsToJson(this);
 }

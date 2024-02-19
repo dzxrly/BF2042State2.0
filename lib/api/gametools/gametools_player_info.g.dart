@@ -62,6 +62,9 @@ GametoolsPlayerInfo _$GametoolsPlayerInfoFromJson(Map<String, dynamic> json) =>
           ?.map((e) => MapElement.fromJson(e as Map<String, dynamic>))
           .toList(),
       level: json['level'] as int?,
+      dividedKills: json['dividedKills'] == null
+          ? null
+          : DividedKills.fromJson(json['dividedKills'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$GametoolsPlayerInfoToJson(
@@ -104,6 +107,7 @@ Map<String, dynamic> _$GametoolsPlayerInfoToJson(
       'winPercent': instance.winPercent,
       'wins': instance.wins,
       'level': instance.level,
+      'dividedKills': instance.dividedKills?.toJson(),
       'vehicles': instance.vehicles?.map((e) => e.toJson()).toList(),
       'gadgets': instance.gadgets?.map((e) => e.toJson()).toList(),
       'classes': instance.classes?.map((e) => e.toJson()).toList(),
@@ -298,4 +302,13 @@ Map<String, dynamic> _$MapElementToJson(MapElement instance) =>
       'secondsPlayed': instance.secondsPlayed,
       'winPercent': instance.winPercent,
       'wins': instance.wins,
+    };
+
+DividedKills _$DividedKillsFromJson(Map<String, dynamic> json) => DividedKills(
+      multiKills: json['multiKills'] as int?,
+    );
+
+Map<String, dynamic> _$DividedKillsToJson(DividedKills instance) =>
+    <String, dynamic>{
+      'multiKills': instance.multiKills,
     };

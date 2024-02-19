@@ -13,7 +13,8 @@ part 'player_info_ensemble.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class WeaponInfoEnsemble {
-  WeaponInfoEnsemble(this.weaponName,
+  WeaponInfoEnsemble(
+      this.weaponName,
       this.weaponId,
       this.kills,
       this.KPM,
@@ -45,7 +46,8 @@ class WeaponInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class VehicleInfoEnsemble {
-  VehicleInfoEnsemble(this.vehicleName,
+  VehicleInfoEnsemble(
+      this.vehicleName,
       this.vehicleId,
       this.kills,
       this.KPM,
@@ -119,7 +121,8 @@ class CharacterInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class GameModeInfoEnsemble {
-  GameModeInfoEnsemble(this.modeName,
+  GameModeInfoEnsemble(
+      this.modeName,
       this.modeId,
       this.kills,
       this.KPM,
@@ -214,6 +217,7 @@ class PlayerInfoEnsemble {
       this.recovery,
       this.supply,
       this.repair,
+      this.multiKills,
       this.weapons,
       this.vehicles,
       this.gadgets,
@@ -255,6 +259,7 @@ class PlayerInfoEnsemble {
         recovery = 0,
         supply = 0,
         repair = 0,
+        multiKills = 0,
         weapons = [],
         vehicles = [],
         gadgets = [],
@@ -302,6 +307,7 @@ class PlayerInfoEnsemble {
     recovery = playerInfo.revives ?? 0;
     supply = playerInfo.resupplies ?? 0;
     repair = playerInfo.repairs ?? 0;
+    multiKills = playerInfo.dividedKills?.multiKills ?? 0;
 
     if (playerInfo.weapons != null) {
       playerInfo.weapons?.forEach((weapon) => weapons.add(WeaponInfoEnsemble(
@@ -311,11 +317,11 @@ class PlayerInfoEnsemble {
           weapon.killsPerMinute ?? 0,
           weapon.damagePerMinute ?? 0,
           (weapon.headshotKills ?? 0) / (weapon.kills ?? 1),
-              (weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1),
-              weapon.damage ?? 0,
-              weapon.multiKills ?? 0,
-              weapon.hitVKills ?? 0.0,
-              (weapon.timeEquipped ?? 0) / 3600)));
+          (weapon.shotsHit ?? 0) / (weapon.shotsFired ?? 1),
+          weapon.damage ?? 0,
+          weapon.multiKills ?? 0,
+          weapon.hitVKills ?? 0.0,
+          (weapon.timeEquipped ?? 0) / 3600)));
     }
 
     if (playerInfo.vehicles != null) {
@@ -429,6 +435,7 @@ class PlayerInfoEnsemble {
         recovery = 0,
         supply = 0,
         repair = 0,
+        multiKills = 0,
         weapons = [],
         vehicles = [],
         gadgets = [],
@@ -508,6 +515,9 @@ class PlayerInfoEnsemble {
       if (field.name == 'Veh_RepairedHP_Total') {
         repair = field.value ?? 0;
       }
+      if (field.name == 'Kills_Multi_Total') {
+        multiKills = field.value ?? 0;
+      }
     }
 
     final double realKillRateDouble = realKills / kills;
@@ -566,6 +576,7 @@ class PlayerInfoEnsemble {
         recovery = 0,
         supply = 0,
         repair = 0,
+        multiKills = 0,
         weapons = [],
         vehicles = [],
         gadgets = [],
@@ -766,6 +777,7 @@ class PlayerInfoEnsemble {
   int recovery;
   int supply;
   int repair;
+  int multiKills;
 
   List<WeaponInfoEnsemble> weapons;
   List<VehicleInfoEnsemble> vehicles;
@@ -782,9 +794,11 @@ class PlayerInfoEnsemble {
 
 @JsonSerializable(explicitToJson: true)
 class PlayerInfoSnapshot {
-  PlayerInfoSnapshot(this.playerInfoEnsemble,
-      this.playerPlatform,
-      this.createTime,);
+  PlayerInfoSnapshot(
+    this.playerInfoEnsemble,
+    this.playerPlatform,
+    this.createTime,
+  );
 
   final PlayerInfoEnsemble playerInfoEnsemble;
   final String playerPlatform;

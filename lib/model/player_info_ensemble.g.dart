@@ -218,6 +218,7 @@ PlayerInfoEnsemble _$PlayerInfoEnsembleFromJson(Map<String, dynamic> json) =>
       json['recovery'] as int,
       json['supply'] as int,
       json['repair'] as int,
+      json['multiKills'] as int,
       (json['weapons'] as List<dynamic>)
           .map((e) => WeaponInfoEnsemble.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -273,6 +274,7 @@ Map<String, dynamic> _$PlayerInfoEnsembleToJson(PlayerInfoEnsemble instance) =>
       'recovery': instance.recovery,
       'supply': instance.supply,
       'repair': instance.repair,
+      'multiKills': instance.multiKills,
       'weapons': instance.weapons.map((e) => e.toJson()).toList(),
       'vehicles': instance.vehicles.map((e) => e.toJson()).toList(),
       'gadgets': instance.gadgets.map((e) => e.toJson()).toList(),
