@@ -266,11 +266,11 @@ class LoginFormState extends State<LoginForm>
           response.secondsPlayed != null &&
           response.secondsPlayed != 0) {
         queryHistory
-            .setHistory(
-              response.userName!,
-              platformName!,
-              response.userId.toString(),
-            )
+            .insertQueryHistory(QueryHistoryInterface(
+              name: response.userName!,
+              platform: platformName!,
+              uid: response.userId.toString(),
+            ))
             .then((value) => {
                   Provider.of<PlayerInfoModel>(context, listen: false)
                       .updatePlayerInfo(
@@ -341,13 +341,13 @@ class LoginFormState extends State<LoginForm>
               null &&
           response.result?.inventory?.loadouts?.first.player?.nucleusId != 0) {
         queryHistory
-            .setHistory(
-              response.result?.inventory?.loadouts?.first.name ?? 'null',
-              platformName!,
-              response.result?.inventory?.loadouts?.first.player?.nucleusId
+            .insertQueryHistory(QueryHistoryInterface(
+              name: response.result?.inventory?.loadouts?.first.name ?? 'null',
+              platform: platformName!,
+              uid: response.result?.inventory?.loadouts?.first.player?.nucleusId
                       .toString() ??
                   'null',
-            )
+            ))
             .then((value) => {
                   Provider.of<PlayerInfoModel>(context, listen: false)
                       .updatePlayerInfo(
@@ -487,21 +487,21 @@ class LoginFormState extends State<LoginForm>
 
   void queryHistoryBtnOnPressed(BuildContext context) {
     queryHistory
-        .loadHistory()
+        .queryAllQueryHistory()
         .then((value) => {
               ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
                 context,
-                queryHistory.playerUidHistory.isNotEmpty
+                value.isNotEmpty
                     ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: queryHistory.playerUidHistory.length,
+                  shrinkWrap: true,
+                        itemCount: value.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Dismissible(
-                              key: Key(queryHistory.playerUidHistory[index]),
+                              key: Key(value[index].uid),
                               direction: DismissDirection.endToStart,
                               onDismissed: (direction) {
-                                queryHistory.deleteHistory(
-                                    queryHistory.playerUidHistory[index]);
+                                queryHistory
+                                    .deleteQueryHistory(value[index].uid);
                                 // close modal bottom sheet
                                 Navigator.pop(context);
                               },
@@ -526,20 +526,17 @@ class LoginFormState extends State<LoginForm>
                                 // set leading icon to platform icon
                                 leading: GamePlatform.values
                                     .firstWhere((element) =>
-                                        element.value ==
-                                        queryHistory
-                                            .playerPlatformHistory[index])
+                                        element.value == value[index].platform)
                                     .icon,
                                 title: Text(
-                                  queryHistory.playerNameHistory[index],
+                                  value[index].name,
                                   style:
                                       Theme.of(context).textTheme.titleMedium,
                                 ),
                                 subtitle: Text(
-                                  queryHistory.playerUidHistory[index],
+                                  value[index].uid,
                                 ),
-                                tileColor: playerUid ==
-                                        queryHistory.playerUidHistory[index]
+                                tileColor: playerUid == value[index].uid
                                     ? Theme.of(context)
                                         .colorScheme
                                         .secondaryContainer
@@ -549,26 +546,20 @@ class LoginFormState extends State<LoginForm>
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    platformName = queryHistory
-                                        .playerPlatformHistory[index];
+                                    platformName = value[index].platform;
                                     // set platformName to platformController, by platform value index platform label
                                     platformController.text = GamePlatform
                                         .values
                                         .firstWhere((element) =>
                                             element.value ==
-                                            queryHistory
-                                                .playerPlatformHistory[index])
+                                            value[index].platform)
                                         .label;
-                                    playerName =
-                                        queryHistory.playerNameHistory[index];
-                                    playerUid =
-                                        queryHistory.playerUidHistory[index];
+                                    playerName = value[index].name;
+                                    playerUid = value[index].uid;
                                     playerNameController.text =
                                         enablePlayerUidQuery
-                                            ? queryHistory
-                                                .playerUidHistory[index]
-                                            : queryHistory
-                                                .playerNameHistory[index];
+                                            ? value[index].uid
+                                            : value[index].name;
                                   });
                                   Navigator.pop(context);
                                 },
@@ -588,10 +579,10 @@ class LoginFormState extends State<LoginForm>
     });
   }
 
-  void checkInputPlayerNameIsInHistory(String? userInput) {
+  void checkInputPlayerNameIsInHistory(String? userInput) async {
     // check input playerName is in history, if not, set playerUID to null,
     // if in, do nothing
-    if (queryHistory.playerNameHistory.contains(userInput)) {
+    if (await queryHistory.isNameExist(userInput ?? '')) {
     } else {
       setState(() {
         playerUid = null;

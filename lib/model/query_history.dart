@@ -1,77 +1,106 @@
-import 'dart:developer';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
-import 'package:hive/hive.dart';
+class QueryHistoryInterface {
+  const QueryHistoryInterface({
+    required this.name,
+    required this.platform,
+    required this.uid,
+  });
+
+  final String name;
+  final String platform;
+  final String uid;
+
+  Map<String, String> toMap() {
+    return <String, String>{
+      'name': name,
+      'platform': platform,
+      'uid': uid,
+    };
+  }
+
+  @override
+  String toString() {
+    return 'query_history{name: $name, platform: $platform, uid: $uid}';
+  }
+}
 
 class QueryHistory {
-  static const String playerNameHistoryKey = 'playerNameHistoryHive';
-  static const String playerPlatformHistoryKey = 'playerPlatformHistoryHive';
-  static const String playerUidHistoryKey = 'playerUidHistoryHive';
-  static const int maxHistoryLength = 6;
-  List<String> playerNameHistory = <String>[];
-  List<String> playerPlatformHistory = <String>[];
-  List<String> playerUidHistory = <String>[];
-
-  // async function to load history from Hive
-  Future<void> loadHistory() async {
-    final Box box = await Hive.openBox('queryHistoryHiveBox');
-    playerNameHistory = box.get(playerNameHistoryKey, defaultValue: <String>[]);
-    playerPlatformHistory =
-        box.get(playerPlatformHistoryKey, defaultValue: <String>[]);
-    playerUidHistory = box.get(playerUidHistoryKey, defaultValue: <String>[]);
+  QueryHistory() {
+    initQueryHistoryDatabase();
   }
 
-  // set history to playerNameHistory and playerPlatformHistory
-  Future<void> setHistory(
-      String playerName, String playerPlatform, String playerUid) async {
-    // check all input is '', if true, throw error
-    if (playerName == '' || playerPlatform == '' || playerUid == '') {
-      log('playerName, playerPlatform, playerUid cannot be empty');
-      throw Exception('playerName, playerPlatform, playerUid cannot be empty');
-    } else {
-      final Box box = await Hive.openBox('queryHistoryHiveBox');
-      if (!playerUidHistory.contains(playerUid)) {
-        playerNameHistory.add(playerName);
-        playerPlatformHistory.add(playerPlatform);
-        playerUidHistory.add(playerUid);
-        if (playerUidHistory.length > maxHistoryLength) {
-          playerNameHistory.removeAt(0);
-          playerPlatformHistory.removeAt(0);
-          playerUidHistory.removeAt(0);
-        }
-        box.put(playerNameHistoryKey, playerNameHistory);
-        box.put(playerPlatformHistoryKey, playerPlatformHistory);
-        box.put(playerUidHistoryKey, playerUidHistory);
-      } else {
-        final int index = playerUidHistory.indexOf(playerUid);
-        playerNameHistory.removeAt(index);
-        playerPlatformHistory.removeAt(index);
-        playerUidHistory.removeAt(index);
-        playerNameHistory.add(playerName);
-        playerPlatformHistory.add(playerPlatform);
-        playerUidHistory.add(playerUid);
-        box.put(playerNameHistoryKey, playerNameHistory);
-        box.put(playerPlatformHistoryKey, playerPlatformHistory);
-        box.put(playerUidHistoryKey, playerUidHistory);
-      }
+  final int maxQueryHistory = 10;
+  late final Future<Database> database;
+
+  void initQueryHistoryDatabase() async {
+    database = openDatabase(
+      join(
+        await getDatabasesPath(),
+        'query_history.db',
+      ),
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE query_history(name TEXT, platform TEXT, uid TEXT PRIMARY KEY)',
+        );
+      },
+      version: 1,
+    );
+  }
+
+  Future<void> insertQueryHistory(QueryHistoryInterface queryHistory) async {
+    final Database db = await database;
+    // only save the last 10 queries, if there are more than 10, delete the oldest one
+    // and insert the new one
+    // uid is the unique identifier for the query, if the query is the same, update the time
+    await db.insert(
+      'query_history',
+      queryHistory.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+    final List<Map<String, dynamic>> queryHistoryList =
+        await db.query('query_history');
+    if (queryHistoryList.length > maxQueryHistory) {
+      await db.delete(
+        'query_history',
+        where: 'uid = ?',
+        whereArgs: [queryHistoryList[0]['uid']],
+      );
     }
   }
 
-  // delete player history by playerUid
-  Future<void> deleteHistory(String playerUid) async {
-    // check all input is '', if true, throw error
-    if (playerUid == '') {
-      throw Exception('playerUid cannot be empty');
-    } else {
-      final Box box = await Hive.openBox('queryHistoryHiveBox');
-      final int index = playerUidHistory.indexOf(playerUid);
-      if (index != -1) {
-        playerNameHistory.removeAt(index);
-        playerPlatformHistory.removeAt(index);
-        playerUidHistory.removeAt(index);
-        box.put(playerNameHistoryKey, playerNameHistory);
-        box.put(playerPlatformHistoryKey, playerPlatformHistory);
-        box.put(playerUidHistoryKey, playerUidHistory);
+  Future<List<QueryHistoryInterface>> queryAllQueryHistory() async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> queryHistoryList =
+        await db.query('query_history');
+    return List<QueryHistoryInterface>.generate(queryHistoryList.length, (i) {
+      return QueryHistoryInterface(
+        name: queryHistoryList[i]['name'],
+        platform: queryHistoryList[i]['platform'],
+        uid: queryHistoryList[i]['uid'],
+      );
+    });
+  }
+
+  Future<void> deleteQueryHistory(String uid) async {
+    final Database db = await database;
+    await db.delete(
+      'query_history',
+      where: 'uid = ?',
+      whereArgs: [uid],
+    );
+  }
+
+  Future<bool> isNameExist(String name) async {
+    final Database db = await database;
+    final List<Map<String, dynamic>> queryHistoryList =
+        await db.query('query_history');
+    for (int i = 0; i < queryHistoryList.length; i++) {
+      if (queryHistoryList[i]['name'] == name) {
+        return true;
       }
     }
+    return false;
   }
 }
