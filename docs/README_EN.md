@@ -25,7 +25,7 @@
 
 - Android 64bit: [Click to download](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
-- Google Play (Internal Test): [More Info](https://github.com/dzxrly/BF2042State2.0/issues/4)
+- Google Play (Alpha Test): [More Info](https://github.com/dzxrly/BF2042State2.0/issues/7)
 
 - Web (Support PWA): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
