@@ -131,7 +131,7 @@
       }
     }
   },
-  "playerBFHistorySearching": "Looking for more info on previous generations of Battlefield games...",
+  "playerBFHistorySearching": "Loading...",
   "@playerBFHistorySearching": {
     "description": "Tip for the player BF history searching"
   },
@@ -179,7 +179,7 @@
   "@realKPM": {
     "description": "Tip for the real KPM"
   },
-  "headshotRate": "HS Rate",
+  "headshotRate": "HS%",
   "@headshotRate": {
     "description": "Tip for the headshot rate"
   },
@@ -187,7 +187,7 @@
   "@realKills": {
     "description": "Tip for the real kills"
   },
-  "realKillsRate": "Human Kills Rate",
+  "realKillsRate": "Human Kills%",
   "@realKillsRate": {
     "description": "Tip for the real kills rate"
   },
@@ -195,7 +195,7 @@
   "@damagePerMatch": {
     "description": "Tip for the damage per match"
   },
-  "winRate": "Win Rate",
+  "winRate": "Win%",
   "@winRate": {
     "description": "Tip for the win rate"
   },
@@ -203,7 +203,7 @@
   "@damagePerMinute": {
     "description": "Tip for the damage per minute"
   },
-  "accuracy": "Accuracy",
+  "accuracy": "Acc%",
   "@accuracy": {
     "description": "Tip for the accuracy"
   },
@@ -252,7 +252,7 @@
       }
     }
   },
-  "playedTime": "{playedTime} Hours",
+  "playedTime": "{playedTime}H",
   "@playedTime": {
     "description": "Hours played",
     "placeholders": {
@@ -375,7 +375,7 @@
   "@timePlayedTitle": {
     "description": "Title of the time played"
   },
-  "efficiencyTitle": "Efficiency",
+  "efficiencyTitle": "Eff",
   "@efficiencyTitle": {
     "description": "Title of the efficiency"
   },
@@ -431,7 +431,7 @@
   "@objectDestroyedTitle": {
     "description": "Title of the object destroyed"
   },
-  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{Time} headshotRate{HS Rate} accuracy{Accuracy} efficiency{Efficiency} other{default}}",
+  "weaponDataType": "{weaponDataType, select, killsPerMinute{KPM} timePlayed{Time} headshotRate{HS%} accuracy{Acc%} efficiency{Eff} other{default}}",
   "@weaponDataType": {
     "description": "Data type of the weapon",
     "placeholders": {
@@ -450,7 +450,7 @@
       }
     }
   },
-  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{Time} destroyCount{Destroyed Vehicles} other{default}}",
+  "vehicleDataType": "{vehicleDataType, select, killsPerMinute{KPM} timePlayed{Time} destroyCount{Destroyed} other{default}}",
   "@vehicleDataType": {
     "description": "Data type of the vehicle",
     "placeholders": {
@@ -459,7 +459,7 @@
       }
     }
   },
-  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{Uses} destroyCount{Destroyed Vehicles} other{default}}",
+  "gadgetDataType": "{gadgetDataType, select, killsPerMinute{KPM} uses{Uses} destroyCount{Destroyed} other{default}}",
   "@gadgetDataType": {
     "description": "Data type of the gadget",
     "placeholders": {

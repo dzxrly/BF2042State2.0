@@ -16,7 +16,7 @@ class WeaponList extends StatefulWidget {
 }
 
 class WeaponListState extends State<WeaponList> {
-  String dataTypeValue = 'timePlayed';
+  String dataTypeValue = 'headshotRate';
   List<String> dataType = [
     'timePlayed',
     'headshotRate',

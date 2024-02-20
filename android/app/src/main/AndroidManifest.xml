@@ -5,7 +5,7 @@
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="BF2042State"
+        android:label="@string/appName"
         android:resizeableActivity="true">
         <activity
             android:name=".MainActivity"
