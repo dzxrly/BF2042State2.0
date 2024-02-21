@@ -12,7 +12,7 @@
   "@aboutPageTitle": {
     "description": "Title of the about page"
   },
-  "aboutPageContent": "This app is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Player data API is from gametools.network, thanks a lot for providing the API. BFBan history is from bfban.com, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
+  "aboutPageContent": "This open-source application is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Player data API is from gametools.network, thanks a lot for providing the API. BFBan history is from bfban.com, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
   "@aboutPageContent": {
     "description": "Content of the about page",
     "placeholders": {
@@ -506,5 +506,17 @@
         "type": "String"
       }
     }
+  },
+  "licenseBtnTitle": "License",
+  "@licenseBtnTitle": {
+    "description": "Title of the license button"
+  },
+  "qnaBtnTitle": "Q&A",
+  "@qnaBtnTitle": {
+    "description": "Title of the Q&A button"
+  },
+  "privacyBtnTitle": "Privacy",
+  "@privacyBtnTitle": {
+    "description": "Title of the privacy button"
   }
 }

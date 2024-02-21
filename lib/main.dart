@@ -291,12 +291,42 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                   )),
             ],
           ),
-          const Divider(),
+          const Padding(padding: EdgeInsets.only(top: 8)),
           Text(
             AppLocalizations.of(context)!
                 .aboutPageContent('Egg Targaryen', 'x_Reshiram'),
             softWrap: true,
             style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 8)),
+          const Divider(),
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () => urlLauncher(
+                    'https://github.com/dzxrly/BF2042State2.0/blob/main/privacy.md'),
+                child: Text(
+                  AppLocalizations.of(context)!.privacyBtnTitle,
+                ),
+              ),
+              TextButton(
+                onPressed: () => urlLauncher(
+                    'https://github.com/dzxrly/BF2042State2.0?tab=MIT-1-ov-file#readme'),
+                child: Text(
+                  AppLocalizations.of(context)!.licenseBtnTitle,
+                ),
+              ),
+              TextButton(
+                onPressed: () => urlLauncher(
+                    'https://github.com/dzxrly/BF2042State2.0/blob/main/README.md#faq'),
+                child: Text(
+                  AppLocalizations.of(context)!.qnaBtnTitle,
+                ),
+              ),
+            ],
           )
         ],
       ),
