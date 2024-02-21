@@ -23,8 +23,6 @@
 
 - Android 64位版: [點擊進入下載地址](https://github.com/dzxrly/BF2042State2.0/releases/latest)
 
-- Google Play (Alpha Test): [更多資訊](https://github.com/dzxrly/BF2042State2.0/issues/7)
-
 - 網頁端 (支持PWA應用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
 - iOS版本: 由於開發者沒有蘋果設備，暫時不提供iOS版本
