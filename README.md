@@ -35,6 +35,13 @@
 
 ## FAQ
 
+0. **Q: 其它语言的FAQ**
+
+    A:
+    
+    - [English FAQ](./docs/README_EN.md#faq)
+    - [繁體中文 FAQ](./docs/README_ZH_TW.md#faq)
+
 1. **Q：为什么查询战绩时报错？**
 
    A：
