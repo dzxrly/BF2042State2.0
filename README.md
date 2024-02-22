@@ -25,20 +25,13 @@
 
 - 网页端 (支持PWA应用): [BF2042State Web Page](https://dzxrly.github.io/BF2042StateWeb/)
 
-- iOS版本: 由于开发者没有苹果设备，暂时不提供iOS版本
+- iOS版本: 由于开发者没有Apple开发环境，暂时不提供iOS版本，如有需要请使用网页端
 
 ## 开发计划
 
 [BF2042State V2 开发计划](https://github.com/users/dzxrly/projects/3)
 
 ## FAQ
-
-0. **Q: 其它语言的FAQ**
-
-   A:
-    
-   - [English FAQ](./docs/README_EN.md#faq)
-   - [繁體中文 FAQ](./docs/README_ZH_TW.md#faq)
 
 1. **Q：为什么查询战绩时报错？**
 
