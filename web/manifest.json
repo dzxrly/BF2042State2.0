@@ -1,11 +1,11 @@
 {
-    "name": "BF2042StateV2",
-    "short_name": "BF2042State",
+    "name": "BF2042StatsV2",
+    "short_name": "BF2042Stats",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FAFDFA",
     "theme_color": "#4BFCDD",
-    "description": "A Simple App for BF2042 state query.",
+    "description": "A Simple App for BF2042 player stats.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
