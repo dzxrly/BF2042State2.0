@@ -1,4 +1,5 @@
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/basic/rich_text_with_clickable_url.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/screen/login_screen.dart';
 import 'package:battlefield_2042_state/theme/color_schemes.g.dart';
@@ -211,7 +212,8 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
             softWrap: true,
           ),
           const Padding(padding: EdgeInsets.only(top: 8)),
-          Row(
+          Column(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -222,8 +224,8 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                         Theme.of(context).textTheme.bodySmall?.fontWeight,
                     color: Theme.of(context).colorScheme.primary,
                   )),
-              const Padding(padding: EdgeInsets.only(left: 8)),
-              Text('by Egg Targaryen',
+              const Padding(padding: EdgeInsets.all(4)),
+              Text('by Egg Targaryen | EA ID: x_Reshiram',
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
@@ -292,11 +294,8 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 8)),
-          Text(
-            AppLocalizations.of(context)!
-                .aboutPageContent('Egg Targaryen', 'x_Reshiram'),
-            softWrap: true,
-            style: Theme.of(context).textTheme.bodyMedium,
+          RichTextWithClickableURL(
+            AppLocalizations.of(context)!.aboutPageContent,
           ),
           const Padding(padding: EdgeInsets.only(top: 8)),
           const Divider(),

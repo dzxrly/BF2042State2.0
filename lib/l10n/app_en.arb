@@ -12,17 +12,9 @@
   "@aboutPageTitle": {
     "description": "Title of the about page"
   },
-  "aboutPageContent": "This open-source application is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Player data API is from gametools.network, thanks a lot for providing the API. BFBan history is from bfban.com, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
+  "aboutPageContent": "This application is an open-sourced for the Battlefield 2042 community. Player data API is from <url label=''gametools.network''>https://gametools.network</url>, thanks a lot for providing the API. BFBan history is from <url label=''bfban.com''>https://bfban.com</url>, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
   "@aboutPageContent": {
-    "description": "Content of the about page",
-    "placeholders": {
-      "authorSteamName": {
-        "type": "String"
-      },
-      "authorEAID": {
-        "type": "String"
-      }
-    }
+    "description": "Content of the about page"
   },
   "aboutPageDonateBtnTitle": "Donate",
   "@aboutPageDonateBtnTitle": {
