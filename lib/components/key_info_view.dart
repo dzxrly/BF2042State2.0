@@ -157,9 +157,9 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                         borderRadius: BorderRadius.circular(19),
                         onTap: () => {
                           if (bfbanUrl != null)
-                            {
-                              urlLauncher(bfbanUrl!),
-                            }
+                            {urlLauncher(bfbanUrl!)}
+                          else
+                            {getBFBanCheckStatus(widget.userId)}
                         },
                         child: Container(
                           padding: const EdgeInsets.only(top: 8, bottom: 8),
