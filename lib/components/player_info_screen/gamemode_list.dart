@@ -6,30 +6,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'basic/constraints_modal_bottom_sheet.dart';
-import 'basic/info_list_item_content.dart';
+import '../basic/constraints_modal_bottom_sheet.dart';
+import '../basic/info_list_item_content.dart';
 
-class MapList extends StatelessWidget {
-  const MapList({super.key});
+class GameModeList extends StatelessWidget {
+  const GameModeList({super.key});
 
-  void showVehicleDetails(BuildContext context, MapInfoEnsemble mapElement) {
-    final List<InfoListItemContent> mapDetailList = [
+  void showVehicleDetails(BuildContext context, GameModeInfoEnsemble gamemode) {
+    final List<InfoListItemContent> gameModeDetailList = [
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kills,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.kills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.kpmTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalDoubleDisplay(gamemode.KPM)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.matches,
           showValueString: AppLocalizations.of(context)!
-              .universalIntDisplay(mapElement.playedMatches)),
+              .universalIntDisplay(gamemode.playedMatches)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.wins,
-          showValueString: AppLocalizations.of(context)!
-              .universalIntDisplay(mapElement.win)),
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gamemode.win)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.losses,
-          showValueString: AppLocalizations.of(context)!
-              .universalIntDisplay(mapElement.lose)),
+          showValueString:
+              AppLocalizations.of(context)!.universalIntDisplay(gamemode.lose)),
       InfoListItemContent(
         keyName: AppLocalizations.of(context)!.winRate,
-        showValueString: mapElement.winRate,
+        showValueString: gamemode.winRate,
       ),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectTimeTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectTime)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.sectorDefendsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.sectorDefend)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectDefendsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectDefend)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectTakenTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.objectCapture)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectArmedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomPlant)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectDisarmedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomDefuse)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.objectDestroyedTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(gamemode.boomDestroy)),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -50,26 +86,27 @@ class MapList extends StatelessWidget {
                       child: Text(
                           Translator.appLocalizationsTranslate(
                               AppLocalizations.of(context)!
-                                  .mapName(mapElement.mapName),
-                              mapElement.mapName),
+                                  .gameModeName(gamemode.modeName),
+                              gamemode.modeName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
                     const Padding(padding: EdgeInsets.only(left: 8)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(AppLocalizations.of(context)!
-                            .playedTime(mapElement.playedTime)))
+                            .playedTime(gamemode.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
                 shrinkWrap: true,
                 prototypeItem: const InfoListItem(
                     keyName: 'null', showValueString: 'null'),
-                itemCount: mapDetailList.length,
+                itemCount: gameModeDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
-                      keyName: mapDetailList[index].keyName,
-                      showValueString: mapDetailList[index].showValueString);
+                      keyName: gameModeDetailList[index].keyName,
+                      showValueString:
+                          gameModeDetailList[index].showValueString);
                 },
               ))
             ],
@@ -80,14 +117,14 @@ class MapList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final mapList = playerInfo.playerInfoEnsemble.maps;
-      mapList.sort((a, b) => (b.playedMatches - a.playedMatches));
+      final gameModeList = playerInfo.playerInfoEnsemble.gameModes;
+      gameModeList.sort((a, b) => (b.playedMatches - a.playedMatches));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text(AppLocalizations.of(context)!.mapNameTitle,
+                child: Text(AppLocalizations.of(context)!.gamemodeNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
@@ -104,23 +141,32 @@ class MapList extends StatelessWidget {
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: MapListItem(
-                  mapElement: MapInfoEnsemble(
+              prototypeItem: GameModeListItem(
+                  gamemode: GameModeInfoEnsemble(
                 'null',
                 'null',
                 0,
                 0,
+                0,
+                0,
+                0,
                 'null',
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
                 0,
                 0,
               )),
-              itemCount: playerInfo.playerInfoEnsemble.maps.length,
+              itemCount: playerInfo.playerInfoEnsemble.gameModes.length,
               itemBuilder: (context, index) {
-                return MapListItem(
-                  mapElement: playerInfo.playerInfoEnsemble.maps[index],
+                return GameModeListItem(
+                  gamemode: playerInfo.playerInfoEnsemble.gameModes[index],
                   onTap: () => {
                     showVehicleDetails(
-                        context, playerInfo.playerInfoEnsemble.maps[index])
+                        context, playerInfo.playerInfoEnsemble.gameModes[index])
                   },
                 );
               }));
@@ -128,11 +174,11 @@ class MapList extends StatelessWidget {
   }
 }
 
-class MapListItem extends StatelessWidget {
-  final MapInfoEnsemble mapElement;
+class GameModeListItem extends StatelessWidget {
+  final GameModeInfoEnsemble gamemode;
   final Function? onTap;
 
-  const MapListItem({super.key, required this.mapElement, this.onTap});
+  const GameModeListItem({super.key, required this.gamemode, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -143,16 +189,16 @@ class MapListItem extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Text(
                 Translator.appLocalizationsTranslate(
-                    AppLocalizations.of(context)!.mapName(mapElement.mapName),
-                    mapElement.mapName),
-                textAlign: TextAlign.left,
+                    AppLocalizations.of(context)!
+                        .gameModeName(gamemode.modeName),
+                    gamemode.modeName),
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
           flex: 1,
           child: Text(
             AppLocalizations.of(context)!
-                .universalIntDisplay(mapElement.playedMatches),
+                .universalIntDisplay(gamemode.playedMatches),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -163,7 +209,7 @@ class MapListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            mapElement.winRate,
+            gamemode.winRate,
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

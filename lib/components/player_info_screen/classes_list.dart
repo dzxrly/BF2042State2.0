@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'basic/constraints_modal_bottom_sheet.dart';
-import 'basic/info_list_item_content.dart';
+import '../basic/constraints_modal_bottom_sheet.dart';
+import '../basic/info_list_item_content.dart';
 
 class ClassesList extends StatelessWidget {
   const ClassesList({super.key});
