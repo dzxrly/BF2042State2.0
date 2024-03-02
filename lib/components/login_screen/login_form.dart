@@ -1,7 +1,7 @@
 import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/components/basic/custom_snackbar.dart';
-import 'package:battlefield_2042_state/components/update_bottom_modal_sheet.dart';
+import 'package:battlefield_2042_state/components/login_screen/update_bottom_modal_sheet.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/model/query_history.dart';

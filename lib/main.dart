@@ -225,7 +225,7 @@ class _BottomSheetInfoState extends State<BottomSheetInfo> {
                     color: Theme.of(context).colorScheme.primary,
                   )),
               const Padding(padding: EdgeInsets.all(4)),
-              Text('by Egg Targaryen | EA ID: x_Reshiram',
+              Text('by Egg Targaryen (EA ID: x_Reshiram)',
                   style: TextStyle(
                     fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
                     fontWeight:
