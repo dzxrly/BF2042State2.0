@@ -60,7 +60,7 @@ class RichTextWithClickableURL extends StatelessWidget {
             return TextSpan(
                 text: e.label ?? e.content,
                 style: TextStyle(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
                   decoration: TextDecoration.underline,
                 ),
