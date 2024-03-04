@@ -1,4 +1,5 @@
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
+import 'package:battlefield_2042_state/components/basic/error_chip.dart';
 import 'package:battlefield_2042_state/components/basic/info_list_item_content.dart';
 import 'package:battlefield_2042_state/components/basic/player_detail_info_list.dart';
 import 'package:battlefield_2042_state/model/player_info_ensemble.dart';
@@ -16,6 +17,20 @@ class WeaponList extends StatefulWidget {
 }
 
 class WeaponListState extends State<WeaponList> {
+  final WeaponInfoEnsemble initWeapon = WeaponInfoEnsemble(
+    'null',
+    'null',
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    'null',
+  );
   String dataTypeValue = 'headshotRate';
   List<String> dataType = [
     'timePlayed',
@@ -74,36 +89,9 @@ class WeaponListState extends State<WeaponList> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     if (weapon.cheatCheck)
-                      Chip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(19),
-                        ),
-                        side: BorderSide(
-                            color: Theme.of(context).colorScheme.error),
-                        avatar: Icon(Icons.warning,
-                            color: Theme.of(context).colorScheme.error,
-                            size: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.fontSize),
-                        label: Text(
-                          AppLocalizations.of(context)!.weaponCheatCheckTips,
-                          softWrap: true,
-                          maxLines: 5,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.fontSize,
-                            fontWeight: Theme.of(context)
-                                .textTheme
-                                .bodyMedium
-                                ?.fontWeight,
-                            color: Theme.of(context).colorScheme.error,
-                          ),
-                        ),
-                      ),
+                      ErrorChip(
+                          label: AppLocalizations.of(context)!
+                              .weaponCheatCheckTips),
                     if (weapon.cheatCheck)
                       const Padding(padding: EdgeInsets.all(4)),
                     FittedBox(
@@ -118,9 +106,7 @@ class WeaponListState extends State<WeaponList> {
                                   .textTheme
                                   .titleLarge
                                   ?.fontWeight,
-                              color: weapon.cheatCheck
-                                  ? Theme.of(context).colorScheme.error
-                                  : Theme.of(context).colorScheme.onSurface,
+                              color: Theme.of(context).colorScheme.onSurface,
                             ))),
                     const Padding(padding: EdgeInsets.all(4)),
                     Badge(
@@ -142,6 +128,99 @@ class WeaponListState extends State<WeaponList> {
               ))
             ],
           ),
+        ));
+  }
+
+  void showAbnormalWeaponList(
+      BuildContext context, List<WeaponInfoEnsemble> weaponList) {
+    ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
+        context,
+        TouchableList(
+          listTitle: [
+            Expanded(
+                child: Text(AppLocalizations.of(context)!.weaponNameTitle,
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.bodyLarge)),
+            Expanded(
+                child: Text(AppLocalizations.of(context)!.kpmTitle,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge)),
+            Expanded(
+                child: Text(AppLocalizations.of(context)!.headshotRate,
+                    textAlign: TextAlign.right,
+                    style: Theme.of(context).textTheme.bodyLarge)),
+          ],
+          listChild: ListView.builder(
+            shrinkWrap: true,
+            prototypeItem: WeaponListItem(
+              weapon: initWeapon,
+              dataTypeValue: dataTypeValue,
+            ),
+            itemCount: weaponList.length,
+            itemBuilder: (context, index) {
+              return TouchableListItem(
+                expandChildren: [
+                  Expanded(
+                      child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(weaponList[index].weaponName,
+                            softWrap: true,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontWeight: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.fontWeight,
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.fontSize,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ))
+                      ],
+                    ),
+                  )),
+                  Expanded(
+                      child: Text(
+                    AppLocalizations.of(context)!
+                        .universalDoubleDisplay(weaponList[index].KPM),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight:
+                          Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium?.fontSize,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )),
+                  Expanded(
+                      child: Text(
+                    AppLocalizations.of(context)!
+                        .universalPercentDisplay(weaponList[index].hsRate),
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      fontWeight:
+                          Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium?.fontSize,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )),
+                ],
+                onTap: () => {
+                  showWeaponDetails(context, weaponList[index]),
+                },
+              );
+            },
+          ),
+          topPositionWidget: ErrorChip(
+              label: AppLocalizations.of(context)!
+                  .weaponCheatCheckTitleWithoutClickTip(weaponList.length)),
         ));
   }
 
@@ -179,6 +258,10 @@ class WeaponListState extends State<WeaponList> {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
       final weaponList = playerInfo.playerInfoEnsemble.weapons;
       weaponList.sort((a, b) => (b.kills - a.kills));
+      final abnormalWeaponList = weaponList.where((element) {
+        return element.cheatCheck;
+      }).toList();
+
       return LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
         final bool showKPM =
@@ -231,20 +314,7 @@ class WeaponListState extends State<WeaponList> {
             listChild: ListView.builder(
               shrinkWrap: true,
               prototypeItem: WeaponListItem(
-                weapon: WeaponInfoEnsemble(
-                  'null',
-                  'null',
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  0,
-                  'null',
-                ),
+                weapon: initWeapon,
                 dataTypeValue: dataTypeValue,
               ),
               itemCount: playerInfo.playerInfoEnsemble.weapons.length,
@@ -259,7 +329,16 @@ class WeaponListState extends State<WeaponList> {
                   showKPM: showKPM,
                 );
               },
-            ));
+            ),
+            topPositionWidget: abnormalWeaponList.isEmpty
+                ? null
+                : InkWell(
+                    onTap: () =>
+                        showAbnormalWeaponList(context, abnormalWeaponList),
+                    child: ErrorChip(
+                        label: AppLocalizations.of(context)!
+                            .weaponCheatCheckTitle(abnormalWeaponList.length)),
+                  ));
       });
     });
   }

@@ -28,24 +28,37 @@ class TouchableListItem extends StatelessWidget {
 class TouchableList extends StatelessWidget {
   final List<Widget> listTitle;
   final Widget listChild;
+  final Widget? topPositionWidget;
 
-  const TouchableList(
-      {super.key, required this.listTitle, required this.listChild});
+  const TouchableList({super.key,
+    required this.listTitle,
+    required this.listChild,
+    this.topPositionWidget});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(4),
         child: Column(
           children: [
-            Container(
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: listTitle,
-                )),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (topPositionWidget != null) topPositionWidget!,
+                if (topPositionWidget != null)
+                  const Padding(padding: EdgeInsets.only(top: 4)),
+                Padding(
+                    padding: const EdgeInsets.only(left: 4, right: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: listTitle,
+                    )),
+              ],
+            ),
             Expanded(child: listChild),
           ],
         ));

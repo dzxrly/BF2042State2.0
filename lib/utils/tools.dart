@@ -107,25 +107,37 @@ abstract class FileExporter {
 }
 
 class WeaponCheatChecker {
-  final double kpmThreshold = 2;
-  final double hsRatioThreshold = 0.4;
+  final double autoKpmThreshold = 2;
+  final double autoHsRatioMinThreshold = 0.05;
+  final double autoHsRatioMaxThreshold = 0.4;
+
+  final double singleKpmThreshold = 2.5;
+  final double singleHsRatioMinThreshold = 0.1;
+  final double singleHsRatioMaxThreshold = 0.8;
+
   final int minKills = 100;
-  final List<String> checkedWeaponType = [
+  final List<String> checkedAutoWeaponType = [
     'PDW',
-    'Bolt Action',
     'DMR',
     'Crossbows',
     'Sidearm',
-    'Railguns',
     'LMG',
     'Assault Rifles',
-    'Lever-Action Carbines',
     'Carbines',
     'SMG-PDW'
   ];
+  final List<String> checkedSingleWeaponType = [
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+  ];
 
-  bool isWeaponInCheckList(String weaponType) {
-    return checkedWeaponType.contains(weaponType);
+  bool isWeaponInAutoCheckList(String weaponType) {
+    return checkedAutoWeaponType.contains(weaponType);
+  }
+
+  bool isWeaponInSingleCheckList(String weaponType) {
+    return checkedSingleWeaponType.contains(weaponType);
   }
 
   bool isCheat(
@@ -134,8 +146,20 @@ class WeaponCheatChecker {
     double kpm,
     double hsRate,
   ) {
-    return isWeaponInCheckList(weaponType) && kills >= minKills
-        ? kpm >= kpmThreshold && hsRate >= hsRatioThreshold
-        : false;
+    if (kills < minKills) {
+      return false;
+    } else {
+      if (isWeaponInAutoCheckList(weaponType)) {
+        return kpm >= autoKpmThreshold &&
+            (hsRate <= autoHsRatioMinThreshold ||
+                hsRate >= autoHsRatioMaxThreshold);
+      } else if (isWeaponInSingleCheckList(weaponType)) {
+        return kpm >= singleKpmThreshold &&
+            (hsRate <= singleHsRatioMinThreshold ||
+                hsRate >= singleHsRatioMaxThreshold);
+      } else {
+        return false;
+      }
+    }
   }
 }

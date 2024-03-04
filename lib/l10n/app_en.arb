@@ -511,8 +511,26 @@
   "@privacyBtnTitle": {
     "description": "Title of the privacy button"
   },
-  "weaponCheatCheckTips": "KPM or HS% is too high",
+  "weaponCheatCheckTips": "KPM or HS% is abnormal",
   "@weaponCheatCheckTips": {
     "description": "Tip for the weapon cheat check"
+  },
+  "weaponCheatCheckTitle": "{weaponNum} weapons'' data are abnormal, click to view the details",
+  "@weaponCheatCheckTitle": {
+    "description": "Title of the weapon cheat check",
+    "placeholders": {
+      "weaponNum": {
+        "type": "num"
+      }
+    }
+  },
+  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum} weapons'' data are abnormal",
+  "@weaponCheatCheckTitleWithoutClickTip": {
+    "description": "Title of the weapon cheat check without click tip",
+    "placeholders": {
+      "weaponNum": {
+        "type": "num"
+      }
+    }
   }
 }

@@ -105,5 +105,7 @@
   "licenseBtnTitle": "License",
   "qnaBtnTitle": "Q&A",
   "privacyBtnTitle": "隱私政策",
-  "weaponCheatCheckTips": "偵測到武器KPM或爆頭率異常!"
+  "weaponCheatCheckTips": "偵測到武器KPM或爆頭率異常!",
+  "weaponCheatCheckTitle": "{weaponNum}個武器KPM或爆頭率異常，點擊看詳情",
+  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}個武器KPM或爆頭率異常"
 }
