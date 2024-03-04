@@ -77,7 +77,7 @@ class GameModeList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -90,7 +90,7 @@ class GameModeList extends StatelessWidget {
                               gamemode.modeName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 8)),
+                    const Padding(padding: EdgeInsets.all(4)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(AppLocalizations.of(context)!

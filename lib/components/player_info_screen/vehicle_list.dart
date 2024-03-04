@@ -86,7 +86,7 @@ class VehicleListState extends State<VehicleList> {
                       child: Text(vehicle.vehicleName,
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 16)),
+                    const Padding(padding: EdgeInsets.all(4)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(AppLocalizations.of(context)!

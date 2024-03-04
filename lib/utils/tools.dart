@@ -105,3 +105,37 @@ abstract class FileExporter {
 
   factory FileExporter() => fileExporter();
 }
+
+class WeaponCheatChecker {
+  final double kpmThreshold = 2;
+  final double hsRatioThreshold = 0.4;
+  final int minKills = 100;
+  final List<String> checkedWeaponType = [
+    'PDW',
+    'Bolt Action',
+    'DMR',
+    'Crossbows',
+    'Sidearm',
+    'Railguns',
+    'LMG',
+    'Assault Rifles',
+    'Lever-Action Carbines',
+    'Carbines',
+    'SMG-PDW'
+  ];
+
+  bool isWeaponInCheckList(String weaponType) {
+    return checkedWeaponType.contains(weaponType);
+  }
+
+  bool isCheat(
+    String weaponType,
+    int kills,
+    double kpm,
+    double hsRate,
+  ) {
+    return isWeaponInCheckList(weaponType) && kills >= minKills
+        ? kpm >= kpmThreshold && hsRate >= hsRatioThreshold
+        : false;
+  }
+}

@@ -510,5 +510,9 @@
   "privacyBtnTitle": "Privacy",
   "@privacyBtnTitle": {
     "description": "Title of the privacy button"
+  },
+  "weaponCheatCheckTips": "KPM or HS% is too high",
+  "@weaponCheatCheckTips": {
+    "description": "Tip for the weapon cheat check"
   }
 }

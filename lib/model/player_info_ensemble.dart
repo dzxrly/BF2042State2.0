@@ -6,7 +6,7 @@ import 'package:battlefield_2042_state/api/bftracker/bftracker_player_vehicle_in
 import 'package:battlefield_2042_state/api/bftracker/bftracker_player_weapon_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info_raw.dart';
-import 'package:intl/intl.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'player_info_ensemble.g.dart';
@@ -24,7 +24,9 @@ class WeaponInfoEnsemble {
       this.damage,
       this.multiKills,
       this.efficiency,
-      this.playedTime);
+      this.playedTime,
+      this.type,
+      {this.cheatCheck = false});
 
   final String weaponName;
   final String weaponId;
@@ -37,6 +39,8 @@ class WeaponInfoEnsemble {
   final int multiKills;
   final double efficiency;
   final double playedTime;
+  final String type;
+  final bool cheatCheck;
 
   factory WeaponInfoEnsemble.fromJson(Map<String, dynamic> json) =>
       _$WeaponInfoEnsembleFromJson(json);
@@ -266,7 +270,7 @@ class PlayerInfoEnsemble {
         characters = [],
         gameModes = [],
         maps = [] {
-    final NumberFormat timeFormat = NumberFormat('#,###.00');
+    final WeaponCheatChecker weaponCheatChecker = WeaponCheatChecker();
 
     avatar = playerInfo.avatar ?? '#';
     nucleusId =
@@ -321,7 +325,13 @@ class PlayerInfoEnsemble {
           weapon.damage ?? 0,
           weapon.multiKills ?? 0,
           weapon.hitVKills ?? 0.0,
-          (weapon.timeEquipped ?? 0) / 3600)));
+          (weapon.timeEquipped ?? 0) / 3600,
+          weapon.type ?? 'null',
+          cheatCheck: weaponCheatChecker.isCheat(
+              weapon.type ?? 'null',
+              weapon.kills ?? 0,
+              weapon.killsPerMinute ?? 0,
+              (weapon.headshotKills ?? 0) / (weapon.kills ?? 1)))));
     }
 
     if (playerInfo.vehicles != null) {
@@ -583,8 +593,6 @@ class PlayerInfoEnsemble {
         characters = [],
         gameModes = [],
         maps = [] {
-    final NumberFormat timeFormat = NumberFormat('#,###.00');
-
     avatar = playerInfo.data?.platformInfo?.avatarUrl ?? '#';
     nucleusId = playerInfo.data?.platformInfo?.platformUserId ?? 'null';
     username = playerInfo.data?.platformInfo?.platformUserIdentifier ?? 'null';
@@ -640,7 +648,8 @@ class PlayerInfoEnsemble {
             weaponData?.multiKills?.value ?? 0,
             (weaponData?.shotsHit?.value ?? 0).toDouble() /
                 (weaponData?.kills?.value ?? 1),
-            (weaponData?.timePlayed?.value ?? 0) / 3600));
+            (weaponData?.timePlayed?.value ?? 0) / 3600,
+            'null'));
       });
     }
 

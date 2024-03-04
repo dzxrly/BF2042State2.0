@@ -73,15 +73,60 @@ class WeaponListState extends State<WeaponList> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    if (weapon.cheatCheck)
+                      Chip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(19),
+                        ),
+                        side: BorderSide(
+                            color: Theme.of(context).colorScheme.error),
+                        avatar: Icon(Icons.warning,
+                            color: Theme.of(context).colorScheme.error,
+                            size: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.fontSize),
+                        label: Text(
+                          AppLocalizations.of(context)!.weaponCheatCheckTips,
+                          softWrap: true,
+                          maxLines: 5,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.fontSize,
+                            fontWeight: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.fontWeight,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      ),
+                    if (weapon.cheatCheck)
+                      const Padding(padding: EdgeInsets.all(4)),
                     FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(weapon.weaponName,
-                            style: Theme.of(context).textTheme.titleLarge)),
-                    const Padding(padding: EdgeInsets.only(left: 16)),
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.fontSize,
+                              fontWeight: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.fontWeight,
+                              color: weapon.cheatCheck
+                                  ? Theme.of(context).colorScheme.error
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ))),
+                    const Padding(padding: EdgeInsets.all(4)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(AppLocalizations.of(context)!
-                            .playedTime(weapon.playedTime)))
+                            .playedTime(weapon.playedTime))),
                   ]),
               Expanded(
                   child: ListView.builder(
@@ -198,6 +243,7 @@ class WeaponListState extends State<WeaponList> {
                   0,
                   0,
                   0,
+                  'null',
                 ),
                 dataTypeValue: dataTypeValue,
               ),
@@ -259,10 +305,30 @@ class WeaponListItem extends StatelessWidget {
       Expanded(
           child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-        child: Text(weapon.weaponName,
-            softWrap: true,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyMedium),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (weapon.cheatCheck)
+              Icon(Icons.warning,
+                  color: Theme.of(context).colorScheme.error,
+                  size: Theme.of(context).textTheme.bodyMedium?.fontSize),
+            if (weapon.cheatCheck)
+              const Padding(padding: EdgeInsets.only(left: 4)),
+            Text(weapon.weaponName,
+                softWrap: true,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight:
+                      Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                  fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
+                  color: weapon.cheatCheck
+                      ? Theme.of(context).colorScheme.error
+                      : Theme.of(context).colorScheme.onSurface,
+                ))
+          ],
+        ),
       )),
       Expanded(
           child: Text(

@@ -104,5 +104,6 @@
   "exportPlayerStats": "{exportPlayerStats, select, success{保存数据快照成功} error{保存数据快照失败} denied{未授予存储权限，无法保存} other{default}}",
   "licenseBtnTitle": "License",
   "qnaBtnTitle": "Q&A",
-  "privacyBtnTitle": "隐私政策"
+  "privacyBtnTitle": "隐私政策",
+  "weaponCheatCheckTips": "检测到武器KPM或爆头率异常!"
 }
