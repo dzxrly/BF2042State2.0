@@ -1,5 +1,5 @@
 import 'package:battlefield_2042_state/api/api.dart';
-import 'package:battlefield_2042_state/api/version_check.dart';
+import 'package:battlefield_2042_state/api/gitee/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
