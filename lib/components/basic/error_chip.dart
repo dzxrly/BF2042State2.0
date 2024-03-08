@@ -17,8 +17,6 @@ class ErrorChip extends StatelessWidget {
           size: Theme.of(context).textTheme.bodySmall?.fontSize),
       label: Text(label,
           softWrap: true,
-          maxLines: 5,
-          overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontSize: Theme.of(context).textTheme.bodySmall?.fontSize,
             fontWeight: Theme.of(context).textTheme.bodySmall?.fontWeight,

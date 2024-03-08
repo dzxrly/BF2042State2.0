@@ -107,5 +107,11 @@
   "privacyBtnTitle": "隱私政策",
   "weaponCheatCheckTips": "偵測到武器KPM或爆頭率異常!",
   "weaponCheatCheckTitle": "{weaponNum}個武器KPM或爆頭率異常，點擊看詳情",
-  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}個武器KPM或爆頭率異常"
+  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}個武器KPM或爆頭率異常",
+  "announcementBottomSheetTitle": "公告板",
+  "announcementBottomSheetFetchError": "取得公告失敗",
+  "announcementBottomSheetFetchLoading": "載入中...",
+  "announcementBottomSheetItemUpdatedAt": "更新於{updatedAt}",
+  "announcementBottomSheetNone": "暫時沒有公告",
+  "announcementBottomSheetMore": "閱讀更多"
 }

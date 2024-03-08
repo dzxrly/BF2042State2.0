@@ -532,5 +532,35 @@
         "type": "num"
       }
     }
+  },
+  "announcementBottomSheetTitle": "Announcement",
+  "@announcementBottomSheetTitle": {
+    "description": "Title of the announcement bottom sheet"
+  },
+  "announcementBottomSheetFetchError": "Failed to get the announcement",
+  "@announcementBottomSheetFetchError": {
+    "description": "Tip for the announcement bottom sheet fetch error"
+  },
+  "announcementBottomSheetFetchLoading": "Loading...",
+  "@announcementBottomSheetFetchLoading": {
+    "description": "Tip for the announcement bottom sheet fetch loading"
+  },
+  "announcementBottomSheetItemUpdatedAt": "Updated at {updatedAt}",
+  "@announcementBottomSheetItemUpdatedAt": {
+    "description": "Updated at of the announcement bottom sheet item",
+    "placeholders": {
+      "updatedAt": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "announcementBottomSheetNone": "No announcement",
+  "@announcementBottomSheetNone": {
+    "description": "Tip for the announcement bottom sheet none"
+  },
+  "announcementBottomSheetMore": "More announcements",
+  "@announcementBottomSheetMore": {
+    "description": "Tip for the announcement bottom sheet more"
   }
 }

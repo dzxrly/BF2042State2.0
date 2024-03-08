@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'notice_board.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable()
 class GiteeIssuesUser {
   GiteeIssuesUser({
     this.id,
@@ -48,8 +48,14 @@ class GiteeIssues {
 
   final List<GiteeIssuesCommit>? commits;
 
-  factory GiteeIssues.fromJson(Map<String, dynamic> json) =>
-      _$GiteeIssuesFromJson(json);
+  factory GiteeIssues.fromJson(List<dynamic> json) {
+    return GiteeIssues(
+      commits: json
+          .map((dynamic e) =>
+              GiteeIssuesCommit.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() => _$GiteeIssuesToJson(this);
 }

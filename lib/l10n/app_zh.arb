@@ -107,5 +107,11 @@
   "privacyBtnTitle": "隐私政策",
   "weaponCheatCheckTips": "检测到武器KPM或爆头率异常!",
   "weaponCheatCheckTitle": "{weaponNum}个武器的KPM或爆头率异常，点击查看详情",
-  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}个武器的KPM或爆头率异常"
+  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}个武器的KPM或爆头率异常",
+  "announcementBottomSheetTitle": "公告板",
+  "announcementBottomSheetFetchError": "获取公告失败",
+  "announcementBottomSheetFetchLoading": "加载中...",
+  "announcementBottomSheetItemUpdatedAt": "更新于{updatedAt}",
+  "announcementBottomSheetNone": "暂时没有公告",
+  "announcementBottomSheetMore": "阅读更多"
 }

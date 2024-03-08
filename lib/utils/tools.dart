@@ -6,6 +6,7 @@ import 'package:battlefield_2042_state/utils/file_exporter/unsupported_file_expo
     if (dart.library.io) 'package:battlefield_2042_state/utils/file_exporter/android_file_exporter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UtilTools {
   static bool versionCompare(String currentVersion, String latestVersion) {
@@ -44,6 +45,12 @@ class UtilTools {
     final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
     // check value is NaN
     return value.isNaN || value.isNegative ? 'NaN' : numberFormat.format(value);
+  }
+
+  static Future<void> urlLauncher(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception(url);
+    }
   }
 }
 

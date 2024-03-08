@@ -2,10 +2,10 @@ import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
 import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class KeyInfoView extends StatefulWidget {
   final String userId;
@@ -49,16 +49,9 @@ class _KeyInfoViewState extends State<KeyInfoView> {
     }
   }
 
-  Future<void> urlLauncher(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Error! Can not open URL: $url');
-    }
-  }
-
   @override
   void initState() {
     getBFBanCheckStatus(widget.userId);
-
     super.initState();
   }
 
@@ -79,13 +72,13 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                     keyName: AppLocalizations.of(context)!.realKD,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                        playerInfo.playerInfoEnsemble.realKD),
+                            playerInfo.playerInfoEnsemble.realKD),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKPM,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                        playerInfo.playerInfoEnsemble.realKPM),
+                            playerInfo.playerInfoEnsemble.realKPM),
                   ),
                   KeyInfoWidget(
                       keyName: AppLocalizations.of(context)!.headshotRate,
@@ -100,7 +93,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                     keyName: AppLocalizations.of(context)!.realKills,
                     showValueString: AppLocalizations.of(context)!
                         .universalIntDisplay(
-                        playerInfo.playerInfoEnsemble.realKills),
+                            playerInfo.playerInfoEnsemble.realKills),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.realKillsRate,
@@ -110,7 +103,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                     keyName: AppLocalizations.of(context)!.damagePerMatch,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                        playerInfo.playerInfoEnsemble.damagePerMatch),
+                            playerInfo.playerInfoEnsemble.damagePerMatch),
                   ),
                 ]),
             Flex(
@@ -126,7 +119,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                     keyName: AppLocalizations.of(context)!.damagePerMinute,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                        playerInfo.playerInfoEnsemble.damagePerMinute),
+                            playerInfo.playerInfoEnsemble.damagePerMinute),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.accuracy,
@@ -142,13 +135,13 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                     keyName: AppLocalizations.of(context)!.realKillsPerMatch,
                     showValueString: AppLocalizations.of(context)!
                         .universalDoubleDisplay(
-                        playerInfo.playerInfoEnsemble.realKillsPerMatch),
+                            playerInfo.playerInfoEnsemble.realKillsPerMatch),
                   ),
                   KeyInfoWidget(
                     keyName: AppLocalizations.of(context)!.matches,
                     showValueString: AppLocalizations.of(context)!
                         .universalIntDisplay(
-                        playerInfo.playerInfoEnsemble.playedMatches),
+                            playerInfo.playerInfoEnsemble.playedMatches),
                   ),
                   Expanded(
                       flex: 1,
@@ -156,7 +149,7 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                         borderRadius: BorderRadius.circular(19),
                         onTap: () => {
                           if (bfbanUrl != null)
-                            {urlLauncher(bfbanUrl!)}
+                            {UtilTools.urlLauncher(bfbanUrl!)}
                           else
                             {getBFBanCheckStatus(widget.userId)}
                         },
@@ -179,49 +172,49 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                     mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                        CrossAxisAlignment.center,
                                     children: [
                                       bfbanStatus != -2
                                           ? Icon(
-                                        bfbanStatus == -1
-                                            ? Icons.check_circle_outline
-                                            : Icons.error_outline,
-                                        size: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        color: bfbanStatus != 1
-                                            ? Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            : Theme.of(context)
-                                            .colorScheme
-                                            .error,
-                                      )
+                                              bfbanStatus == -1
+                                                  ? Icons.check_circle_outline
+                                                  : Icons.error_outline,
+                                              size: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              color: bfbanStatus != 1
+                                                  ? Theme.of(context)
+                                                      .colorScheme
+                                                      .primary
+                                                  : Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                            )
                                           : SizedBox(
-                                        width: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        height: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall
-                                            ?.fontSize,
-                                        child: CircularProgressIndicator(
-                                          strokeWidth: 1,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
+                                              width: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              height: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall
+                                                  ?.fontSize,
+                                              child: CircularProgressIndicator(
+                                                strokeWidth: 1,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary,
+                                              ),
+                                            ),
                                       const Padding(
                                           padding: EdgeInsets.only(left: 2)),
                                       Text(
                                         Translator.appLocalizationsTranslate(
                                             AppLocalizations.of(context)!
                                                 .bfbanStatus(Translator
-                                                .bfbanStatusTranslate(
-                                                bfbanStatus)),
+                                                    .bfbanStatusTranslate(
+                                                        bfbanStatus)),
                                             Translator.bfbanStatusTranslate(
                                                 bfbanStatus)),
                                         softWrap: true,
@@ -237,11 +230,11 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                                               ?.fontSize,
                                           color: bfbanStatus != 1
                                               ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
+                                                  .colorScheme
+                                                  .primary
                                               : Theme.of(context)
-                                              .colorScheme
-                                              .error,
+                                                  .colorScheme
+                                                  .error,
                                         ),
                                       ),
                                     ],
@@ -287,7 +280,7 @@ class KeyInfoWidget extends StatelessWidget {
                   showValueString ?? 'Unknown',
                   style: TextStyle(
                     fontWeight:
-                    Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                        Theme.of(context).textTheme.bodyMedium?.fontWeight,
                     fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
                     color: Theme.of(context).colorScheme.primary,
                   ),
