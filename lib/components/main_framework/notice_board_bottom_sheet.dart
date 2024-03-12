@@ -133,17 +133,13 @@ class NoticeList extends StatelessWidget {
               },
             ),
             const Padding(padding: EdgeInsets.only(top: 8)),
-            ElevatedButton(
+            TextButton(
               onPressed: () => UtilTools.urlLauncher(
                   'https://gitee.com/egg-targaryen/BF2042State2.0/issues/I96FFR'),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
-                    Theme.of(context).colorScheme.primary),
-              ),
               child: Text(
                 AppLocalizations.of(context)!.announcementBottomSheetMore,
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.primary,
                   fontSize: Theme.of(context).textTheme.bodyMedium!.fontSize,
                 ),
               ),

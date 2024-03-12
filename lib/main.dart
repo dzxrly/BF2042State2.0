@@ -129,7 +129,7 @@ class MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               onPressed: () =>
                   ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
                       context, const NoticeBoardBottomSheet()),
-              icon: const Icon(Icons.announcement_outlined),
+              icon: const Icon(Icons.notifications_outlined),
             ),
             Container(
               padding: const EdgeInsets.only(right: 16),
