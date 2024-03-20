@@ -562,5 +562,9 @@
   "announcementBottomSheetMore": "More announcements",
   "@announcementBottomSheetMore": {
     "description": "Tip for the announcement bottom sheet more"
+  },
+  "weaponHipfireKillsTitle": "Hipfire Kills",
+  "@weaponHipfireKillsTitle": {
+    "description": "Title of the weapon hipfire kills"
   }
 }

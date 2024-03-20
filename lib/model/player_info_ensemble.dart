@@ -26,6 +26,7 @@ class WeaponInfoEnsemble {
       this.efficiency,
       this.playedTime,
       this.type,
+      this.hipfireKills,
       {this.cheatCheck = false});
 
   final String weaponName;
@@ -41,6 +42,7 @@ class WeaponInfoEnsemble {
   final double playedTime;
   final String type;
   final bool cheatCheck;
+  final int hipfireKills;
 
   factory WeaponInfoEnsemble.fromJson(Map<String, dynamic> json) =>
       _$WeaponInfoEnsembleFromJson(json);
@@ -327,6 +329,7 @@ class PlayerInfoEnsemble {
           weapon.hitVKills ?? 0.0,
           (weapon.timeEquipped ?? 0) / 3600,
           weapon.type ?? 'null',
+          weapon.hipfireKills ?? 0,
           cheatCheck: weaponCheatChecker.isCheat(
               weapon.type ?? 'null',
               weapon.kills ?? 0,
@@ -637,19 +640,21 @@ class PlayerInfoEnsemble {
         final weaponData = weapon.stats;
 
         weapons.add(WeaponInfoEnsemble(
-            weapon.metadata?.name ?? 'null',
-            'null',
-            weaponData?.kills?.value ?? 0,
-            weaponData?.killsPerMinute?.value ?? 0,
-            weaponData?.dmgPerMin?.value ?? 0,
-            weaponData?.headshotPercentage?.value ?? 0,
-            weaponData?.shotsAccuracy?.value ?? 0,
-            weaponData?.damageDealt?.value ?? 0,
-            weaponData?.multiKills?.value ?? 0,
-            (weaponData?.shotsHit?.value ?? 0).toDouble() /
-                (weaponData?.kills?.value ?? 1),
-            (weaponData?.timePlayed?.value ?? 0) / 3600,
-            'null'));
+          weapon.metadata?.name ?? 'null',
+          'null',
+          weaponData?.kills?.value ?? 0,
+          weaponData?.killsPerMinute?.value ?? 0,
+          weaponData?.dmgPerMin?.value ?? 0,
+          weaponData?.headshotPercentage?.value ?? 0,
+          weaponData?.shotsAccuracy?.value ?? 0,
+          weaponData?.damageDealt?.value ?? 0,
+          weaponData?.multiKills?.value ?? 0,
+          (weaponData?.shotsHit?.value ?? 0).toDouble() /
+              (weaponData?.kills?.value ?? 1),
+          (weaponData?.timePlayed?.value ?? 0) / 3600,
+          'null',
+          0,
+        ));
       });
     }
 

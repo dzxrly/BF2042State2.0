@@ -113,5 +113,6 @@
   "announcementBottomSheetFetchLoading": "載入中...",
   "announcementBottomSheetItemUpdatedAt": "更新於{updatedAt}",
   "announcementBottomSheetNone": "暫時沒有公告",
-  "announcementBottomSheetMore": "閱讀更多"
+  "announcementBottomSheetMore": "閱讀更多",
+  "weaponHipfireKillsTitle": "腰射擊殺"
 }

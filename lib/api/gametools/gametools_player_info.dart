@@ -111,6 +111,7 @@ class Weapon {
     this.id,
     this.kills,
     this.killsPerMinute,
+    this.hipfireKills,
     this.multiKills,
     this.shotsFired,
     this.shotsHit,
@@ -127,6 +128,7 @@ class Weapon {
   final String? id;
   final int? kills;
   final double? killsPerMinute;
+  final int? hipfireKills;
   final int? multiKills;
   final int? shotsFired;
   final int? shotsHit;

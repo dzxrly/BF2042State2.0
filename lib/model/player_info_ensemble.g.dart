@@ -20,6 +20,7 @@ WeaponInfoEnsemble _$WeaponInfoEnsembleFromJson(Map<String, dynamic> json) =>
       (json['efficiency'] as num).toDouble(),
       (json['playedTime'] as num).toDouble(),
       json['type'] as String,
+      json['hipfireKills'] as int,
       cheatCheck: json['cheatCheck'] as bool? ?? false,
     );
 
@@ -38,6 +39,7 @@ Map<String, dynamic> _$WeaponInfoEnsembleToJson(WeaponInfoEnsemble instance) =>
       'playedTime': instance.playedTime,
       'type': instance.type,
       'cheatCheck': instance.cheatCheck,
+      'hipfireKills': instance.hipfireKills,
     };
 
 VehicleInfoEnsemble _$VehicleInfoEnsembleFromJson(Map<String, dynamic> json) =>

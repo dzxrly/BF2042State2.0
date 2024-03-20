@@ -30,6 +30,7 @@ class WeaponListState extends State<WeaponList> {
     0,
     0,
     'null',
+    0,
   );
   String dataTypeValue = 'headshotRate';
   List<String> dataType = [
@@ -61,6 +62,10 @@ class WeaponListState extends State<WeaponList> {
           keyName: AppLocalizations.of(context)!.accuracy,
           showValueString: AppLocalizations.of(context)!
               .universalPercentDisplay(weapon.accuracy)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.weaponHipfireKillsTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(weapon.hipfireKills)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
           showValueString:
