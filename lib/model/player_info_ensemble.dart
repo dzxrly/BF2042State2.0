@@ -27,6 +27,7 @@ class WeaponInfoEnsemble {
       this.playedTime,
       this.type,
       this.hipfireKills,
+      this.hipfireRate,
       {this.cheatCheck = false});
 
   final String weaponName;
@@ -43,6 +44,7 @@ class WeaponInfoEnsemble {
   final String type;
   final bool cheatCheck;
   final int hipfireKills;
+  final double hipfireRate;
 
   factory WeaponInfoEnsemble.fromJson(Map<String, dynamic> json) =>
       _$WeaponInfoEnsembleFromJson(json);
@@ -330,11 +332,14 @@ class PlayerInfoEnsemble {
           (weapon.timeEquipped ?? 0) / 3600,
           weapon.type ?? 'null',
           weapon.hipfireKills ?? 0,
+          (weapon.hipfireKills ?? 0) / (weapon.kills ?? 1),
           cheatCheck: weaponCheatChecker.isCheat(
               weapon.type ?? 'null',
               weapon.kills ?? 0,
               weapon.killsPerMinute ?? 0,
-              (weapon.headshotKills ?? 0) / (weapon.kills ?? 1)))));
+              (weapon.headshotKills ?? 0) / (weapon.kills ?? 1),
+              (weapon.hipfireKills ?? 0) / (weapon.kills ?? 1),
+              weapon.damagePerMinute ?? 0))));
     }
 
     if (playerInfo.vehicles != null) {
@@ -653,6 +658,7 @@ class PlayerInfoEnsemble {
               (weaponData?.kills?.value ?? 1),
           (weaponData?.timePlayed?.value ?? 0) / 3600,
           'null',
+          0,
           0,
         ));
       });

@@ -105,14 +105,15 @@
   "licenseBtnTitle": "License",
   "qnaBtnTitle": "Q&A",
   "privacyBtnTitle": "隱私政策",
-  "weaponCheatCheckTips": "偵測到武器KPM或爆頭率異常!",
-  "weaponCheatCheckTitle": "{weaponNum}個武器KPM或爆頭率異常，點擊看詳情",
-  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}個武器KPM或爆頭率異常",
+  "weaponCheatCheckTips": "偵測到武器資料異常!",
+  "weaponCheatCheckTitle": "{weaponNum}個武器資料異常，點擊看詳情",
   "announcementBottomSheetTitle": "公告板",
   "announcementBottomSheetFetchError": "取得公告失敗",
   "announcementBottomSheetFetchLoading": "載入中...",
   "announcementBottomSheetItemUpdatedAt": "更新於{updatedAt}",
   "announcementBottomSheetNone": "暫時沒有公告",
   "announcementBottomSheetMore": "閱讀更多",
-  "weaponHipfireKillsTitle": "腰射擊殺"
+  "weaponHipfireKillsTitle": "腰射擊殺",
+  "weaponCheatCheckBottomSheetInfo": "下列武器存在以下資料異常:\n1. KPM或爆頭率異常\n2. DPM與KPM資料不符\n3. 腰射擊殺佔比異常",
+  "weaponHipfireKillsRatioTitle": "腰射擊殺比"
 }

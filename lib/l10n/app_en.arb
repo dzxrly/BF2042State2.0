@@ -524,15 +524,6 @@
       }
     }
   },
-  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum} weapons'' data are abnormal",
-  "@weaponCheatCheckTitleWithoutClickTip": {
-    "description": "Title of the weapon cheat check without click tip",
-    "placeholders": {
-      "weaponNum": {
-        "type": "num"
-      }
-    }
-  },
   "announcementBottomSheetTitle": "Announcement",
   "@announcementBottomSheetTitle": {
     "description": "Title of the announcement bottom sheet"
@@ -566,5 +557,13 @@
   "weaponHipfireKillsTitle": "Hipfire Kills",
   "@weaponHipfireKillsTitle": {
     "description": "Title of the weapon hipfire kills"
+  },
+  "weaponCheatCheckBottomSheetInfo": "The following weapons have the following data anomalies:\n1. Abnormal KPM or headshot rate\n2. DPM and KPM are inconsistent\n3. Abnormal hipfire kill ratio",
+  "@weaponCheatCheckBottomSheetInfo": {
+    "description": "Info of the weapon cheat check bottom sheet"
+  },
+  "weaponHipfireKillsRatioTitle": "Hipfire Kills%",
+  "@weaponHipfireKillsRatioTitle": {
+    "description": "Title of the weapon hipfire kills ratio"
   }
 }

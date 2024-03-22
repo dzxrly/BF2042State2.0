@@ -122,8 +122,10 @@ class WeaponCheatChecker {
   final double singleHsRatioMinThreshold = 0.1;
   final double singleHsRatioMaxThreshold = 0.8;
 
+  final double hipfireRatioMaxThreshold = 0.3;
+
   final int minKills = 100;
-  final List<String> checkedAutoWeaponType = [
+  final List<String> kpmOrHSCheckedAutoWeaponType = [
     'PDW',
     'DMR',
     'Crossbows',
@@ -133,40 +135,63 @@ class WeaponCheatChecker {
     'Carbines',
     'SMG-PDW'
   ];
-  final List<String> checkedSingleWeaponType = [
+  final List<String> kpmOrHSCheckedSingleWeaponType = [
     'Lever-Action Carbines',
     'Railguns',
     'Bolt Action',
   ];
-
-  bool isWeaponInAutoCheckList(String weaponType) {
-    return checkedAutoWeaponType.contains(weaponType);
-  }
-
-  bool isWeaponInSingleCheckList(String weaponType) {
-    return checkedSingleWeaponType.contains(weaponType);
-  }
+  final List<String> hipfireRatioCheckedWeaponType = [
+    'DMR',
+    'Crossbows',
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+    'LMG',
+    'Assault Rifles',
+    'Carbines',
+  ];
+  final List<String> dpmOrKpmCheckedWeaponType = [
+    'PDW',
+    'DMR',
+    'Crossbows',
+    'LMG',
+    'Assault Rifles',
+    'Carbines',
+    'SMG-PDW',
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+  ];
 
   bool isCheat(
     String weaponType,
     int kills,
     double kpm,
     double hsRate,
+    double hipfireRate,
+    double dpm,
   ) {
     if (kills < minKills) {
       return false;
     } else {
-      if (isWeaponInAutoCheckList(weaponType)) {
-        return kpm >= autoKpmThreshold &&
-            (hsRate <= autoHsRatioMinThreshold ||
-                hsRate >= autoHsRatioMaxThreshold);
-      } else if (isWeaponInSingleCheckList(weaponType)) {
-        return kpm >= singleKpmThreshold &&
-            (hsRate <= singleHsRatioMinThreshold ||
-                hsRate >= singleHsRatioMaxThreshold);
-      } else {
-        return false;
+      bool checkFlag = false;
+      if (kpmOrHSCheckedAutoWeaponType.contains(weaponType)) {
+        checkFlag = kpm < autoKpmThreshold ||
+            hsRate < autoHsRatioMinThreshold ||
+            hsRate > autoHsRatioMaxThreshold;
       }
+      if (kpmOrHSCheckedSingleWeaponType.contains(weaponType)) {
+        checkFlag = kpm < singleKpmThreshold ||
+            hsRate < singleHsRatioMinThreshold ||
+            hsRate > singleHsRatioMaxThreshold;
+      }
+      if (hipfireRatioCheckedWeaponType.contains(weaponType)) {
+        checkFlag = hipfireRate > hipfireRatioMaxThreshold;
+      }
+      if (dpmOrKpmCheckedWeaponType.contains(weaponType)) {
+        checkFlag = (dpm / 100) < kpm;
+      }
+      return checkFlag;
     }
   }
 }

@@ -31,6 +31,7 @@ class WeaponListState extends State<WeaponList> {
     0,
     'null',
     0,
+    0,
   );
   String dataTypeValue = 'headshotRate';
   List<String> dataType = [
@@ -66,6 +67,10 @@ class WeaponListState extends State<WeaponList> {
           keyName: AppLocalizations.of(context)!.weaponHipfireKillsTitle,
           showValueString: AppLocalizations.of(context)!
               .universalIntDisplay(weapon.hipfireKills)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.weaponHipfireKillsRatioTitle,
+          showValueString: AppLocalizations.of(context)!
+              .universalPercentDisplay(weapon.hipfireRate)),
       InfoListItemContent(
           keyName: AppLocalizations.of(context)!.damage,
           showValueString:
@@ -151,6 +156,10 @@ class WeaponListState extends State<WeaponList> {
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
+                child: Text(AppLocalizations.of(context)!.damagePerMinute,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge)),
+            Expanded(
                 child: Text(AppLocalizations.of(context)!.headshotRate,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.bodyLarge)),
@@ -206,6 +215,19 @@ class WeaponListState extends State<WeaponList> {
                   Expanded(
                       child: Text(
                     AppLocalizations.of(context)!
+                        .universalDoubleDisplay(weaponList[index].DPM),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontWeight:
+                          Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium?.fontSize,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  )),
+                  Expanded(
+                      child: Text(
+                    AppLocalizations.of(context)!
                         .universalPercentDisplay(weaponList[index].hsRate),
                     textAlign: TextAlign.right,
                     style: TextStyle(
@@ -223,9 +245,39 @@ class WeaponListState extends State<WeaponList> {
               );
             },
           ),
-          topPositionWidget: ErrorChip(
-              label: AppLocalizations.of(context)!
-                  .weaponCheatCheckTitleWithoutClickTip(weaponList.length)),
+          topPositionWidget: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Icon(
+                    Icons.warning_outlined,
+                    color: Theme.of(context).colorScheme.error,
+                    size: Theme.of(context).textTheme.headlineLarge?.fontSize,
+                  ),
+                  const Padding(padding: EdgeInsets.only(left: 16)),
+                  Text(
+                    AppLocalizations.of(context)!
+                        .weaponCheatCheckBottomSheetInfo,
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.bodyMedium?.fontSize,
+                      fontWeight:
+                          Theme.of(context).textTheme.bodyMedium?.fontWeight,
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
+              const Padding(padding: EdgeInsets.only(top: 8)),
+            ],
+          ),
         ));
   }
 

@@ -105,14 +105,15 @@
   "licenseBtnTitle": "License",
   "qnaBtnTitle": "Q&A",
   "privacyBtnTitle": "隐私政策",
-  "weaponCheatCheckTips": "检测到武器KPM或爆头率异常!",
-  "weaponCheatCheckTitle": "{weaponNum}个武器的KPM或爆头率异常，点击查看详情",
-  "weaponCheatCheckTitleWithoutClickTip": "{weaponNum}个武器的KPM或爆头率异常",
+  "weaponCheatCheckTips": "检测到武器数据异常!",
+  "weaponCheatCheckTitle": "{weaponNum}个武器数据异常，点击查看详情",
   "announcementBottomSheetTitle": "公告板",
   "announcementBottomSheetFetchError": "获取公告失败",
   "announcementBottomSheetFetchLoading": "加载中...",
   "announcementBottomSheetItemUpdatedAt": "更新于{updatedAt}",
   "announcementBottomSheetNone": "暂时没有公告",
   "announcementBottomSheetMore": "阅读更多",
-  "weaponHipfireKillsTitle": "腰射击杀"
+  "weaponHipfireKillsTitle": "腰射击杀",
+  "weaponCheatCheckBottomSheetInfo": "下列武器存在如下数据异常:\n1. KPM或爆头率异常\n2. DPM与KPM数据不符\n3. 腰射击杀占比异常",
+  "weaponHipfireKillsRatioTitle": "腰射击杀比"
 }
