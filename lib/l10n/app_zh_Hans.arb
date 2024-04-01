@@ -1,7 +1,7 @@
 {
   "launchUrlError": "错误! 无法打开URL: {url}",
   "aboutPageTitle": "战地2042\n战绩查询助手",
-  "aboutPageContent": "本开源应用由 {authorSteamName} 开发 (Origin ID: {authorEAID})。玩家数据接口来自 gametools.network ，非常感谢其提供的接口。BFBan 数据来自 bfban.com，结果仅供参考，本应用及作者不对该结果负责，如有疑问请自行联系 BFBan。",
+  "aboutPageContent": "本应用为开源应用。玩家数据接口来自 <url label=''gametools.network''>https://gametools.network</url>，非常感谢其提供的接口。BFBan 数据来自 <url label=''bfban.com''>https://bfban.com</url>，结果仅供参考，本应用及作者不对该结果负责，如有疑问请自行联系 BFBan。",
   "aboutPageDonateBtnTitle": "捐赠",
   "loginScreenLogoTitle": "战绩查询助手",
   "queryAPITextFieldPlaceholder": "查询 API",
@@ -104,5 +104,16 @@
   "exportPlayerStats": "{exportPlayerStats, select, success{保存数据快照成功} error{保存数据快照失败} denied{未授予存储权限，无法保存} other{default}}",
   "licenseBtnTitle": "License",
   "qnaBtnTitle": "Q&A",
-  "privacyBtnTitle": "隐私政策"
+  "privacyBtnTitle": "隐私政策",
+  "weaponCheatCheckTips": "检测到武器数据异常!",
+  "weaponCheatCheckTitle": "{weaponNum}个武器数据异常，点击查看详情",
+  "announcementBottomSheetTitle": "公告板",
+  "announcementBottomSheetFetchError": "获取公告失败",
+  "announcementBottomSheetFetchLoading": "加载中...",
+  "announcementBottomSheetItemUpdatedAt": "更新于{updatedAt}",
+  "announcementBottomSheetNone": "暂时没有公告",
+  "announcementBottomSheetMore": "阅读更多",
+  "weaponHipfireKillsTitle": "腰射击杀",
+  "weaponCheatCheckBottomSheetInfo": "下列武器存在如下数据异常:\n1. KPM或爆头率异常\n2. DPM与KPM数据不符\n3. 腰射击杀占比异常",
+  "weaponHipfireKillsRatioTitle": "腰射击杀比"
 }

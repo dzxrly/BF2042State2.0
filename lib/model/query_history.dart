@@ -33,7 +33,6 @@ class QueryHistoryInterface {
 class QueryHistory {
   QueryHistory() {
     if (!PlatformUtils.isWeb) initQueryHistoryDatabase();
-    // log
     log(PlatformUtils.isWeb ? 'Using Hive' : 'Using SQLite');
   }
 

@@ -6,30 +6,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import 'basic/constraints_modal_bottom_sheet.dart';
-import 'basic/info_list_item_content.dart';
+import '../basic/constraints_modal_bottom_sheet.dart';
+import '../basic/info_list_item_content.dart';
 
-class ClassesList extends StatelessWidget {
-  const ClassesList({super.key});
+class MapList extends StatelessWidget {
+  const MapList({super.key});
 
-  void showVehicleDetails(BuildContext context, CharacterInfoEnsemble classes) {
-    final List<InfoListItemContent> classesDetailList = [
+  void showVehicleDetails(BuildContext context, MapInfoEnsemble mapElement) {
+    final List<InfoListItemContent> mapDetailList = [
       InfoListItemContent(
-          keyName: AppLocalizations.of(context)!.kdTitle,
-          showValueString:
-              AppLocalizations.of(context)!.universalDoubleDisplay(classes.KD)),
-      InfoListItemContent(
-          keyName: AppLocalizations.of(context)!.kpmTitle,
+          keyName: AppLocalizations.of(context)!.matches,
           showValueString: AppLocalizations.of(context)!
-              .universalDoubleDisplay(classes.KPM)),
+              .universalIntDisplay(mapElement.playedMatches)),
       InfoListItemContent(
-          keyName: AppLocalizations.of(context)!.killsTitle,
-          showValueString:
-              AppLocalizations.of(context)!.universalIntDisplay(classes.kills)),
-      InfoListItemContent(
-          keyName: AppLocalizations.of(context)!.deaths,
+          keyName: AppLocalizations.of(context)!.wins,
           showValueString: AppLocalizations.of(context)!
-              .universalIntDisplay(classes.deaths)),
+              .universalIntDisplay(mapElement.win)),
+      InfoListItemContent(
+          keyName: AppLocalizations.of(context)!.losses,
+          showValueString: AppLocalizations.of(context)!
+              .universalIntDisplay(mapElement.lose)),
+      InfoListItemContent(
+        keyName: AppLocalizations.of(context)!.winRate,
+        showValueString: mapElement.winRate,
+      ),
     ];
 
     ConstraintsModalBottomSheet.showConstraintsModalBottomSheet(
@@ -41,7 +41,7 @@ class ClassesList extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
+              Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -50,27 +50,26 @@ class ClassesList extends StatelessWidget {
                       child: Text(
                           Translator.appLocalizationsTranslate(
                               AppLocalizations.of(context)!
-                                  .characterName(classes.characterName),
-                              classes.characterName),
+                                  .mapName(mapElement.mapName),
+                              mapElement.mapName),
                           style: Theme.of(context).textTheme.titleLarge),
                     ),
-                    const Padding(padding: EdgeInsets.only(left: 8)),
+                    const Padding(padding: EdgeInsets.all(4)),
                     Badge(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         label: Text(AppLocalizations.of(context)!
-                            .playedTime(classes.playedTime)))
+                            .playedTime(mapElement.playedTime)))
                   ]),
               Expanded(
                   child: ListView.builder(
                 shrinkWrap: true,
                 prototypeItem: const InfoListItem(
                     keyName: 'null', showValueString: 'null'),
-                itemCount: classesDetailList.length,
+                itemCount: mapDetailList.length,
                 itemBuilder: (context, index) {
                   return InfoListItem(
-                      keyName: classesDetailList[index].keyName,
-                      showValueString:
-                          classesDetailList[index].showValueString);
+                      keyName: mapDetailList[index].keyName,
+                      showValueString: mapDetailList[index].showValueString);
                 },
               ))
             ],
@@ -81,53 +80,47 @@ class ClassesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PlayerInfoModel>(builder: (context, playerInfo, child) {
-      final classesList = playerInfo.playerInfoEnsemble.characters;
-      classesList.sort((a, b) => (b.kills - a.kills));
+      final mapList = playerInfo.playerInfoEnsemble.maps;
+      mapList.sort((a, b) => (b.playedMatches - a.playedMatches));
 
       return TouchableList(
           listTitle: [
             Expanded(
                 flex: 2,
-                child: Text(AppLocalizations.of(context)!.characterNameTitle,
+                child: Text(AppLocalizations.of(context)!.mapNameTitle,
                     softWrap: true,
                     textAlign: TextAlign.left,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
-                flex: 2,
-                child: Text(AppLocalizations.of(context)!.killsTitle,
+                flex: 1,
+                child: Text(AppLocalizations.of(context)!.matches,
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyLarge)),
             Expanded(
                 flex: 1,
-                child: Text(AppLocalizations.of(context)!.kdTitle,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge)),
-            Expanded(
-                flex: 1,
-                child: Text(AppLocalizations.of(context)!.kpmTitle,
+                child: Text(AppLocalizations.of(context)!.winRate,
                     textAlign: TextAlign.right,
                     style: Theme.of(context).textTheme.bodyLarge)),
           ],
           listChild: ListView.builder(
               shrinkWrap: true,
-              prototypeItem: ClassesListItem(
-                  classes: CharacterInfoEnsemble(
+              prototypeItem: MapListItem(
+                  mapElement: MapInfoEnsemble(
                 'null',
                 'null',
                 0,
                 0,
-                0,
-                0,
                 'null',
+                0,
                 0,
               )),
-              itemCount: playerInfo.playerInfoEnsemble.characters.length,
+              itemCount: playerInfo.playerInfoEnsemble.maps.length,
               itemBuilder: (context, index) {
-                return ClassesListItem(
-                  classes: playerInfo.playerInfoEnsemble.characters[index],
+                return MapListItem(
+                  mapElement: playerInfo.playerInfoEnsemble.maps[index],
                   onTap: () => {
-                    showVehicleDetails(context,
-                        playerInfo.playerInfoEnsemble.characters[index])
+                    showVehicleDetails(
+                        context, playerInfo.playerInfoEnsemble.maps[index])
                   },
                 );
               }));
@@ -135,11 +128,11 @@ class ClassesList extends StatelessWidget {
   }
 }
 
-class ClassesListItem extends StatelessWidget {
-  final CharacterInfoEnsemble classes;
+class MapListItem extends StatelessWidget {
+  final MapInfoEnsemble mapElement;
   final Function? onTap;
 
-  const ClassesListItem({super.key, required this.classes, this.onTap});
+  const MapListItem({super.key, required this.mapElement, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -150,16 +143,16 @@ class ClassesListItem extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Text(
                 Translator.appLocalizationsTranslate(
-                    AppLocalizations.of(context)!
-                        .characterName(classes.characterName),
-                    classes.characterName),
+                    AppLocalizations.of(context)!.mapName(mapElement.mapName),
+                    mapElement.mapName),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyMedium),
           )),
       Expanded(
-          flex: 2,
+          flex: 1,
           child: Text(
-            AppLocalizations.of(context)!.universalIntDisplay(classes.kills),
+            AppLocalizations.of(context)!
+                .universalIntDisplay(mapElement.playedMatches),
             textAlign: TextAlign.center,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
@@ -170,18 +163,7 @@ class ClassesListItem extends StatelessWidget {
       Expanded(
           flex: 1,
           child: Text(
-            AppLocalizations.of(context)!.universalDoubleDisplay(classes.KD),
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,
-              fontSize: Theme.of(context).textTheme.bodyMedium?.fontSize,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          )),
-      Expanded(
-          flex: 1,
-          child: Text(
-            AppLocalizations.of(context)!.universalDoubleDisplay(classes.KPM),
+            mapElement.winRate,
             textAlign: TextAlign.right,
             style: TextStyle(
               fontWeight: Theme.of(context).textTheme.bodyMedium?.fontWeight,

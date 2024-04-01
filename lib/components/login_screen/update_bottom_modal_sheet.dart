@@ -1,11 +1,10 @@
 import 'package:battlefield_2042_state/api/api.dart';
-import 'package:battlefield_2042_state/api/version_check.dart';
+import 'package:battlefield_2042_state/api/gitee/version_check.dart';
 import 'package:battlefield_2042_state/components/basic/constraints_modal_bottom_sheet.dart';
 import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class UpdateBottomModalSheet extends StatefulWidget {
   const UpdateBottomModalSheet({super.key});
@@ -24,12 +23,6 @@ class UpdateBottomModalSheetState extends State<UpdateBottomModalSheet> {
   GiteeVersionCheckAPI giteeVersionCheckAPI = GiteeVersionCheckAPI();
   String channelName =
       const String.fromEnvironment('CHANNEL', defaultValue: 'github');
-
-  Future<void> urlLauncher(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Error! can not open URL: $url');
-    }
-  }
 
   void getVersion() async {
     if (!PlatformUtils.isWeb) {
@@ -123,8 +116,9 @@ class UpdateBottomModalSheetState extends State<UpdateBottomModalSheet> {
                       disabledBackgroundColor:
                           Theme.of(context).colorScheme.secondaryContainer,
                     ),
-                    onPressed: () => urlLauncher(latestVersionDownloadUrl ??
-                        'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
+                    onPressed: () => UtilTools.urlLauncher(
+                        latestVersionDownloadUrl ??
+                            'https://gitee.com/egg-targaryen/BF2042State2.0/releases/latest'),
                     child: Text(
                         AppLocalizations.of(context)!
                             .upgradeDownloadButtonTitle,

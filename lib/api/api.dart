@@ -13,7 +13,8 @@ import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info.dart';
 import 'package:battlefield_2042_state/api/gametools/gametools_player_info_raw.dart';
 import 'package:battlefield_2042_state/api/gametools/player_feslid.dart';
-import 'package:battlefield_2042_state/api/version_check.dart';
+import 'package:battlefield_2042_state/api/gitee/notice_board.dart';
+import 'package:battlefield_2042_state/api/gitee/version_check.dart';
 import 'package:http/http.dart' as http;
 
 enum ErrorResponse {
@@ -451,6 +452,31 @@ class GiteeVersionCheckAPI extends APIBase {
 
       if (response.statusCode == 200) {
         return GiteeVersionCheck.fromJson(
+            jsonDecode(utf8.decode(response.bodyBytes)));
+      } else {
+        throw ErrorResponse.unknownError.value;
+      }
+    } on TimeoutException catch (_) {
+      throw ErrorResponse.timeoutError.value;
+    } catch (e) {
+      if (e.toString().contains('ClientException')) {
+        throw ErrorResponse.networkError.value;
+      } else {
+        rethrow;
+      }
+    }
+  }
+}
+
+class GiteeNoticeBoardCheck extends APIBase {
+  Future<GiteeIssues> fetchNotice() async {
+    final String url =
+        '$giteeBaseAPI/repos/egg-targaryen/BF2042State2.0/issues/I96FFR/comments?page=1&per_page=5&order=desc';
+    try {
+      final response = await http.get(Uri.parse(url)).timeout(timeout);
+
+      if (response.statusCode == 200) {
+        return GiteeIssues.fromJson(
             jsonDecode(utf8.decode(response.bodyBytes)));
       } else {
         throw ErrorResponse.unknownError.value;

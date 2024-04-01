@@ -2,6 +2,9 @@
     <img style="display: inline-block;" src="../img/banner_ZH_TW.svg"></img>
 </div>
 
+> [!CAUTION]
+> 由於[Gametools](https://gametools.network/)無法完成與DICE資料介面的對接，因此本軟體暫時停止開發。 如果後期該問題修復則仍會恢復開發。詳見[Issus #9](https://github.com/dzxrly/BF2042State2.0/issues/9)
+
 <div align="center">
 
 ![RELEASE](https://img.shields.io/github/v/release/dzxrly/BF2042State2.0?style=for-the-badge&label=RELEASE) ![MIT License](https://img.shields.io/github/license/dzxrly/BF2042State2.0?style=for-the-badge) ![下载量](https://img.shields.io/github/downloads/dzxrly/BF2042State2.0/total?style=for-the-badge) ![Dynamic YAML Badge](https://img.shields.io/badge/dynamic/yaml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fdzxrly%2FBF2042State2.0%2Fmain%2Fpubspec.yaml&query=%24.dependencies.flutter.sdk&style=for-the-badge&label=SDK) ![Static Badge](https://img.shields.io/badge/Platform-Android_%7C_Web_PWA-4BFCDD?style=for-the-badge)
@@ -14,7 +17,7 @@
 
 </div>
 
-> [!NOTE]
+> [!IMPORTANT]
 > 特別感謝[Gametools](https://gametools.network/)，本應用程式使用了其提供的API。
 >
 > [BFBan](https://bfban.com/)資料來自其公開介面，本應用程式不對結果負責！ 如有疑問請直接聯絡BFBan。

@@ -6,6 +6,7 @@ import 'package:battlefield_2042_state/utils/file_exporter/unsupported_file_expo
     if (dart.library.io) 'package:battlefield_2042_state/utils/file_exporter/android_file_exporter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UtilTools {
   static bool versionCompare(String currentVersion, String latestVersion) {
@@ -44,6 +45,12 @@ class UtilTools {
     final NumberFormat numberFormat = NumberFormat.decimalPattern('en_us');
     // check value is NaN
     return value.isNaN || value.isNegative ? 'NaN' : numberFormat.format(value);
+  }
+
+  static Future<void> urlLauncher(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception(url);
+    }
   }
 }
 
@@ -104,4 +111,87 @@ abstract class FileExporter {
   Future exportFile(String fileName, String content);
 
   factory FileExporter() => fileExporter();
+}
+
+class WeaponCheatChecker {
+  final double autoKpmThreshold = 2;
+  final double autoHsRatioMinThreshold = 0.05;
+  final double autoHsRatioMaxThreshold = 0.4;
+
+  final double singleKpmThreshold = 2.5;
+  final double singleHsRatioMinThreshold = 0.1;
+  final double singleHsRatioMaxThreshold = 0.8;
+
+  final double hipfireRatioMaxThreshold = 0.3;
+
+  final int minKills = 100;
+  final List<String> kpmOrHSCheckedAutoWeaponType = [
+    'PDW',
+    'DMR',
+    'Crossbows',
+    'Sidearm',
+    'LMG',
+    'Assault Rifles',
+    'Carbines',
+    'SMG-PDW'
+  ];
+  final List<String> kpmOrHSCheckedSingleWeaponType = [
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+  ];
+  final List<String> hipfireRatioCheckedWeaponType = [
+    'DMR',
+    'Crossbows',
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+    'LMG',
+    'Assault Rifles',
+    'Carbines',
+  ];
+  final List<String> dpmOrKpmCheckedWeaponType = [
+    'PDW',
+    'DMR',
+    'Crossbows',
+    'LMG',
+    'Assault Rifles',
+    'Carbines',
+    'SMG-PDW',
+    'Lever-Action Carbines',
+    'Railguns',
+    'Bolt Action',
+  ];
+
+  bool isCheat(
+    String weaponType,
+    int kills,
+    double kpm,
+    double hsRate,
+    double hipfireRate,
+    double dpm,
+  ) {
+    if (kills < minKills) {
+      return false;
+    } else {
+      bool checkFlag = false;
+      if (kpmOrHSCheckedAutoWeaponType.contains(weaponType)) {
+        checkFlag = kpm < autoKpmThreshold ||
+            hsRate < autoHsRatioMinThreshold ||
+            hsRate > autoHsRatioMaxThreshold;
+      }
+      if (kpmOrHSCheckedSingleWeaponType.contains(weaponType)) {
+        checkFlag = kpm < singleKpmThreshold ||
+            hsRate < singleHsRatioMinThreshold ||
+            hsRate > singleHsRatioMaxThreshold;
+      }
+      if (hipfireRatioCheckedWeaponType.contains(weaponType)) {
+        checkFlag = hipfireRate > hipfireRatioMaxThreshold;
+      }
+      if (dpmOrKpmCheckedWeaponType.contains(weaponType)) {
+        checkFlag = (dpm / 100) < kpm;
+      }
+      return checkFlag;
+    }
+  }
 }

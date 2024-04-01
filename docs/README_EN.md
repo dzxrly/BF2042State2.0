@@ -9,13 +9,16 @@
 
 </div>
 
+> [!CAUTION]
+> Since [Gametools](https://gametools.network/) cannot complete the docking with the DICE data interface, the development of this software has been temporarily stopped. If the problem is fixed later, development will still resume. For details, see [Issus #9](https://github.com/dzxrly/BF2042State2.0/issues/9)
+
 <div align="center">
 
 [简体中文介绍](../README.md) | [繁體中文介紹](./README_ZH_TW.md)
 
 </div>
 
-> [!NOTE]
+> [!IMPORTANT]
 > Special thanks to [Gametools](https://gametools.network/), whose API is used in this application.
 >
 > The [BFBan](https://bfban.com/) data comes from its public interface and this application is not

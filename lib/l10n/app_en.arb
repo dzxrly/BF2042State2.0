@@ -12,17 +12,9 @@
   "@aboutPageTitle": {
     "description": "Title of the about page"
   },
-  "aboutPageContent": "This open-source application is developed by {authorSteamName} (Origin ID: {authorEAID}) for the Battlefield 2042 community. Player data API is from gametools.network, thanks a lot for providing the API. BFBan history is from bfban.com, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
+  "aboutPageContent": "This application is an open-sourced for the Battlefield 2042 community. Player data API is from <url label=''gametools.network''>https://gametools.network</url>, thanks a lot for providing the API. BFBan history is from <url label=''bfban.com''>https://bfban.com</url>, the result is for reference only, this app and the author are not responsible for the result, if you have any question, please contact BFBan.",
   "@aboutPageContent": {
-    "description": "Content of the about page",
-    "placeholders": {
-      "authorSteamName": {
-        "type": "String"
-      },
-      "authorEAID": {
-        "type": "String"
-      }
-    }
+    "description": "Content of the about page"
   },
   "aboutPageDonateBtnTitle": "Donate",
   "@aboutPageDonateBtnTitle": {
@@ -518,5 +510,60 @@
   "privacyBtnTitle": "Privacy",
   "@privacyBtnTitle": {
     "description": "Title of the privacy button"
+  },
+  "weaponCheatCheckTips": "KPM or HS% is abnormal",
+  "@weaponCheatCheckTips": {
+    "description": "Tip for the weapon cheat check"
+  },
+  "weaponCheatCheckTitle": "{weaponNum} weapons'' data are abnormal, click to view the details",
+  "@weaponCheatCheckTitle": {
+    "description": "Title of the weapon cheat check",
+    "placeholders": {
+      "weaponNum": {
+        "type": "num"
+      }
+    }
+  },
+  "announcementBottomSheetTitle": "Announcement",
+  "@announcementBottomSheetTitle": {
+    "description": "Title of the announcement bottom sheet"
+  },
+  "announcementBottomSheetFetchError": "Failed to get the announcement",
+  "@announcementBottomSheetFetchError": {
+    "description": "Tip for the announcement bottom sheet fetch error"
+  },
+  "announcementBottomSheetFetchLoading": "Loading...",
+  "@announcementBottomSheetFetchLoading": {
+    "description": "Tip for the announcement bottom sheet fetch loading"
+  },
+  "announcementBottomSheetItemUpdatedAt": "Updated at {updatedAt}",
+  "@announcementBottomSheetItemUpdatedAt": {
+    "description": "Updated at of the announcement bottom sheet item",
+    "placeholders": {
+      "updatedAt": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "announcementBottomSheetNone": "No announcement",
+  "@announcementBottomSheetNone": {
+    "description": "Tip for the announcement bottom sheet none"
+  },
+  "announcementBottomSheetMore": "More announcements",
+  "@announcementBottomSheetMore": {
+    "description": "Tip for the announcement bottom sheet more"
+  },
+  "weaponHipfireKillsTitle": "Hipfire Kills",
+  "@weaponHipfireKillsTitle": {
+    "description": "Title of the weapon hipfire kills"
+  },
+  "weaponCheatCheckBottomSheetInfo": "The following weapons have the following data anomalies:\n1. Abnormal KPM or headshot rate\n2. DPM and KPM are inconsistent\n3. Abnormal hipfire kill ratio",
+  "@weaponCheatCheckBottomSheetInfo": {
+    "description": "Info of the weapon cheat check bottom sheet"
+  },
+  "weaponHipfireKillsRatioTitle": "Hipfire Kills%",
+  "@weaponHipfireKillsRatioTitle": {
+    "description": "Title of the weapon hipfire kills ratio"
   }
 }

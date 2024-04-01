@@ -1,12 +1,11 @@
+import 'package:battlefield_2042_state/api/api.dart';
 import 'package:battlefield_2042_state/api/gametools/bfban_check.dart';
+import 'package:battlefield_2042_state/model/player_info_model.dart';
 import 'package:battlefield_2042_state/utils/lang.dart';
+import 'package:battlefield_2042_state/utils/tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../api/api.dart';
-import '../model/player_info_model.dart';
 
 class KeyInfoView extends StatefulWidget {
   final String userId;
@@ -50,16 +49,9 @@ class _KeyInfoViewState extends State<KeyInfoView> {
     }
   }
 
-  Future<void> urlLauncher(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Error! Can not open URL: $url');
-    }
-  }
-
   @override
   void initState() {
     getBFBanCheckStatus(widget.userId);
-
     super.initState();
   }
 
@@ -157,9 +149,9 @@ class _KeyInfoViewState extends State<KeyInfoView> {
                         borderRadius: BorderRadius.circular(19),
                         onTap: () => {
                           if (bfbanUrl != null)
-                            {
-                              urlLauncher(bfbanUrl!),
-                            }
+                            {UtilTools.urlLauncher(bfbanUrl!)}
+                          else
+                            {getBFBanCheckStatus(widget.userId)}
                         },
                         child: Container(
                           padding: const EdgeInsets.only(top: 8, bottom: 8),
