@@ -12,6 +12,7 @@
 > 由于[Gametools](https://gametools.network/)无法完成与DICE数据接口的对接，因此本软件暂时停止开发。如果后期该问题修复则仍会恢复开发。详见[Issus #9](https://github.com/dzxrly/BF2042State2.0/issues/9)
 
 <div align="center">
+
 [English Introduction](./docs/README_EN.md) | [繁體中文介紹](./docs/README_ZH_TW.md)
 
 </div>
