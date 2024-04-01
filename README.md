@@ -8,13 +8,15 @@
 
 </div>
 
-<div align="center">
+> [!CAUTION]
+> 由于[Gametools](https://gametools.network/)无法完成与DICE数据接口的对接，因此本软件暂时停止开发。如果后期该问题修复则仍会恢复开发。详见[Issus #9](https://github.com/dzxrly/BF2042State2.0/issues/9)
 
+<div align="center">
 [English Introduction](./docs/README_EN.md) | [繁體中文介紹](./docs/README_ZH_TW.md)
 
 </div>
 
-> [!NOTE]
+> [!IMPORTANT]
 > 特别感谢[Gametools](https://gametools.network/)，本应用使用了其提供的API。
 >
 > [BFBan](https://bfban.com/)数据来自其公开接口，本应用不对结果负责！如有疑问请直接联系BFBan。
